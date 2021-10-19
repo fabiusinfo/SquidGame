@@ -1,0 +1,2 @@
+# SquidGame
+repositorio mas tiny
