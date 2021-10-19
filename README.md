@@ -3,7 +3,9 @@
 
 ### Integrantes
 Fabián Arancibia
+
 Katherine Salgado
+
 Javier Olivares
 
 ### Instrucciones de ejecución:
