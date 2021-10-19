@@ -16,7 +16,7 @@ func generateID() string {
 }
 
 func main() {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 	if err != nil {
 		panic("cannot connect with server " + err.Error())
