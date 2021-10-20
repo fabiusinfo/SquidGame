@@ -1,0 +1,39 @@
+package main
+
+import (
+	"context"
+	//"fmt"
+	pb "github.com/fabiusinfo/SquidGame/proto"
+	"google.golang.org/grpc"
+	"math/rand"
+	"strconv"
+	"time"
+	"log"
+)
+
+type server struct {
+	pb.UnimplementedSquidGameServiceServer
+}
+string monto:="5000"
+
+func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
+	return &pb.HelloReply{Message: "el monto del pozo actual es: " + monto}, nil
+}
+
+
+func main() {
+	listner, err := net.Listen("tcp", ":8080")
+	//conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+	if err != nil {
+		panic("cannot connect with server " + err.Error())
+	}
+
+	serv := grpc.NewServer()
+	pb.RegisterSquidGameServiceServer(serv, &server{})
+	if err = serv.Serve(listner); err != nil {
+		panic("cannot initialize the server" + err.Error())
+
+	
+
+}

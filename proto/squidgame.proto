@@ -12,7 +12,7 @@ service SquidGameService {
 
     rpc SendPlays(SendRequest) returns (SendReply) {}
 
-    rpc AmountCheck (AmountRequest) returns (AmountReply) {}
+    rpc AmountCheck(AmountRequest) returns (AmountReply) {}
 
 }
 
@@ -46,9 +46,9 @@ message SendReply {
 }
 
 message AmountRequest {
-
+    string message = 1;
 }
 
 message AmountReply {
-
+    string message = 1;
 }
