@@ -49,7 +49,7 @@ func main() {
 
 	log.Printf("paso por 3")
 	var first string
-
+	message:= "solicitar"
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 
 	defer cancel()
@@ -61,7 +61,7 @@ func main() {
 	if (true){
 		log.Printf("paso por 5")
 		//aqui primer intento del consultar desde el servidor a otra entidad.
-	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: first})
+	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
 	if err != nil {
 		log.Fatalf("no se pudo solicitar el monto: %v", err)
 	}
