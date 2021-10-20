@@ -19,6 +19,10 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SquidGameServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+	// funciones de jugadores
+	JoinGame(ctx context.Context, in *JoinRequest, opts ...grpc.CallOption) (*JoinReply, error)
+	SendPlays(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendReply, error)
+	AmountCheck(ctx context.Context, in *AmountRequest, opts ...grpc.CallOption) (*AmountReply, error)
 }
 
 type squidGameServiceClient struct {
@@ -38,11 +42,42 @@ func (c *squidGameServiceClient) SayHello(ctx context.Context, in *HelloRequest,
 	return out, nil
 }
 
+func (c *squidGameServiceClient) JoinGame(ctx context.Context, in *JoinRequest, opts ...grpc.CallOption) (*JoinReply, error) {
+	out := new(JoinReply)
+	err := c.cc.Invoke(ctx, "/grpc.SquidGameService/JoinGame", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *squidGameServiceClient) SendPlays(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendReply, error) {
+	out := new(SendReply)
+	err := c.cc.Invoke(ctx, "/grpc.SquidGameService/SendPlays", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *squidGameServiceClient) AmountCheck(ctx context.Context, in *AmountRequest, opts ...grpc.CallOption) (*AmountReply, error) {
+	out := new(AmountReply)
+	err := c.cc.Invoke(ctx, "/grpc.SquidGameService/AmountCheck", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SquidGameServiceServer is the server API for SquidGameService service.
 // All implementations must embed UnimplementedSquidGameServiceServer
 // for forward compatibility
 type SquidGameServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
+	// funciones de jugadores
+	JoinGame(context.Context, *JoinRequest) (*JoinReply, error)
+	SendPlays(context.Context, *SendRequest) (*SendReply, error)
+	AmountCheck(context.Context, *AmountRequest) (*AmountReply, error)
 	mustEmbedUnimplementedSquidGameServiceServer()
 }
 
@@ -52,6 +87,15 @@ type UnimplementedSquidGameServiceServer struct {
 
 func (UnimplementedSquidGameServiceServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+}
+func (UnimplementedSquidGameServiceServer) JoinGame(context.Context, *JoinRequest) (*JoinReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JoinGame not implemented")
+}
+func (UnimplementedSquidGameServiceServer) SendPlays(context.Context, *SendRequest) (*SendReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendPlays not implemented")
+}
+func (UnimplementedSquidGameServiceServer) AmountCheck(context.Context, *AmountRequest) (*AmountReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AmountCheck not implemented")
 }
 func (UnimplementedSquidGameServiceServer) mustEmbedUnimplementedSquidGameServiceServer() {}
 
@@ -84,6 +128,60 @@ func _SquidGameService_SayHello_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SquidGameService_JoinGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SquidGameServiceServer).JoinGame(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.SquidGameService/JoinGame",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SquidGameServiceServer).JoinGame(ctx, req.(*JoinRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SquidGameService_SendPlays_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SquidGameServiceServer).SendPlays(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.SquidGameService/SendPlays",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SquidGameServiceServer).SendPlays(ctx, req.(*SendRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SquidGameService_AmountCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SquidGameServiceServer).AmountCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.SquidGameService/AmountCheck",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SquidGameServiceServer).AmountCheck(ctx, req.(*AmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SquidGameService_ServiceDesc is the grpc.ServiceDesc for SquidGameService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +192,18 @@ var SquidGameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SayHello",
 			Handler:    _SquidGameService_SayHello_Handler,
+		},
+		{
+			MethodName: "JoinGame",
+			Handler:    _SquidGameService_JoinGame_Handler,
+		},
+		{
+			MethodName: "SendPlays",
+			Handler:    _SquidGameService_SendPlays_Handler,
+		},
+		{
+			MethodName: "AmountCheck",
+			Handler:    _SquidGameService_AmountCheck_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

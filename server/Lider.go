@@ -13,8 +13,17 @@ type server struct {
 }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Wena los k, quien quiere wones" + in.GetName()}, nil
+	return &pb.HelloReply{Message: "Wena los k, quien quiere wones " + in.GetName()}, nil
 }
+
+func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
+	return &pb.JoinReply{Message: "Jugador" + in.GetPlayer() +"se unio al Juego"+ in.GetState() + ", suerte calamar, o algo asi no vi la serie " }, nil
+}
+
+/*func (s *server) SendPlay(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+	return &pb.SendReply{Message: "Se hizo una jugada " + in.GetName()}, nil
+}*/
+
 
 
 

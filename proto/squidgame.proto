@@ -6,6 +6,14 @@ option go_package = "github.com/fabiusinfo/SquidGame/proto";
 
 service SquidGameService {
     rpc SayHello(HelloRequest) returns (HelloReply) {}
+
+// funciones de jugadores
+    rpc JoinGame(JoinRequest) returns (JoinReply) {}
+
+    rpc SendPlays(SendRequest) returns (SendReply) {}
+
+    rpc AmountCheck (AmountRequest) returns (AmountReply) {}
+
 }
 
 message HelloRequest {
@@ -14,4 +22,32 @@ message HelloRequest {
 
 message HelloReply {
     string message = 1;
+}
+
+//mensajes de jugadores
+
+message JoinRequest {
+    string player= 1;
+    string state = 2;
+
+}
+
+message JoinReply {
+    string message = 1;
+}
+
+message SendRequest {
+
+}
+
+message SendReply {
+
+}
+
+message AmountRequest {
+
+}
+
+message AmountReply {
+
 }
