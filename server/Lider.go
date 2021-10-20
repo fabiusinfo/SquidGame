@@ -46,6 +46,7 @@ func main() {
 	pb.RegisterSquidGameServiceServer(serv, &server{})
 	log.Printf("paso por 2")
 	if err = serv.Serve(listner); err != nil {
+		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
 	log.Printf("paso por 3")
