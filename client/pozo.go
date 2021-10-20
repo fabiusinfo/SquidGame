@@ -5,10 +5,10 @@ import (
 	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
-	"math/rand"
-	"strconv"
-	"time"
-	"log"
+	//"math/rand"
+	//"strconv"
+	//"time"
+	//"log"
 )
 
 type server struct {
@@ -18,7 +18,7 @@ type server struct {
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	monto:="5000"
-	return &pb.HelloReply{Message: "el monto del pozo actual es: " + monto}, nil
+	return &pb.AmountReply{Message: "el monto del pozo actual es: " + monto}, nil
 }
 
 
