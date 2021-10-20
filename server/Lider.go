@@ -45,10 +45,8 @@ func main() {
 	serviceClient := pb.NewSquidGameServiceClient(conn)
 	pb.RegisterSquidGameServiceServer(serv, &server{})
 	log.Printf("paso por 2")
-	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
-	}
+	
+
 	log.Printf("paso por 3")
 	var first string
 
@@ -67,6 +65,11 @@ func main() {
 		log.Fatalf("no se pudo solicitar el monto: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
+	}
+
+	if err = serv.Serve(listner); err != nil {
+		log.Printf("paso por el fallo")
+		panic("cannot initialize the server" + err.Error())
 	}
 
 
