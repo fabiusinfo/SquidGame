@@ -44,9 +44,11 @@ func main() {
 	serv := grpc.NewServer()
 	serviceClient := pb.NewSquidGameServiceClient(conn)
 	pb.RegisterSquidGameServiceServer(serv, &server{})
+	log.Printf("paso por 2")
 	if err = serv.Serve(listner); err != nil {
 		panic("cannot initialize the server" + err.Error())
 	}
+	log.Printf("paso por 3")
 	var first string
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -55,9 +57,9 @@ func main() {
 	fmt.Scanln(&first)
     fmt.Println("ingresa la letra a para solicitar monto: ")
 
-	log.Printf("paso por 2")
+	log.Printf("paso por 4")
 	if (first=="a"){
-		log.Printf("paso por 3")
+		log.Printf("paso por 5")
 		//aqui primer intento del consultar desde el servidor a otra entidad.
 	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: first})
 	if err != nil {
