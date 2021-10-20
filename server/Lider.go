@@ -55,8 +55,9 @@ func main() {
 	fmt.Scanln(&first)
     fmt.Println("ingresa la letra a para solicitar monto: ")
 
-
+	log.Printf("paso por 2")
 	if (first=="a"){
+		log.Printf("paso por 3")
 		//aqui primer intento del consultar desde el servidor a otra entidad.
 	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: first})
 	if err != nil {
