@@ -38,7 +38,7 @@ func main() {
 	if err2 != nil {
 		panic("cannot connect with pozo " + err.Error())
 	}
-
+	log.Printf("paso por 1")
 
 
 	serv := grpc.NewServer()
