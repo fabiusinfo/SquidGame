@@ -14,7 +14,7 @@ import (
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
-string monto:="5000"
+monto:="5000"
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	return &pb.HelloReply{Message: "el monto del pozo actual es: " + monto}, nil
