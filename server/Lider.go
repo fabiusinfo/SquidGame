@@ -30,7 +30,7 @@ func main() {
 	listner, err := net.Listen("tcp", ":8080")
 
 	conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
-
+	fmt.Println("paso por 1 ")
 	if err != nil {
 		panic("cannot create tcp connection" + err.Error())
 	}
@@ -38,6 +38,10 @@ func main() {
 	if err2 != nil {
 		panic("cannot connect with pozo " + err.Error())
 	}
+	else {
+		fmt.Println("se pudo conectar con el pozo ")
+	}
+	fmt.Println("paso por 2 ")
 
 	serv := grpc.NewServer()
 	serviceClient := pb.NewSquidGameServiceClient(conn)
