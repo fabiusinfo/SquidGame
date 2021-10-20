@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	//"fmt"
+	"net"
+
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
-	"net"
 )
 
 type server struct {
@@ -17,15 +18,12 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
-	return &pb.JoinReply{Message: "Jugador" + in.GetPlayer() +"se unio al Juego"+ in.GetState() + ", suerte calamar, o algo asi no vi la serie " }, nil
+	return &pb.JoinReply{Message: "Jugador" + in.GetPlayer() + "se unio al Juego" + in.GetState() + ", suerte calamar, o algo asi no vi la serie "}, nil
 }
 
-func (s *server) SendPlay(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	return &pb.SendReply{Message:"El jugador "+ in.GetPlayer()+" hizo una jugada " + in.GetPlay()}, nil
+func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay()}, nil
 }
-
-
-
 
 func main() {
 	listner, err := net.Listen("tcp", ":8080")
