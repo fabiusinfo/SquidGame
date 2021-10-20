@@ -53,8 +53,9 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 
 	defer cancel()
+	
+    	fmt.Println("ingresa la letra a para solicitar monto: ")
 	fmt.Scanln(&first)
-    fmt.Println("ingresa la letra a para solicitar monto: ")
 
 	log.Printf("paso por 4")
 	if (first=="a"){
