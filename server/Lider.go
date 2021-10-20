@@ -20,9 +20,9 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 	return &pb.JoinReply{Message: "Jugador" + in.GetPlayer() +"se unio al Juego"+ in.GetState() + ", suerte calamar, o algo asi no vi la serie " }, nil
 }
 
-/*func (s *server) SendPlay(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	return &pb.SendReply{Message: "Se hizo una jugada " + in.GetName()}, nil
-}*/
+func (s *server) SendPlay(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+	return &pb.SendReply{Message:"El jugador "+ in.GetPlayer()+" hizo una jugada " + in.GetPlay()}, nil
+}
 
 
 

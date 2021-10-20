@@ -37,11 +37,12 @@ message JoinReply {
 }
 
 message SendRequest {
-
+    string player = 1;
+    string play = 2;
 }
 
 message SendReply {
-
+    string message = 1;
 }
 
 message AmountRequest {
