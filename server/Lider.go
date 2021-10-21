@@ -93,23 +93,6 @@ func main() {
 	}
 	log.Printf("Greeting: %s", r2.GetMessage())
 
-	//Aquí llamar el sendplays del Namenode javier.
-	if true {
-		conn, err2 := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
-
-		if err2 != nil {
-			panic("cannot connect with nameNode " + err.Error())
-		}
-		serviceClient := pb.NewSquidGameServiceClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-		//aqui primer intento del consultar desde el servidor a otra entidad.
-		r5, err5 := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
-		if err5 != nil {
-			log.Fatalf("no se pudo enviar la jugada: %v", err)
-		}
-		log.Printf("Greeting: %s", r5.GetMessage())
-	}
 
 	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
