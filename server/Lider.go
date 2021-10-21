@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"net"
 	"log"
+	"net"
 	"time"
+
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
@@ -29,32 +30,22 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 func main() {
 	listner, err := net.Listen("tcp", ":8080")
 
-	
-
 	if err != nil {
 		panic("cannot create tcp connection" + err.Error())
 	}
 
-	
-
 	serv := grpc.NewServer()
 	pb.RegisterSquidGameServiceServer(serv, &server{})
-	
 
-	
 	var first string
-	message:= "solicitar"
-	
+	message := "solicitar"
 
-	
-	
-    	fmt.Println("ingresa la letra a para solicitar monto: ")
+	fmt.Println("ingresa la letra a para solicitar monto: ")
 	fmt.Scanln(&first)
 
-	
-	if (true){
+	if true {
 		conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
-		
+
 		if err2 != nil {
 			panic("cannot connect with pozo " + err.Error())
 		}
@@ -67,14 +58,30 @@ func main() {
 			log.Fatalf("no se pudo solicitar el monto: %v", err)
 		}
 		log.Printf("Greeting: %s", r.GetMessage())
-	}
 
-	//Aquí llamar el sendplays del Namenode javier.
+		//Aquí llamar el sendplays del Namenode javier.
+		if true {
+			conn, err2 := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
+
+			if err2 != nil {
+				panic("cannot connect with nameNode " + err.Error())
+			}
+			serviceClient := pb.NewSquidGameServiceClient(conn)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+			//aqui primer intento del consultar desde el servidor a otra entidad.
+			r, err := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
+			if err != nil {
+				log.Fatalf("no se pudo enviar la jugada: %v", err)
+			}
+			log.Printf("Greeting: %s", r.GetMessage())
+		}
+
+	}
 
 	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
-
 
 }
