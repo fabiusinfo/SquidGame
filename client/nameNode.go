@@ -45,7 +45,7 @@ func main() {
 	fmt.Scanln(&first)
 
 	// ???? se va o no
-	if err = serv.Serve(listner); err != nil {
+	if err = servNN.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
