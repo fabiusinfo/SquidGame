@@ -38,14 +38,13 @@ func main() {
 	playerNumber := "1"
 	play := "2"
 	stage := "3"
+	state:="2"
 
 	r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
-
-	play := "5"
 	r2, err2 := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
 	if err2 != nil {
 		log.Fatalf("could not greet: %v", err2)
