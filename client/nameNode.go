@@ -15,8 +15,14 @@ func generateID() string {
 	rand.Seed(time.Now().Unix())
 	return "ID: " + strconv.Itoa(rand.Int())
 }
+//habilitar el puerto 8080 en la máquina 162
+//acá definir la función sendplays
 
 func main() {
+	//Acá habilitar el nameNode como servidor.
+
+
+	
 	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 	if err != nil {

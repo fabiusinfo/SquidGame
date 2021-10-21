@@ -69,6 +69,8 @@ func main() {
 		log.Printf("Greeting: %s", r.GetMessage())
 	}
 
+	//Aquí llamar el sendplays del Namenode javier.
+
 	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
