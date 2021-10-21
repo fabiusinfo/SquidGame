@@ -43,40 +43,38 @@ func main() {
 	fmt.Println("ingresa la letra a para solicitar monto: ")
 	fmt.Scanln(&first)
 
+	//if true {}
+	conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+
+	if err2 != nil {
+		panic("cannot connect with pozo " + err.Error())
+	}
+	serviceClient := pb.NewSquidGameServiceClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	//aqui primer intento del consultar desde el servidor a otra entidad.
+	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+	if err != nil {
+		log.Fatalf("no se pudo solicitar el monto: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetMessage())
+
+	//Aquí llamar el sendplays del Namenode javier.
 	if true {
-		conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+		conn, err2 := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
 		if err2 != nil {
-			panic("cannot connect with pozo " + err.Error())
+			panic("cannot connect with nameNode " + err.Error())
 		}
 		serviceClient := pb.NewSquidGameServiceClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 		//aqui primer intento del consultar desde el servidor a otra entidad.
-		r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+		r, err := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
 		if err != nil {
-			log.Fatalf("no se pudo solicitar el monto: %v", err)
+			log.Fatalf("no se pudo enviar la jugada: %v", err)
 		}
 		log.Printf("Greeting: %s", r.GetMessage())
-
-		//Aquí llamar el sendplays del Namenode javier.
-		if true {
-			conn, err2 := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
-
-			if err2 != nil {
-				panic("cannot connect with nameNode " + err.Error())
-			}
-			serviceClient := pb.NewSquidGameServiceClient(conn)
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-			defer cancel()
-			//aqui primer intento del consultar desde el servidor a otra entidad.
-			r, err := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
-			if err != nil {
-				log.Fatalf("no se pudo enviar la jugada: %v", err)
-			}
-			log.Printf("Greeting: %s", r.GetMessage())
-		}
-
 	}
 
 	if err = serv.Serve(listner); err != nil {
