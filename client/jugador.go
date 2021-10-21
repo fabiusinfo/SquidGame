@@ -18,7 +18,7 @@ func main() {
 	playerNumber := "1"
 	play := "2"
 	stage := "3"
-	state:="2"
+	//state:="2"
 	fmt.Println("Activar jugador: ")
 	fmt.Scanln(&first)
 
