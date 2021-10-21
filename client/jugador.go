@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
@@ -13,6 +14,10 @@ import (
 )
 
 func main() {
+	var first string
+	fmt.Println("Activar jugador: ")
+	fmt.Scanln(&first)
+
 	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 	if err != nil {
@@ -32,6 +37,8 @@ func main() {
 
 	playerNumber := "1"
 	state := "2"
+	algo := "no esto deifinido aun"
+
 	r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
@@ -39,7 +46,7 @@ func main() {
 	log.Printf("Greeting: %s", r.GetMessage())
 
 	play := "5"
-	r2, err2 := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play})
+	r2, err2 := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
 	if err2 != nil {
 		log.Fatalf("could not greet: %v", err2)
 	}

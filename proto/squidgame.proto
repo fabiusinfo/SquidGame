@@ -37,8 +37,9 @@ message JoinReply {
 }
 
 message SendRequest {
-    string player = 1;
-    string play = 2;
+    string player = 1; //id jugador
+    string play = 2; //jugada
+    string stage = 3; //etapa
 }
 
 message SendReply {

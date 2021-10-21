@@ -23,8 +23,7 @@ func generateID() string {
 //habilitar el puerto 8080 en la máquina 162        Javier: listoco, comando aplicado
 //acá definir la función sendplays
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-
-	return &pb.SendReply{Message: "mensaje de la jugada por constuir equisde buenas noches"}, nil
+	return &pb.SendReply{Message: {Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + " en la etapa " + in.GetEtapa()}, nil
 }
 
 func main() {
@@ -45,24 +44,7 @@ func main() {
 	fmt.Println("aqui recibimos las jugadas del lider")
 	fmt.Scanln(&first)
 
-	if true {
-		conn, err2 := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
-
-		if err2 != nil {
-			panic("cannot connect with lider" + err.Error())
-		}
-
-		serviceClient := pb.NewSquidGameServiceClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-		//aqui primer intento del consultar desde el servidor a otra entidad.
-		r, err := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
-		if err != nil {
-			log.Fatalf("no se pudo devolver? las jugadas: %v", err)
-		}
-		log.Printf("Greeting: %s", r.GetMessage())
-
-	}
+	// ???? se va o no
 	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
