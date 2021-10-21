@@ -87,11 +87,11 @@ func main() {
 	//ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	//aqui primer intento del consultar desde el servidor a otra entidad.
-	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
-	if err != nil {
-		log.Fatalf("no se pudo solicitar el monto: %v", err)
+	r2, err3 := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+	if err3 != nil {
+		log.Fatalf("no se pudo solicitar el monto: %v", err3)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	log.Printf("Greeting: %s", r2.GetMessage())
 
 	//Aquí llamar el sendplays del Namenode javier.
 	if true {
@@ -104,11 +104,11 @@ func main() {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 		//aqui primer intento del consultar desde el servidor a otra entidad.
-		r, err := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
-		if err != nil {
+		r5, err5 := serviceClient.SendPlays(ctx, &pb.SendRequest{Message: message})
+		if err5 != nil {
 			log.Fatalf("no se pudo enviar la jugada: %v", err)
 		}
-		log.Printf("Greeting: %s", r.GetMessage())
+		log.Printf("Greeting: %s", r5.GetMessage())
 	}
 
 	if err = serv.Serve(listner); err != nil {
