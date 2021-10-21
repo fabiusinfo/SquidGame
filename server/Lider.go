@@ -61,7 +61,7 @@ func main() {
 	etapa := "1"
 	jugada := "5"
 
-	r, err := serviceLider.SendPlays(ctx, &pb.JoinRequest{Player: playerID, Play: jugada, Stage: stage})
+	r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: playerID, Play: jugada, Stage: stage})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
@@ -83,8 +83,8 @@ func main() {
 	if err2 != nil {
 		panic("cannot connect with pozo " + err.Error())
 	}
-	serviceClient := pb.NewSquidGameServiceClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	//serviceClient := pb.NewSquidGameServiceClient(conn)
+	//ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	//aqui primer intento del consultar desde el servidor a otra entidad.
 	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
