@@ -15,6 +15,10 @@ import (
 	"google.golang.org/grpc"
 )
 
+type server struct {
+	pb.UnimplementedSquidGameServiceServer
+}
+
 func generateID() string {
 	rand.Seed(time.Now().Unix())
 	return "ID: " + strconv.Itoa(rand.Int())
@@ -22,7 +26,7 @@ func generateID() string {
 
 //habilitar el puerto 8080 en la máquina 162        Javier: listoco, comando aplicado
 //acá definir la función sendplays
-func (s *serverNN) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
 
