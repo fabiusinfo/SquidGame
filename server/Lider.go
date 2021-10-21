@@ -24,7 +24,7 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetEtapa()}, nil
+	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
 
 func main() {
@@ -58,7 +58,7 @@ func main() {
 	defer cancel()
 
 	playerID := "1"
-	etapa := "1"
+	stage := "1"
 	jugada := "5"
 
 	r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: playerID, Play: jugada, Stage: stage})
