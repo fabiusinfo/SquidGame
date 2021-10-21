@@ -25,6 +25,7 @@ func generateID() string {
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	return &pb.SendReply{Message: {Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + " en la etapa " + in.GetEtapa()}, nil
 }
+}
 
 func main() {
 	//Acá habilitar el nameNode como servidor (con el líder)
@@ -50,6 +51,8 @@ func main() {
 		panic("cannot initialize the server" + err.Error())
 	}
 
+	
+
 	/*conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 	if err != nil {
@@ -74,5 +77,4 @@ func main() {
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
 	*/
-}
 }
