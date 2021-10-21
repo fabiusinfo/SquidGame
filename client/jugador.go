@@ -15,6 +15,10 @@ import (
 
 func main() {
 	var first string
+	playerNumber := "1"
+	play := "2"
+	stage := "3"
+	state:="2"
 	fmt.Println("Activar jugador: ")
 	fmt.Scanln(&first)
 
@@ -26,25 +30,15 @@ func main() {
 
 	servicePlayer := pb.NewSquidGameServiceClient(conn)
 
-	/*res, err := serviceClient.Create(context.Background(), &pb.CreateWishListReq{
-		WishList: &pb.WishList{
-			Id:   generateID(),
-			Name: "my wishlist",
-		},
-	})*/
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	playerNumber := "1"
-	play := "2"
-	stage := "3"
-	state:="2"
-
-	r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
+	// pa despues
+	/*r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	log.Printf("Greeting: %s", r.GetMessage())*/
 	r2, err2 := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
 	if err2 != nil {
 		log.Fatalf("could not greet: %v", err2)
