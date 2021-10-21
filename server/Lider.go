@@ -78,12 +78,12 @@ func main() {
 	fmt.Scanln(&second)
 
 	//if true {} aqui parte el POZO
-	conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+	conn2, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
 
 	if err2 != nil {
 		panic("cannot connect with pozo " + err.Error())
 	}
-	//serviceClient := pb.NewSquidGameServiceClient(conn)
+	serviceClient := pb.NewSquidGameServiceClient(conn2)
 	//ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	//aqui primer intento del consultar desde el servidor a otra entidad.
