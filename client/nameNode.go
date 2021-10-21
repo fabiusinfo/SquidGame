@@ -43,7 +43,7 @@ func main() {
 	pb.RegisterSquidGameServiceServer(servNN, &server{})
 
 	var first string
-	message := "recibir_jugada"
+	
 
 	fmt.Println("aqui recibimos las jugadas del lider")
 	fmt.Scanln(&first)
