@@ -35,9 +35,7 @@ func main() {
 		panic("cannot create tcp connection" + err.Error())
 	}
 
-	if err2 != nil {
-		panic("cannot connect with pozo " + err.Error())
-	}
+	
 
 	serv := grpc.NewServer()
 	pb.RegisterSquidGameServiceServer(serv, &server{})
@@ -56,6 +54,10 @@ func main() {
 	
 	if (true){
 		conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+		
+		if err2 != nil {
+			panic("cannot connect with pozo " + err.Error())
+		}
 		serviceClient := pb.NewSquidGameServiceClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
