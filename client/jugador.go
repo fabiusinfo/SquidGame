@@ -36,8 +36,8 @@ func main() {
 	defer cancel()
 
 	playerNumber := "1"
-	state := "2"
-	algo := "no esto deifinido aun"
+	play := "2"
+	stage := "3"
 
 	r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
 	if err != nil {
