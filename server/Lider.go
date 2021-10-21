@@ -29,7 +29,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 func main() {
 	listner, err := net.Listen("tcp", ":8080")
 
-	conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+	
 
 	if err != nil {
 		panic("cannot create tcp connection" + err.Error())
@@ -38,34 +38,33 @@ func main() {
 	if err2 != nil {
 		panic("cannot connect with pozo " + err.Error())
 	}
-	log.Printf("paso por 1")
-
 
 	serv := grpc.NewServer()
-	serviceClient := pb.NewSquidGameServiceClient(conn)
 	pb.RegisterSquidGameServiceServer(serv, &server{})
-	log.Printf("paso por 2")
 	
 
-	log.Printf("paso por 3")
+	
 	var first string
 	message:= "solicitar"
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	
 
-	defer cancel()
+	
 	
     	fmt.Println("ingresa la letra a para solicitar monto: ")
 	fmt.Scanln(&first)
 
-	log.Printf("paso por 4")
+	
 	if (true){
-		log.Printf("paso por 5")
+		conn, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+		serviceClient := pb.NewSquidGameServiceClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
 		//aqui primer intento del consultar desde el servidor a otra entidad.
-	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
-	if err != nil {
-		log.Fatalf("no se pudo solicitar el monto: %v", err)
-	}
-	log.Printf("Greeting: %s", r.GetMessage())
+		r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+		if err != nil {
+			log.Fatalf("no se pudo solicitar el monto: %v", err)
+		}
+		log.Printf("Greeting: %s", r.GetMessage())
 	}
 
 	if err = serv.Serve(listner); err != nil {
