@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	//"fmt"
 	"net"
 
 	//"fmt"
@@ -42,17 +42,19 @@ func main() {
 	servNN := grpc.NewServer()
 	pb.RegisterSquidGameServiceServer(servNN, &server{})
 
-	var first string
-	
-
-	fmt.Println("aqui recibimos las jugadas del lider")
-	fmt.Scanln(&first)
-
 	// ???? se va o no
 	if err = servNN.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
+
+	/*var first string
+	
+
+	fmt.Println("aqui recibimos las jugadas del lider")
+	fmt.Scanln(&first)
+*/
+	
 
 	
 
