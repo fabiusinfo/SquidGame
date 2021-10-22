@@ -39,11 +39,7 @@ func main() {
 
 	serv := grpc.NewServer()
 	pb.RegisterSquidGameServiceServer(serv, &server{})
-//esto es lo que estaba al final, no sé donde ponerlo
-	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
-	}
+
 	/////////////
 
 	var first string
@@ -101,6 +97,11 @@ func main() {
 	log.Printf("Greeting: %s", r2.GetMessage())
 */
 /////////////////////////////
+	//esto es lo que estaba al final, no sé donde ponerlo
+	if err = serv.Serve(listner); err != nil {
+		log.Printf("paso por el fallo")
+		panic("cannot initialize the server" + err.Error())
+	}
 	
 
 }
