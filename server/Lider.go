@@ -24,6 +24,27 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+	conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
+
+	if err != nil {
+		panic("cannot connect with server " + err.Error())
+	}
+
+	serviceLider := pb.NewSquidGameServiceClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	playerID := "1"
+	stage := "1"
+	jugada := "5"
+
+	r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: playerID, Play: jugada, Stage: stage})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetMessage())
+
 	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
 
@@ -59,7 +80,7 @@ go func(){
 	fmt.Scanln(&first)
 
 	// NAMENOOOOOOOOOOOOOOOOOOOOOODEEEEEEEEEEEEEEE
-	conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
+	/*conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
 	if err != nil {
 		panic("cannot connect with server " + err.Error())
@@ -78,7 +99,7 @@ go func(){
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	log.Printf("Greeting: %s", r.GetMessage())/*
 
 	//////////////////////
 
