@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	//"fmt"
+	"fmt"
 	"log"
-	"net"
-	//"time"
+	//"net"
+	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
@@ -28,8 +28,10 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 }
 
 func main() {
-/*
-	// nos convertimos en servidor (LIDER)
+
+
+	/*// nos convertimos en servidor (LIDER)
+>>>>>>> 46caeead2c7336ca9916db6c3ef496d7e5fcba80
 	listner, err := net.Listen("tcp", ":8080")
 
 	if err != nil {
