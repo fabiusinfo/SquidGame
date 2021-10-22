@@ -50,12 +50,12 @@ func main() {
 	
 	}()
 
-	/*var first string
+	var first string
 	
 
 	fmt.Println("aqui recibimos las jugadas del lider")
 	fmt.Scanln(&first)
-*/
+
 	
 
 	
