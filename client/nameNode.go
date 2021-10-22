@@ -31,22 +31,24 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 }
 
 func main() {
-	//Acá habilitar el nameNode como servidor (con el líder)
-
-	listner, err := net.Listen("tcp", ":8080")
-
-	if err != nil {
-		panic("cannot create tcp connection" + err.Error())
-	}
-
-	serv := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(serv, &server{})
-
-	// ???? se va o no
-	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
-	}
+	go func(){
+		// nos convertimos en servidor (NameNode)
+		listner, err := net.Listen("tcp", ":8080")
+	
+		if err != nil {
+			panic("cannot create tcp connection" + err.Error())
+		}
+	
+		serv := grpc.NewServer()
+		pb.RegisterSquidGameServiceServer(serv, &server{})
+	
+		//esto es lo que estaba al final, no sé donde ponerlo
+		if err = serv.Serve(listner); err != nil {
+			log.Printf("paso por el fallo")
+			panic("cannot initialize the server" + err.Error())
+		}
+	
+	}()
 
 	/*var first string
 	

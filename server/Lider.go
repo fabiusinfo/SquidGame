@@ -27,9 +27,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
 
+
+
 func main() {
 
-
+go func(){
 	// nos convertimos en servidor (LIDER)
 	listner, err := net.Listen("tcp", ":8080")
 
@@ -40,6 +42,14 @@ func main() {
 	serv := grpc.NewServer()
 	pb.RegisterSquidGameServiceServer(serv, &server{})
 
+	//esto es lo que estaba al final, no sé donde ponerlo
+	if err = serv.Serve(listner); err != nil {
+		log.Printf("paso por el fallo")
+		panic("cannot initialize the server" + err.Error())
+	}
+
+}()
+	
 	/////////////
 
 	var first string
@@ -97,11 +107,7 @@ func main() {
 	log.Printf("Greeting: %s", r2.GetMessage())
 */
 /////////////////////////////
-	//esto es lo que estaba al final, no sé donde ponerlo
-	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
-	}
+	
 	
 
 }
