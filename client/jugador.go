@@ -19,6 +19,7 @@ func main() {
 	play := "2"
 	stage := "3"
 	//state:="2"
+	fmt.Println("ID del jugador: "+playerNumber+", Jugada: "+play+", etapa: "+stage)
 	fmt.Println("Activar jugador: ")
 	fmt.Scanln(&first)
 

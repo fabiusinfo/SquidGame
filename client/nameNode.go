@@ -25,7 +25,8 @@ func generateID() string {
 //habilitar el puerto 8080 en la máquina 162        Javier: listoco, comando aplicado
 //acá definir la función sendplays
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	return &pb.SendReply{Message: "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
+	return &pb.SendReply{Message:"NameNode recibe desde Lider la siguiente jugada:\n
+	 El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + " en la etapa " + in.GetStage()}, nil
 }
 
 func main() {
