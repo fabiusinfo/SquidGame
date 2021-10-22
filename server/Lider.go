@@ -28,7 +28,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 }
 
 func main() {
-
+/*
 	// nos convertimos en servidor (LIDER)
 	listner, err := net.Listen("tcp", ":8080")
 
@@ -42,7 +42,7 @@ func main() {
 	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
-	}
+	}*/
 	/////////////
 
 	var first string
