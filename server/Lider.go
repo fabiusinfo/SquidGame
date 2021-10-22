@@ -38,8 +38,9 @@ func main() {
 
 	serv := grpc.NewServer()
 	pb.RegisterSquidGameServiceServer(serv, &server{})
+	/////////////
 
-	var first string
+	/*var first string
 	//enviar
 
 	fmt.Println("ingresa la letra a para eviar jugadas: ")
@@ -71,7 +72,7 @@ func main() {
 
 	// POZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
-	var second string
+	/*var second string
 	message := "solicitar"
 
 	fmt.Println("ingresa la letra a para solicitar monto: ")
@@ -92,8 +93,8 @@ func main() {
 		log.Fatalf("no se pudo solicitar el monto: %v", err3)
 	}
 	log.Printf("Greeting: %s", r2.GetMessage())
-
-
+*/
+/////////////////////////////
 	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
