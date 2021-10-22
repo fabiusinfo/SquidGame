@@ -39,11 +39,11 @@ func main() {
 		panic("cannot create tcp connection" + err.Error())
 	}
 
-	servNN := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(servNN, &server{})
+	serv := grpc.NewServer()
+	pb.RegisterSquidGameServiceServer(serv, &server{})
 
 	// ???? se va o no
-	if err = servNN.Serve(listner); err != nil {
+	if err = serv.Serve(listner); err != nil {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
