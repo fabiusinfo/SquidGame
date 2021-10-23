@@ -16,7 +16,7 @@ func main() {
 	var first string
 	playerNumber := "1"
 	play := "2"
-	var stage string
+	stage:="3"
 	signed:=false
 	//state:="2"
 	fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + stage)
