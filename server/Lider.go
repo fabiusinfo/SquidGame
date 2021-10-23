@@ -62,7 +62,6 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.JoinRequest) (*pb.JoinR
 	log.Printf("Greeting: %s", r.GetMessage())
 	return &pb.JoinReply{Message: r.GetMessage()}, nil
 	}
-}
 
 func main() {
 	//códigos Etapas
