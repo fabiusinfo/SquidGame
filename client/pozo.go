@@ -19,7 +19,7 @@ type server struct {
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	monto := "5000"
-	return &pb.AmountReply{Message: "el monto del pozo actual es de" + monto  }, nil
+	return &pb.AmountReply{Monto: monto  }, nil
 }
 
 

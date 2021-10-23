@@ -43,9 +43,31 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 	return &pb.SendReply{Message: "El Lider Recibió tu jugada con éxito"}, nil
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
+
+	func (s *server) AmountCheck(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
+		conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
+
+		if err != nil {
+			panic("cannot connect with pozo " + err.Error())
+		}
+		serviceClient := pb.NewSquidGameServiceClient(conn)
+		//ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		//aqui primer intento del consultar desde el servidor a otra entidad.
+		r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+		if err != nil {
+			log.Fatalf("no se pudo solicitar el monto: %v", err)
+		}
+		log.Printf("Greeting: %s", r.GetMessage())
+		return &pb.JoinReply{Message: r.GetMessage()}, nil
+	}
 }
 
 func main() {
+	//códigos Etapas
+	//1rv
+	//2tc
+	//3tn
 
 	go func() {
 		// nos convertimos en servidor (LIDER)
