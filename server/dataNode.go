@@ -15,6 +15,7 @@ type server struct {
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+	fmt.Println("yo lo recibí")
 	return &pb.SendReply{Message: "El DataNode recibió las jugadas con éxito\n" + "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
 
