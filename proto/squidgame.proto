@@ -28,12 +28,11 @@ message HelloReply {
 
 message JoinRequest {
     string player= 1;
-    string state = 2;
 
 }
 
 message JoinReply {
-    string message = 1;
+    bool signed = 1;
 }
 
 message SendRequest {

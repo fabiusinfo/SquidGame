@@ -17,7 +17,7 @@ func main() {
 	playerNumber := "1"
 	play := "2"
 	var stage string
-	//var signed bool
+	signed:=false
 	//state:="2"
 	fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + stage)
 	fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
@@ -37,11 +37,12 @@ func main() {
 	switch first{
 
 	case "join":
-		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: stage})
+		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		log.Printf("Greeting: %s", r.GetMessage())
+		log.Printf("inscrito: %s", r.GetSigned())
+		signed=r.GetSigned()
 	case "send":
 		r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
 		if err != nil {
