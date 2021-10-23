@@ -46,6 +46,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
+	message:="solicito monto"
 	conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
 
 	if err != nil {
@@ -59,7 +60,7 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	if err != nil {
 		log.Fatalf("no se pudo solicitar el monto: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GeMonto())
+	log.Printf("Greeting: %s", r.GetMonto())
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 	}
 
