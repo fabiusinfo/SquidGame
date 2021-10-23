@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"net"
 	"fmt"
 	"log"
 	"math/rand"
+	"net"
 	"strconv"
 	"time"
 
@@ -27,62 +27,53 @@ func generateID() string {
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	////// Kathy y Eloli deben implementar la consulta a los 3 datanodes de forma aleatoria para poder
 	//enviar la jugada a cualquiera de los 3.
+	var direction string
 
-	return &pb.SendReply{Message:"NameNode recibe desde Lider la siguiente jugada: El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + " en la etapa " + in.GetStage()}, nil
-}
+	rand.Seed(time.Now().UnixNano())
+	id := rand.Int63n(3)
+
+	if id == 0 {
+		direction = "10.6.43.41:8080"
+	} else if id == 1 {
+		direction = "10.6.43.43:8080"
+	} else {
+		direction = "10.6.43.44:8080"
+	}
+
+	conn, err := grpc.Dial(direction, grpc.WithInsecure())
+	serviceNN := pb.NewSquidGameServiceClient(conn)
+
+NN	x, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+ 	err := serviceNN.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetMessage())
 
 func main() {
-	go func(){
+	go func() {
 		// nos convertimos en servidor (NameNode)
 		listner, err := net.Listen("tcp", ":8080")
-	
+
 		if err != nil {
 			panic("cannot create tcp connection" + err.Error())
 		}
-	
+
 		serv := grpc.NewServer()
 		pb.RegisterSquidGameServiceServer(serv, &server{})
-	
+
 		//esto es lo que estaba al final, no sé donde ponerlo
 		if err = serv.Serve(listner); err != nil {
 			log.Printf("paso por el fallo")
 			panic("cannot initialize the server" + err.Error())
 		}
-	
+
 	}()
 
 	var first string
-	
 
 	fmt.Println("aqui recibimos las jugadas del lider")
 	fmt.Scanln(&first)
-
-	
-
-	
-
-	/*conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
-
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
-
-	serviceNameNode := pb.NewSquidGameServiceClient(conn)
-
-	/*res, err := serviceClient.Create(context.Background(), &pb.CreateWishListReq{
-		WishList: &pb.WishList{
-			Id:   generateID(),
-			Name: "my wishlist",
-		},
-	}) /
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	//aqui primer intento del hello world
-	name := "nameNode"
-	r, err := serviceClient.SayHello(ctx, &pb.HelloRequest{Name: name})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	log.Printf("Greeting: %s", r.GetMessage())
-	*/
 }

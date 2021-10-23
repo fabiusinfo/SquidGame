@@ -15,10 +15,6 @@ type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
 
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Wena los k, quien quiere wones " + in.GetName()}, nil
-}
-
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
 	return &pb.JoinReply{Message: "Jugador" + in.GetPlayer() + "se unio al Juego" + in.GetState() + ", suerte calamar, o algo asi no vi la serie "}, nil
 }
@@ -45,33 +41,31 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
 
-	return &pb.SendReply{Message:"El Lider Recibió tu jugada con éxito" }, nil
+	return &pb.SendReply{Message: "El Lider Recibió tu jugada con éxito"}, nil
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 }
 
-
-
 func main() {
 
-go func(){
-	// nos convertimos en servidor (LIDER)
-	listner, err := net.Listen("tcp", ":8080")
+	go func() {
+		// nos convertimos en servidor (LIDER)
+		listner, err := net.Listen("tcp", ":8080")
 
-	if err != nil {
-		panic("cannot create tcp connection" + err.Error())
-	}
+		if err != nil {
+			panic("cannot create tcp connection" + err.Error())
+		}
 
-	serv := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(serv, &server{})
+		serv := grpc.NewServer()
+		pb.RegisterSquidGameServiceServer(serv, &server{})
 
-	//esto es lo que estaba al final, no sé donde ponerlo
-	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
-	}
+		//esto es lo que estaba al final, no sé donde ponerlo
+		if err = serv.Serve(listner); err != nil {
+			log.Printf("paso por el fallo")
+			panic("cannot initialize the server" + err.Error())
+		}
 
-}()
-	
+	}()
+
 	/////////////
 
 	var first string
@@ -127,9 +121,7 @@ go func(){
 		log.Fatalf("no se pudo solicitar el monto: %v", err3)
 	}
 	log.Printf("Greeting: %s", r2.GetMessage())
-*/
-/////////////////////////////
-	
-	
+	*/
+	/////////////////////////////
 
 }
