@@ -53,7 +53,7 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 		panic("cannot connect with pozo " + err.Error())
 	}
 	serviceClient := pb.NewSquidGameServiceClient(conn)
-	//ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	//aqui primer intento del consultar desde el servidor a otra entidad.
 	r, err := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
