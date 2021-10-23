@@ -41,7 +41,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		log.Printf("inscrito: %s", r.GetSigned())
+		log.Printf("inscrito")
 		signed=r.GetSigned()
 	case "send":
 		r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
