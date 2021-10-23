@@ -20,7 +20,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 func main() {
 	// nos convertimos en servidor (dataNode)
-	listner, err := net.Listen("tcp", ":8080")
+	listner, err := net.Listen("tcp", ":9000")
 
 	if err != nil {
 		panic("cannot create tcp connection" + err.Error())
