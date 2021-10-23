@@ -45,7 +45,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 }
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
-func (s *server) AmountCheck(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
+func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
 
 	if err != nil {
@@ -60,7 +60,7 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.JoinRequest) (*pb.JoinR
 		log.Fatalf("no se pudo solicitar el monto: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
-	return &pb.JoinReply{Message: r.GetMessage()}, nil
+	return &pb.AmountReply{Message: r.GetMessage()}, nil
 	}
 
 func main() {
