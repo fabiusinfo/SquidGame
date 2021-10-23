@@ -59,7 +59,7 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	if err != nil {
 		log.Fatalf("no se pudo solicitar el monto: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetMessage())
+	log.Printf("Greeting: %s", r.GeMonto())
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 	}
 
