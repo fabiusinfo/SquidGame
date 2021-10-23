@@ -61,7 +61,11 @@ func main() {
 		fmt.Println("ingresaste un mal comando.")
 
 	}
-	log.Printf(signed)
+	if signed {
+		fmt.Println("estas inscrito en el juego del calamar")
+	} else {
+		fmt.Println("no estas inscrito en el juego del calamar")
+	}
 	/*if first == "join"{
 		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
 		if err != nil {
