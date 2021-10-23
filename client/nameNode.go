@@ -54,9 +54,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	log.Printf("Greeting: %s", r.GetMessage())
 
 	b := []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+"\n")
-    err := ioutil.WriteFile("registro.txt", b, 0644)
-    if err != nil {
-        log.Fatal(err)
+    errtxt := ioutil.WriteFile("registro.txt", b, 0644)
+    if errtxt != nil {
+        log.Fatal(errtxt)
     }
 	
 	return &pb.SendReply{Message: "Recibi la info, se la mando al datanode"}, nil
