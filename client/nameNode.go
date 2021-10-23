@@ -8,6 +8,7 @@ import (
 	"net"
 	"strconv"
 	"time"
+	"io/ioutil"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
@@ -51,6 +52,12 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
+
+	b := []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+"\n")
+    err := ioutil.WriteFile("registro.txt", b, 0644)
+    if err != nil {
+        log.Fatal(err)
+    }
 	
 	return &pb.SendReply{Message: "Recibi la info, se la mando al datanode"}, nil
 }
