@@ -51,6 +51,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
+	
+	return &pb.SendReply{Message: "Recibi la info, se la mando al datanode"}, nil
 }
 
 func main() {
