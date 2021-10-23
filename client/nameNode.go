@@ -33,11 +33,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	id := rand.Int63n(3)
 
 	if id == 0 {
-		direction = "10.6.43.41:8080"
+		direction = "10.6.43.41:9000"
 	} else if id == 1 {
-		direction = "10.6.43.43:8080"
+		direction = "10.6.43.43:9000"
 	} else {
-		direction = "10.6.43.44:8080"
+		direction = "10.6.43.44:9000"
 	}
 
 	conn, err := grpc.Dial(direction, grpc.WithInsecure())
