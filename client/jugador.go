@@ -35,7 +35,7 @@ func main() {
 	defer cancel()
 
 	switch first{
-
+		// unirse al juego del calamar
 	case "join":
 		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 		if err != nil {
@@ -43,12 +43,16 @@ func main() {
 		}
 		log.Printf("inscrito")
 		signed=r.GetSigned()
+
+		//enviar jugada realizada
 	case "send":
 		r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
 		log.Printf("Greeting: %s", r.GetMessage())
+
+		//solicitar monto
 	case "amount":
 		message:= "solicito monto"
 		r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
