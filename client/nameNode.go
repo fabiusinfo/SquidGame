@@ -34,14 +34,14 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	id := rand.Int63n(3)
 
 	if id == 0 {
-		direction = "10.6.43.41:9000"
+		direction = "10.6.43.41"
 	} else if id == 1 {
-		direction = "10.6.43.43:9000"
+		direction = "10.6.43.43"
 	} else {
-		direction = "10.6.43.44:9000"
+		direction = "10.6.43.44"
 	}
 
-	conn, err := grpc.Dial(direction, grpc.WithInsecure())
+	conn, err := grpc.Dial(direction+":9000", grpc.WithInsecure())
 	serviceNN := pb.NewSquidGameServiceClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -53,7 +53,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
 
-	b := []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+direction+"\n")
+	b := []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+" "+direction+"\n")
     errtxt := ioutil.WriteFile("registro.txt", b, 0644)
     if errtxt != nil {
         log.Fatal(errtxt)
