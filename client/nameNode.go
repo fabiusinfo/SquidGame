@@ -53,24 +53,24 @@ NN	x, cancel := context.WithTimeout(context.Background(), time.Second)
 	log.Printf("Greeting: %s", r.GetMessage())
 
 func main() {
-	go func() {
-		// nos convertimos en servidor (NameNode)
-		listner, err := net.Listen("tcp", ":8080")
 
-		if err != nil {
-			panic("cannot create tcp connection" + err.Error())
-		}
+	// nos convertimos en servidor (NameNode)
+	listner, err := net.Listen("tcp", ":8080")
 
-		serv := grpc.NewServer()
-		pb.RegisterSquidGameServiceServer(serv, &server{})
+	if err != nil {
+		panic("cannot create tcp connection" + err.Error())
+	}
 
-		//esto es lo que estaba al final, no sé donde ponerlo
-		if err = serv.Serve(listner); err != nil {
-			log.Printf("paso por el fallo")
-			panic("cannot initialize the server" + err.Error())
-		}
+	serv := grpc.NewServer()
+	pb.RegisterSquidGameServiceServer(serv, &server{})
 
-	}()
+	//esto es lo que estaba al final, no sé donde ponerlo
+	if err = serv.Serve(listner); err != nil {
+		log.Printf("paso por el fallo")
+		panic("cannot initialize the server" + err.Error())
+	}
+
+
 
 	var first string
 
