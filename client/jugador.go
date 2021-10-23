@@ -61,6 +61,7 @@ func main() {
 		fmt.Println("ingresaste un mal comando.")
 
 	}
+	log.Printf(signed)
 	/*if first == "join"{
 		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
 		if err != nil {
