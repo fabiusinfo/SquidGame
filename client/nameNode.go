@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net"
 	"strconv"
 	"time"
-	"io/ioutil"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
@@ -47,18 +47,26 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
- 	r, err := serviceNN.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
+	r, err := serviceNN.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
 
-	b := []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+" "+direction+"\n")
-    errtxt := ioutil.WriteFile("registro.txt", b, 0644)
-    if errtxt != nil {
-        log.Fatal(errtxt)
-    }
-	
+	// añadir al texto
+	b, errtxt := ioutil.ReadFile("registro.txt")
+
+	if errtxt != nil {
+		log.Fatal(errtxt)
+	}
+
+	b := append(b, []byte("\n Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+" "+direction))
+	errtxt := ioutil.WriteFile("registro.txt", b, 0644)
+
+	if errtxt != nil {
+		log.Fatal(errtxt)
+	}
+
 	return &pb.SendReply{Message: "Recibi la info, se la mando al datanode"}, nil
 }
 
@@ -79,8 +87,6 @@ func main() {
 		log.Printf("paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
-
-
 
 	var first string
 
