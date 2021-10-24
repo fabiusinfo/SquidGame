@@ -60,7 +60,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	b := append(b, []byte("\n Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+" "+direction))
+	b := append(b, []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+" "+direction+"\n"))
 	errtxt := ioutil.WriteFile("registro.txt", b, 0644)
 
 	if errtxt != nil {
