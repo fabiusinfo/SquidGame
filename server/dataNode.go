@@ -15,10 +15,30 @@ type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
 
-func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
+func crearArchivo(path) {
+	//Verifica que el archivo existe
+	var _, err = os.Stat(path)
+	//Crea el archivo si no existe
+	if os.IsNotExist(err) {
+	  var file, err = os.Create(path)
+	  if existeError(err) {
+		return
+	  }
+	  defer file.Close()
+	}
+  }
+
+func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {.
+	//aqui implementar la escribicion jugador_1__ronda_1.txt
+	var path = "DN_plays/jugador_"+in.GetPlayer()+"__ronda_"+in.GetStage()+".txt"
+
+	crearArchivo(path)
+	
 	fmt.Println("yo lo recibí")
 	return &pb.SendReply{Message: "El DataNode recibió las jugadas con éxito\n" + "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
+
+
 
 func main() {
 	// nos convertimos en servidor (dataNode)
