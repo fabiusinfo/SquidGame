@@ -28,7 +28,7 @@ func crearArchivo(path) {
 	}
   }
 
-func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {.
+func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	//aqui implementar la escribicion jugador_1__ronda_1.txt
 	var path = "DN_plays/jugador_"+in.GetPlayer()+"__ronda_"+in.GetStage()+".txt"
 
