@@ -16,7 +16,7 @@ type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
 
-func crearArchivo(path) {
+func crearArchivo(string path) {
 	//Verifica que el archivo existe
 	var _, err = os.Stat(path)
 	//Crea el archivo si no existe
