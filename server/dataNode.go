@@ -3,11 +3,12 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
-	"fmt"
 	"os"
-	
+
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
@@ -17,10 +18,10 @@ type server struct {
 }
 
 func existeError(err error) bool {
-  if err != nil {
-    fmt.Println(err.Error())
-  }
-  return (err != nil)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return (err != nil)
 }
 
 func crearArchivo(path string) {
@@ -28,25 +29,37 @@ func crearArchivo(path string) {
 	var _, err = os.Stat(path)
 	//Crea el archivo si no existe
 	if os.IsNotExist(err) {
-	  var file, err = os.Create(path)
-	  if existeError(err) {
-		return
-	  }
-	  defer file.Close()
+		var file, err = os.Create(path)
+		if existeError(err) {
+			return
+		}
+		defer file.Close()
 	}
-  }
+}
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	//aqui implementar la escribicion jugador_1__ronda_1.txt
-	var path = "DN_plays/jugador_"+in.GetPlayer()+"__ronda_"+in.GetStage()+".txt"
+	var path = "DN_plays/jugador_" + in.GetPlayer() + "__ronda_" + in.GetStage() + ".txt"
 
 	crearArchivo(path)
-	
+
+	// añadir al texto
+	b, errtxt := ioutil.ReadFile("jugador_" + in.GetPlayer() + "__ronda_" + in.GetStage() + ".txt")
+
+	if errtxt != nil {
+		log.Fatal(errtxt)
+	}
+
+	b = append(b, []byte("Jugador_"+in.GetPlayer()+" hizo la jugada: n \n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
+	errtxt = ioutil.WriteFile("jugador_"+in.GetPlayer()+"__ronda_"+in.GetStage()+".txt", b, 0644)
+
+	if errtxt != nil {
+		log.Fatal(errtxt)
+	}
+
 	fmt.Println("yo lo recibí")
 	return &pb.SendReply{Message: "El DataNode recibió las jugadas con éxito\n" + "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
-
-
 
 func main() {
 	// nos convertimos en servidor (dataNode)
