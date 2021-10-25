@@ -32,22 +32,19 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	//playerID := "1"
-	//stage := "1"
-	//jugada := "5"
-
 	r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
 
-	return &pb.SendReply{Message: "El Lider Recibió tu jugada con éxito"}, nil
+	return &pb.SendReply{Message: "El Lider Recibió tu jugada con éxito, se las envía al nameNode"}, nil
 }
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	message:="solicito monto"
+	//conexión con el pozo
 	conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
 
 	if err != nil {
@@ -90,13 +87,51 @@ func main() {
 
 	}()
 
-	/////////////
+	///////////// Interfaz
 
-	var first string
+	var start string
+	var playerAmount int
+	var stage string
+	stage ="1"
+	fmt.Println("ingresa la cantidad de jugadores: ")
+	fmt.Scanln(&playerAmount)
+
+	if playerAmount == 16 {
+		//se da inicio al juego
+		fmt.Println("escribe start para comenzar: ")
+		fmt.Scanln(&start)
+		if start == "start"{
+			fmt.Println("Ha comenzado la etapa: "+stage)
+		}
+		fmt.Println("se ha muerto ste men: 2")
+		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
+		fmt.Println("los ganadores de la ronda son 1,2,3 ")
+		stage="2"
+
+		fmt.Println("escribe start para comenzar: ")
+		fmt.Scanln(&start)
+		if start == "start"{
+			fmt.Println("Ha comenzado la etapa: "+stage)
+		}
+		fmt.Println("se ha muerto ste men: 2")
+		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
+		fmt.Println("los ganadores de la ronda son 1,2,3 ")
+		stage="3"
+
+		fmt.Println("escribe start para comenzar: ")
+		fmt.Scanln(&start)
+		if start == "start"{
+			fmt.Println("Ha comenzado la etapa: "+stage)
+		}
+		fmt.Println("se ha muerto ste men: 2")
+		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
+		fmt.Println("los ganadores de la ronda son 1,2,3 ")
+		stage="4"
+
+	}
 	//enviar
 
-	fmt.Println("ingresa la letra a para eviar jugadas: ")
-	fmt.Scanln(&first)
+	
 
 	// NAMENOOOOOOOOOOOOOOOOOOOOOODEEEEEEEEEEEEEEE
 	/*conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
