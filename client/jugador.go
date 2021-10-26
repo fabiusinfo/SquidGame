@@ -63,10 +63,10 @@ func main() {
 			playsend:=int32(play)
 			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: playsend, Stage: actualStage})
 			if err != nil {
-				log.Fatalf("could not greet: %v", err)
+				log.Fatalf("fallo 1: %v", err)
 			}
 			if err2 != nil {
-				log.Fatalf("could not greet: %v", err2)
+				log.Fatalf("fallo 2: %v", err2)
 			}
 			//log.Printf("Greeting: %s", r.GetMessage())
 			actualStage=r.GetStage()
