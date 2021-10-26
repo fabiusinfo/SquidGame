@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 
 	//"math/rand"
-	//"strconv"
+	"strconv"
 	"log"
 	"time"
 )
@@ -57,9 +57,16 @@ func main() {
 		//enviar jugada realizada
 	case "send":
 		if actualStage != "none"{
-			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage})
+			fmt.Println("realiza jugada: ")
+			fmt.Scanln(&play)
+			play, err2 := strconv.Atoi(play)
+			playsend:=int32(play)
+			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: playsend, Stage: actualStage})
 			if err != nil {
 				log.Fatalf("could not greet: %v", err)
+			}
+			if err2 != nil {
+				log.Fatalf("could not greet: %v", err2)
 			}
 			//log.Printf("Greeting: %s", r.GetMessage())
 			actualStage=r.GetStage()

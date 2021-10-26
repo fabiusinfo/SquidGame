@@ -38,10 +38,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}*/
+	alive:=true
 	if int(in.GetPlay())>liderPlay{
 		alive=false
 	}
-	log.Printf("Greeting: %s", r.GetStage())
+	//log.Printf("Greeting: %s", r.GetStage())
 
 	return &pb.SendReply{Stage: actualStage, Alive:alive}, nil
 }
@@ -97,6 +98,7 @@ func main() {
 	var start string
 	var playerAmount int
 	var stage string
+	var next string
 	stage ="1rv"
 	fmt.Println("ingresa la cantidad de jugadores: ")
 	fmt.Scanln(&playerAmount)
@@ -114,6 +116,8 @@ func main() {
 			liderPlay = int(rand.Int63n(5))
 			liderPlay += liderPlay+6
 			fmt.Println("jugada de lider: "+ strconv.Itoa(liderPlay))
+			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
+			fmt.Scanln(&next)
 		}
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
