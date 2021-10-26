@@ -51,7 +51,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	b = append(b, []byte(strconv.Itoa(in.GetPlay())+"\n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
+	s := strconv.FormatInt(int64(in.GetPlay()), 10)
+
+	b = append(b, []byte(s+"\n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {
