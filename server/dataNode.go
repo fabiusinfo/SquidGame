@@ -51,7 +51,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 	b = append(b, []byte("Jugador_"+in.GetPlayer()+" hizo la jugada: n \n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
-	errtxt = ioutil.WriteFile("DN_plays/jugador_"+in.GetPlayer()+"__ronda_"+in.GetStage()+".txt", b, 0644)
+	errtxt = ioutil.WriteFile("jugador_"+in.GetPlayer()+"__ronda_"+in.GetStage()+".txt", b, 0644)
 
 	if errtxt != nil {
 		log.Fatal(errtxt)
