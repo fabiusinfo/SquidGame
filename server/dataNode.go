@@ -50,7 +50,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	b = append(b, []byte("Jugador_"+in.GetPlayer()+" hizo la jugada: n \n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
+	b = append(b, []byte("Jugador_"+in.GetPlayer()+" hizo la jugada: "+in.GetPlay()+" \n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {
