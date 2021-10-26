@@ -8,7 +8,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"strconv"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
@@ -51,9 +50,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	s = strconv.FormatInt(int64(in.GetPlay()), 10)
-
-	b = append(b, []byte(s+"\n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
+	b = append(b, []byte(in.GetPlay())...) //hay que conseguirse la jugada, quizas en el mercado negro hay
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {
