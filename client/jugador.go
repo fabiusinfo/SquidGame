@@ -13,15 +13,21 @@ import (
 )
 
 func main() {
-	var first string
+	var action string
 	playerNumber := "1"
 	play := "2"
-	stage:="3"
-	signed:=false
+	actualStage:="none"
+	//signed:=false
+	codes1 := "none"
+	codes2 := "none"
+	codes3 := "none"
+	alive := true
 	//state:="2"
-	fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + stage)
+	fmt.Println(codes1+codes2+codes3)
+	for alive {
+	fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
 	fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
-	fmt.Scanln(&first)
+	fmt.Scanln(&action)
 
 	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -34,7 +40,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	switch first{
+	switch action{
 		// unirse al juego del calamar
 	case "join":
 		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
@@ -42,15 +48,25 @@ func main() {
 			log.Fatalf("could not greet: %v", err)
 		}
 		log.Printf("inscrito")
-		signed=r.GetSigned()
+		//signed=r.GetSigned()
+		codes1 = r.GetCodes1()
+		codes2 = r.GetCodes2()
+		codes3 = r.GetCodes3()
+		actualStage=codes1
 
 		//enviar jugada realizada
 	case "send":
-		r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
-		log.Printf("Greeting: %s", r.GetMessage())
+		if actualStage != "none"{
+			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			//log.Printf("Greeting: %s", r.GetMessage())
+			actualStage=r.GetStage()
+			alive = r.GetAlive()
+	} else{
+		fmt.Println("todavía no comienza el SquidGame o aún no estás inscrito.")
+	}
 
 		//solicitar monto
 	case "amount":
@@ -65,40 +81,11 @@ func main() {
 		fmt.Println("ingresaste un mal comando.")
 
 	}
-	if signed {
-		fmt.Println("estas inscrito en el juego del calamar")
-	} else {
-		fmt.Println("no estas inscrito en el juego del calamar")
-	}
-	/*if first == "join"{
-		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber, State: state})
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
-		log.Printf("Greeting: %s", r.GetMessage())
-
-	} else if first == "send"{
-
-		r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: stage})
-		if err2 != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
-		log.Printf("Greeting: %s", r2.GetMessage())
-
-	} else if first == "amount"{
-		r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
-		if err3 != nil {
-			log.Fatalf("no se pudo solicitar el monto: %v", err3)
-		}
-		log.Printf("Greeting: %s", r2.GetMessage())
 
 	}
-	else {
-		fmt.Println("ingresaste un mal comando.")
-	}*/
+	if alive == false {
 
-	
-	
-	
+	}
+	fmt.Println("me muero (explota)")
 
 }
