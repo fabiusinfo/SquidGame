@@ -41,6 +41,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	alive:=true
 	if int(in.GetPlay())>liderPlay{
 		alive=false
+		log.Printf("entro")
 	}
 	//log.Printf("Greeting: %s", r.GetStage())
 
