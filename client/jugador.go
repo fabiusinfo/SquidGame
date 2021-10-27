@@ -64,7 +64,7 @@ func main() {
 			}
 			//enviar jugada realizada
 		case "send":
-			if actualStage != "none" & started == true{
+			if actualStage != "none" && started == true{
 				
 				play, err2 := strconv.Atoi(play)
 				playsend:=int32(play)
