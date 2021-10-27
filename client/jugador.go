@@ -14,7 +14,7 @@ import (
 
 func main() {
 	var action string
-	playerNumber := "1"
+	playerNumber := 15
 	play := "2"
 	actualStage:="none"
 	codes1 := "none"
@@ -24,7 +24,7 @@ func main() {
 	started:=false
 	var playerCodes[16]string
 	//inscribimos los bots
-	for i:=0 ; i<16 ; i++ {
+	for i:=0 ; i<15 ; i++ {
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 		if err != nil {
@@ -73,7 +73,7 @@ func main() {
 			// unirse al juego del calamar
 		case "join":
 			if actualStage == "none" {
-				r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
+				r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: int32(playerNumber)})
 				if err != nil {
 					log.Fatalf("could not greet: %v", err)
 				}
