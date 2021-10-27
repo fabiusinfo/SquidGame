@@ -79,6 +79,7 @@ func main() {
 				//log.Printf("Greeting: %s", r.GetMessage())
 				actualStage=r.GetStage()
 				alive = r.GetAlive()
+				started = r.GetStarted()
 		} else{
 			fmt.Println("todavía no comienza el SquidGame o aún no estás inscrito.")
 		}
