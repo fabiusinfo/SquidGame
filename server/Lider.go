@@ -120,7 +120,7 @@ func main() {
 		}
 	
 	}
-	if playerAmount == 16 {
+	if totalPlayers == 16 {
 		//se da inicio al juego
 		fmt.Println("escribe start para comenzar la etapa 1: ")
 		fmt.Scanln(&start)
