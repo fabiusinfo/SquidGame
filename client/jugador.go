@@ -25,6 +25,16 @@ func main() {
 	var playerCodes[16]string
 	//inscribimos los bots
 	for i:=0 ; i<16 ; i++ {
+		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
+		}
+
+		servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
 		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: i})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
