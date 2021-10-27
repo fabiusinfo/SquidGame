@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"log"
 	"time"
+	"math/rand"
 )
 
 func main() {
