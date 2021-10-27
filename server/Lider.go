@@ -45,7 +45,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatalf("could not greet: %v", err)
 	}*/
 	if started == true {
-		alive:=true
 		if int(in.GetPlay())>liderPlay{
 			alive=false
 		}
