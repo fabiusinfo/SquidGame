@@ -27,7 +27,7 @@ message HelloReply {
 //mensajes de jugadores
 
 message JoinRequest {
-    string player= 1;
+    int32 player= 1;
 
 }
 
