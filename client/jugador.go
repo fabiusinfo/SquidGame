@@ -110,7 +110,7 @@ func main() {
 
 				for i:=0 ; i<15 ; i++ {
 					if playersAlive[i]==true{
-						fmt.Println(Itoa(i))
+						fmt.Println(strconv.Itoa(i))
 					conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 					if err != nil {
