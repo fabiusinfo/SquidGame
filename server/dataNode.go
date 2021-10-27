@@ -52,7 +52,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 	play_int := in.GetPlay()
-	play_str := strconv.Itoa(play_int)
+	play_str := strconv.Itoa(2)
 
 	b = append(b, []byte(play_str)...)
 	errtxt = ioutil.WriteFile(path, b, 0644)
