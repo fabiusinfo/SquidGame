@@ -18,6 +18,7 @@ type server struct {
 }
 var liderPlay int
 var actualStage string
+var started bool
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
 	return &pb.JoinReply{Codes1:"1rv" , Codes2: "2tc",Codes3:"3tn"}, nil
 }
@@ -45,7 +46,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 	//log.Printf("Greeting: %s", r.GetStage())
 
-	return &pb.SendReply{Stage: actualStage, Alive:alive}, nil
+	return &pb.SendReply{Stage: actualStage, Alive:alive, Started:started}, nil
 }
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
@@ -100,6 +101,7 @@ func main() {
 	var playerAmount int
 	var stage string
 	var next string
+	started = false
 	actualStage ="1rv"
 	fmt.Println("ingresa la cantidad de jugadores: ")
 	fmt.Scanln(&playerAmount)
@@ -111,7 +113,7 @@ func main() {
 		if start == "start"{
 			fmt.Println("Ha comenzado la etapa: "+actualStage)
 		}
-
+		started=true
 		for i := 0; i < 4; i++ {
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda "+ strconv.Itoa(i+1))

@@ -22,6 +22,7 @@ func main() {
 	codes2 := "none"
 	codes3 := "none"
 	alive := true
+	started:=false
 	//state:="2"
 	fmt.Println(codes1+codes2+codes3)
 	for alive {
@@ -47,20 +48,23 @@ func main() {
 		switch action{
 			// unirse al juego del calamar
 		case "join":
-			r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
-			if err != nil {
-				log.Fatalf("could not greet: %v", err)
+			if actualStage != "none" {
+				r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
+				if err != nil {
+					log.Fatalf("could not greet: %v", err)
+				}
+				log.Printf("inscrito")
+				//signed=r.GetSigned()
+				codes1 = r.GetCodes1()
+				codes2 = r.GetCodes2()
+				codes3 = r.GetCodes3()
+				actualStage=codes1
+			} else {
+				fmt.Println("ya estas inscrito.")
 			}
-			log.Printf("inscrito")
-			//signed=r.GetSigned()
-			codes1 = r.GetCodes1()
-			codes2 = r.GetCodes2()
-			codes3 = r.GetCodes3()
-			actualStage=codes1
-
 			//enviar jugada realizada
 		case "send":
-			if actualStage != "none"{
+			if actualStage != "none" & started == true{
 				
 				play, err2 := strconv.Atoi(play)
 				playsend:=int32(play)
