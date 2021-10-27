@@ -19,7 +19,11 @@ type server struct {
 var liderPlay int
 var actualStage string
 var started bool
+var players[16]string
+var totalPlayers int
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
+	players[in.GetPlayer()]="alive"
+	totalPlayers+=1
 	return &pb.JoinReply{Codes1:"1rv" , Codes2: "2tc",Codes3:"3tn"}, nil
 }
 
@@ -39,14 +43,17 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}*/
-	alive:=true
-	if int(in.GetPlay())>liderPlay{
-		alive=false
-		log.Printf("entro")
+	if started == true {
+		alive:=true
+		if int(in.GetPlay())>liderPlay{
+			alive=false
+		}
+	} else {
+
 	}
 	//log.Printf("Greeting: %s", r.GetStage())
 
-	return &pb.SendReply{Stage: actualStage, Alive:alive, Started:started}, nil
+	return &pb.SendReply{Stage: actualStage, Alive:alive}, nil
 }
 	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
@@ -98,14 +105,20 @@ func main() {
 	///////////// Interfaz
 
 	var start string
-	var playerAmount int
 	var stage string
 	var next string
 	started = false
-	actualStage ="1rv"
-	fmt.Println("ingresa la cantidad de jugadores: ")
-	fmt.Scanln(&playerAmount)
-
+	actualStage = "1rv"
+	totalPlayers = 0
+	SquidGame:="none"
+	for totalPlayers!=16{
+		fmt.Println("escribe start para iniciar el SquidGame: ")
+		fmt.Scanln(&SquidGame)
+		if totalPlayers!=16{
+			fmt.Println("no hay suficientes jugadores para comenzar el SquidGame ")
+		}
+	
+	}
 	if playerAmount == 16 {
 		//se da inicio al juego
 		fmt.Println("escribe start para comenzar la etapa 1: ")

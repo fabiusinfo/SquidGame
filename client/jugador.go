@@ -17,13 +17,27 @@ func main() {
 	playerNumber := "1"
 	play := "2"
 	actualStage:="none"
-	//signed:=false
 	codes1 := "none"
 	codes2 := "none"
 	codes3 := "none"
 	alive := true
 	started:=false
-	//state:="2"
+	var playerCodes[16]string
+	//inscribimos los bots
+	for i:=0 ; i<16 ; i++ {
+		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: i})
+		if err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+		log.Printf("inscrito")
+		//signed=r.GetSigned()
+		playerCodes[i]=r.GetCodes1()
+		//codes1 = r.GetCodes1()
+		//codes2 = r.GetCodes2()
+		//codes3 = r.GetCodes3()
+		//actualStage=codes1
+		fmt.Println("inscripción al SquidGame realizada con éxito.")
+	}
 	fmt.Println(codes1+codes2+codes3)
 	for alive {
 		fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
@@ -79,7 +93,7 @@ func main() {
 				//log.Printf("Greeting: %s", r.GetMessage())
 				actualStage=r.GetStage()
 				alive = r.GetAlive()
-				started = r.GetStarted()
+				//started = r.GetStarted()
 		} else{
 			fmt.Println("todavía no comienza el SquidGame o aún no estás inscrito.")
 		}
