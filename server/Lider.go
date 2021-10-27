@@ -100,7 +100,7 @@ func main() {
 	var playerAmount int
 	var stage string
 	var next string
-	stage ="1rv"
+	actualStage ="1rv"
 	fmt.Println("ingresa la cantidad de jugadores: ")
 	fmt.Scanln(&playerAmount)
 
@@ -113,6 +113,7 @@ func main() {
 		}
 
 		for i := 0; i < 4; i++ {
+			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda "+ strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay += liderPlay+6

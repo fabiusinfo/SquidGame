@@ -25,69 +25,69 @@ func main() {
 	//state:="2"
 	fmt.Println(codes1+codes2+codes3)
 	for alive {
-	fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
-	fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
-	fmt.Scanln(&action)
+		fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
+		fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
+		fmt.Scanln(&action)
 
-	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
-
-	servicePlayer := pb.NewSquidGameServiceClient(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-
-	switch action{
-		// unirse al juego del calamar
-	case "join":
-		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 		if err != nil {
-			log.Fatalf("could not greet: %v", err)
+			panic("cannot connect with server " + err.Error())
 		}
-		log.Printf("inscrito")
-		//signed=r.GetSigned()
-		codes1 = r.GetCodes1()
-		codes2 = r.GetCodes2()
-		codes3 = r.GetCodes3()
-		actualStage=codes1
 
-		//enviar jugada realizada
-	case "send":
-		if actualStage != "none"{
-			fmt.Println("realiza jugada: ")
-			fmt.Scanln(&play)
-			play, err2 := strconv.Atoi(play)
-			playsend:=int32(play)
-			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: playsend, Stage: actualStage})
+		servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		switch action{
+			// unirse al juego del calamar
+		case "join":
+			r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 			if err != nil {
-				log.Fatalf("fallo 1: %v", err)
+				log.Fatalf("could not greet: %v", err)
 			}
-			if err2 != nil {
-				log.Fatalf("fallo 2: %v", err2)
-			}
-			//log.Printf("Greeting: %s", r.GetMessage())
-			actualStage=r.GetStage()
-			alive = r.GetAlive()
-	} else{
-		fmt.Println("todavía no comienza el SquidGame o aún no estás inscrito.")
-	}
+			log.Printf("inscrito")
+			//signed=r.GetSigned()
+			codes1 = r.GetCodes1()
+			codes2 = r.GetCodes2()
+			codes3 = r.GetCodes3()
+			actualStage=codes1
 
-		//solicitar monto
-	case "amount":
-		message:= "solicito monto"
-		r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
-		if err != nil {
-			log.Fatalf("no se pudo solicitar el monto: %v", err)
+			//enviar jugada realizada
+		case "send":
+			if actualStage != "none"{
+				fmt.Println("realiza jugada: ")
+				fmt.Scanln(&play)
+				play, err2 := strconv.Atoi(play)
+				playsend:=int32(play)
+				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: playsend, Stage: actualStage})
+				if err != nil {
+					log.Fatalf("fallo 1: %v", err)
+				}
+				if err2 != nil {
+					log.Fatalf("fallo 2: %v", err2)
+				}
+				//log.Printf("Greeting: %s", r.GetMessage())
+				actualStage=r.GetStage()
+				alive = r.GetAlive()
+		} else{
+			fmt.Println("todavía no comienza el SquidGame o aún no estás inscrito.")
 		}
-		log.Printf("Greeting: %s", r.GetMonto())
-	
-	default:
-		fmt.Println("ingresaste un mal comando.")
 
-	}
+			//solicitar monto
+		case "amount":
+			message:= "solicito monto"
+			r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+			if err != nil {
+				log.Fatalf("no se pudo solicitar el monto: %v", err)
+			}
+			log.Printf("Greeting: %s", r.GetMonto())
+		
+		default:
+			fmt.Println("ingresaste un mal comando.")
+
+		}
 
 	}
 	if alive == false {
