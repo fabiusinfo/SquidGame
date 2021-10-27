@@ -28,6 +28,10 @@ func main() {
 		fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
 		fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
 		fmt.Scanln(&action)
+		if action == "send"{
+			fmt.Println("realiza jugada: ")
+			fmt.Scanln(&play)
+		}
 
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -37,9 +41,8 @@ func main() {
 
 		servicePlayer := pb.NewSquidGameServiceClient(conn)
 
-		ctx, _ := context.WithTimeout(context.Background(), time.Second)
-		//defer cancel()
-		//cancel
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
 
 		switch action{
 			// unirse al juego del calamar
@@ -58,8 +61,7 @@ func main() {
 			//enviar jugada realizada
 		case "send":
 			if actualStage != "none"{
-				fmt.Println("realiza jugada: ")
-				fmt.Scanln(&play)
+				
 				play, err2 := strconv.Atoi(play)
 				playsend:=int32(play)
 				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: playsend, Stage: actualStage})
