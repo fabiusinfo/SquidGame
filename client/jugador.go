@@ -22,7 +22,7 @@ func main() {
 	codes3 := "none"
 	alive := true
 	started:=false
-	var playerCodes[16]string
+	var playersAlive[16]bool
 	//inscribimos los bots
 	for i:=0 ; i<15 ; i++ {
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -41,9 +41,9 @@ func main() {
 		}
 		log.Printf("inscrito")
 		//signed=r.GetSigned()
-		playerCodes[i]=r.GetCodes1()
+		playersAlive[i]=true
 		//codes1 = r.GetCodes1()
-		//codes2 = r.GetCodes2()
+		codes2 = r.GetCodes2()
 		//codes3 = r.GetCodes3()
 		//actualStage=codes1
 		fmt.Println("inscripción al SquidGame realizada con éxito.")
@@ -104,6 +104,41 @@ func main() {
 				actualStage=r.GetStage()
 				alive = r.GetAlive()
 				//started = r.GetStarted()
+
+				//Este pedazo de código es para las jugadas de los bots
+
+				for i:=0 ; i<15 ; i++ {
+					if playersAlive[i]==true{
+					conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+					if err != nil {
+						panic("cannot connect with server " + err.Error())
+					}
+
+					servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+					ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+					defer cancel()
+
+					//play, err2 := strconv.Atoi(play)
+					playsend:=int32(play)
+					r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(i), Play: playsend, Stage: actualStage})
+					if err != nil {
+						log.Fatalf("fallo 1: %v", err)
+					}
+					//if err2 != nil {
+					//	log.Fatalf("fallo 2: %v", err2)
+					//}
+					//log.Printf("Greeting: %s", r.GetMessage())
+					actualStage=r.GetStage()
+					playersAlive[i] = r.GetAlive()
+					//started = r.GetStarted()
+					}	
+							
+				}
+
+
+
 		} else{
 			fmt.Println("todavía no comienza el SquidGame o aún no estás inscrito.")
 		}
