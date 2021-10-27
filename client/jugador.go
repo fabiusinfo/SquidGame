@@ -93,7 +93,7 @@ func main() {
 				
 				play, err2 := strconv.Atoi(play)
 				playsend:=int32(play)
-				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: playsend, Stage: actualStage})
+				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(playerNumber), Play: playsend, Stage: actualStage})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}
