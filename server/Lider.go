@@ -116,7 +116,7 @@ func main() {
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda "+ strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
-			liderPlay += liderPlay+6
+			liderPlay = liderPlay+6
 			fmt.Println("jugada de lider: "+ strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
