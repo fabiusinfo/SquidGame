@@ -123,7 +123,11 @@ func main() {
 					defer cancel()
 
 					//play, err2 := strconv.Atoi(play)
-					playsend:=int32(play)
+					//playsend:=int32(play)
+					//jugada aleatoria	
+					rand.Seed(time.Now().UnixNano())
+        				playsend:= rand.Int63n(10)+1
+						
 					r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(i), Play: playsend, Stage: actualStage})
 					if err != nil {
 						log.Fatalf("fallo 1: %v", err)
