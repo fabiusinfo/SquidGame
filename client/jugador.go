@@ -50,7 +50,7 @@ func main() {
 	}
 	fmt.Println(codes1+codes2+codes3)
 	for alive {
-		fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
+		//fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
 		fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
 		fmt.Scanln(&action)
 		if action == "send"{
