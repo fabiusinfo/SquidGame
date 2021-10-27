@@ -129,7 +129,7 @@ func main() {
 					rand.Seed(time.Now().UnixNano())
         				playsend:= rand.Int63n(10)+1
 						
-					r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(i), Play: playsend, Stage: actualStage})
+						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(i), Play: int32(playsend), Stage: actualStage})
 					if err != nil {
 						log.Fatalf("fallo 1: %v", err)
 					}
