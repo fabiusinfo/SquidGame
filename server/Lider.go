@@ -12,6 +12,8 @@ import (
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"github.com/streadway/amqp"
 	"google.golang.org/grpc"
+
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type server struct {
