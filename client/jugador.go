@@ -37,8 +37,9 @@ func main() {
 
 		servicePlayer := pb.NewSquidGameServiceClient(conn)
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
+		ctx, _ := context.WithTimeout(context.Background(), time.Second)
+		//defer cancel()
+		//cancel
 
 		switch action{
 			// unirse al juego del calamar
