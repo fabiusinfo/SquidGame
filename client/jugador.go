@@ -48,7 +48,7 @@ func main() {
 		switch action{
 			// unirse al juego del calamar
 		case "join":
-			if actualStage != "none" {
+			if actualStage == "none" {
 				r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 				if err != nil {
 					log.Fatalf("could not greet: %v", err)
