@@ -5,6 +5,7 @@ import (
 	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
+
 	//"math/rand"
 	//"strconv"
 	//"time"
@@ -16,12 +17,10 @@ type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
 
-
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	monto := "5000"
-	return &pb.AmountReply{Monto: monto  }, nil
+	return &pb.AmountReply{Monto: monto}, nil
 }
-
 
 func main() {
 	listner, err := net.Listen("tcp", ":8080")
@@ -36,7 +35,5 @@ func main() {
 	if err = serv.Serve(listner); err != nil {
 		panic("cannot initialize the server" + err.Error())
 
-	
-
-}
+	}
 }

@@ -51,10 +51,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	play_int := in.GetPlay()
-	play_str := strconv.Itoa(int(play_int))
 
-	b = append(b, []byte(play_str)...)
+	b = append(b, []byte(in.GetPlay()+" \n"+)...)
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {
@@ -62,7 +60,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 	fmt.Println("yo lo recibí")
-	return &pb.SendReply{Message: "El DataNode recibió las jugadas con éxito\n" + "El jugador " + in.GetPlayer() + " hizo una jugada " + play_str + "en la etapa" + in.GetStage()}, nil
+	return &pb.SendReply{Message: "El DataNode recibió las jugadas con éxito\n" + "El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()}, nil
 }
 
 func main() {

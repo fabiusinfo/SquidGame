@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net"
-	"time"
-	"strconv"
 	"math/rand"
+	"net"
+	"strconv"
+	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
@@ -16,19 +16,21 @@ import (
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
+
 var liderPlay int
 var actualStage string
 var started bool
-var players[16]string
+var players [16]string
 var totalPlayers int
+
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
-	players[in.GetPlayer()]="alive"
-	totalPlayers+=1
-	return &pb.JoinReply{Codes1:"1rv" , Codes2: "2tc",Codes3:"3tn"}, nil
+	players[in.GetPlayer()] = "alive"
+	totalPlayers += 1
+	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	alive:=true
+	alive := true
 	/*conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
 	if err != nil {
@@ -45,20 +47,21 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatalf("could not greet: %v", err)
 	}*/
 	if started == true {
-		if int(in.GetPlay())>liderPlay{
-			alive=false
+		if int(in.GetPlay()) > liderPlay {
+			alive = false
 		}
 	} else {
 
 	}
 	//log.Printf("Greeting: %s", r.GetStage())
 
-	return &pb.SendReply{Stage: actualStage, Alive:alive}, nil
+	return &pb.SendReply{Stage: actualStage, Alive: alive}, nil
 }
-	//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
+
+//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
-	message:="solicito monto"
+	message := "solicito monto"
 	//conexión con el pozo
 	conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
 
@@ -75,7 +78,7 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	}
 	log.Printf("Greeting: %s", r.GetMonto())
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
-	}
+}
 
 func main() {
 	//códigos Etapas
@@ -110,61 +113,61 @@ func main() {
 	started = false
 	actualStage = "1rv"
 	totalPlayers = 0
-	SquidGame:="none"
-	for totalPlayers!=16{
+	SquidGame := "none"
+	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
 		fmt.Scanln(&SquidGame)
-		if totalPlayers!=16{
+		if totalPlayers != 16 {
 			fmt.Println("no hay suficientes jugadores para comenzar el SquidGame ")
 		}
-	
+
 	}
 	if totalPlayers == 16 {
 		//se da inicio al juego
 		fmt.Println("escribe start para comenzar la etapa 1: ")
 		fmt.Scanln(&start)
-		if start == "start"{
-			fmt.Println("Ha comenzado la etapa: "+actualStage)
+		if start == "start" {
+			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
-		started=true
+		started = true
 		for i := 0; i < 4; i++ {
 			rand.Seed(time.Now().UnixNano())
-			fmt.Println("ronda "+ strconv.Itoa(i+1))
+			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
-			liderPlay = liderPlay+6
-			fmt.Println("jugada de lider: "+ strconv.Itoa(liderPlay))
+			liderPlay = liderPlay + 6
+			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
 		}
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
-		actualStage="2tc"
+		actualStage = "2tc"
 
 		fmt.Println("escribe start para comenzar la etapa 2: ")
 		fmt.Scanln(&start)
-		if start == "start"{
-			fmt.Println("Ha comenzado la etapa: "+stage)
+		if start == "start" {
+			fmt.Println("Ha comenzado la etapa: " + stage)
 		}
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
-		actualStage="3tn"
+		actualStage = "3tn"
 
 		fmt.Println("escribe start para comenzar la etapa 3: ")
 		fmt.Scanln(&start)
-		if start == "start"{
-			fmt.Println("Ha comenzado la etapa: "+stage)
+		if start == "start" {
+			fmt.Println("Ha comenzado la etapa: " + stage)
 		}
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
-		stage="4end"
-
+		stage = "4end"
 	}
-	//enviar
 
-	
+	//RabbitMQ toma, send, enviar, envianding
+
+	//enviar
 
 	// NAMENOOOOOOOOOOOOOOOOOOOOOODEEEEEEEEEEEEEEE
 	/*conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
