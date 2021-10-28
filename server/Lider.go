@@ -11,7 +11,7 @@ import (
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/streadway/amqp"
+
 	"google.golang.org/grpc"
 )
 
