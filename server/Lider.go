@@ -10,10 +10,9 @@ import (
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
+	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/streadway/amqp"
 	"google.golang.org/grpc"
-
-	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type server struct {
@@ -25,6 +24,13 @@ var actualStage string
 var started bool
 var players [16]string
 var totalPlayers int
+
+// Error para el Rabbit
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+	}
+}
 
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
 	players[in.GetPlayer()] = "alive"
@@ -49,9 +55,45 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}*/
+
+	//RabbitMQ
+
 	if started == true {
 		if int(in.GetPlay()) > liderPlay {
 			alive = false
+			conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+			failOnError(err, "Failed to connect to RabbitMQ")
+			defer conn.Close()
+
+			ch, err := conn.Channel()
+			failOnError(err, "Failed to open a channel")
+			defer ch.Close()
+
+			q, err := ch.QueueDeclare(
+				"hello", // name
+				false,   // durable
+				false,   // delete when unused
+				false,   // exclusive
+				false,   // no-wait
+				nil,     // arguments
+			)
+			failOnError(err, "Failed to declare a queue")
+
+			i := in.GetPlayer()
+			i_str := strconv.Itoa(i)
+			body := "Jugador: " + i_str + "ah muerto"
+
+			err = ch.Publish(
+				"",     // exchange
+				q.Name, // routing key
+				false,  // mandatory
+				false,  // immediate
+				amqp.Publishing{
+					ContentType: "text/plain",
+					Body:        []byte(body),
+				})
+			failOnError(err, "Failed to publish a message")
+			log.Printf(" [x] Sent %d ", body)
 		}
 	} else {
 
@@ -81,47 +123,6 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	}
 	log.Printf("Greeting: %s", r.GetMonto())
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
-}
-
-//RabbitMQ toma, send, enviar, envianding
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
-}
-
-func enviarPozo() {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
-
-	q, err := ch.QueueDeclare(
-		"hello", // name
-		false,   // durable
-		false,   // delete when unused
-		false,   // exclusive
-		false,   // no-wait
-		nil,     // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
-
-	body := "Hello World!"
-	err = ch.Publish(
-		"",     // exchange
-		q.Name, // routing key
-		false,  // mandatory
-		false,  // immediate
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(body),
-		})
-	failOnError(err, "Failed to publish a message")
-	log.Printf(" [x] Sent %s", body)
 }
 
 func main() {
