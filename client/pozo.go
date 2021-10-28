@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"log"
+	amqp "github.com/rabbitmq/amqp091-go"
 	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
-
+	
 	//"math/rand"
 	//"strconv"
 	//"time"
@@ -65,6 +67,25 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body){}
+			// Resgistrar registro de muertes, registarr registro aweonao tonto culiao te veo te mato no weon noOOOOO
+			var path = "./registro_de_muertes.txt"
+			b, errtxt := ioutil.ReadFile(path)
+
+			if errtxt != nil {
+				log.Fatal(errtxt)
+			}
+
+
+			b = append(b, []byte(in.GetPlay()+" \n"+)...)
+			errtxt = ioutil.WriteFile(path, b, 0644)
+
+			if errtxt != nil {
+				log.Fatal(errtxt)
+			}
+
+			fmt.Println("Alguien murio")
+			return &pb.SendReply{Message: "El Pozo recibió la muerte de \n" + "El jugador: " + in.GetPlayer()}, nil
+
 		}
 	}()
 
