@@ -101,7 +101,6 @@ func main() {
 			}
 
 			fmt.Println("Alguien murio")
-			return &pb.SendReply{Message: "El Pozo recibió la muerte de \n" + "El jugador: " + in.GetPlayer()}, nil
 
 		}
 	}()
