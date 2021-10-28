@@ -2,12 +2,16 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
 	"log"
+
 	amqp "github.com/rabbitmq/amqp091-go"
+
 	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
-	
+
 	//"math/rand"
 	//"strconv"
 	//"time"
@@ -48,9 +52,6 @@ func main() {
 
 	}
 
-
-
-
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -81,18 +82,18 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
-// Resgistrar registro de muertes, registarr registro aweonao tonto culiao te veo te mato no weon noOOOOO
+	// Resgistrar registro de muertes, registarr registro aweonao tonto culiao te veo te mato no weon noOOOOO
 	var path = "./registro_de_muertes.txt"
 	b, errtxt := ioutil.ReadFile(path)
-	
+
 	if errtxt != nil {
 		log.Fatal(errtxt)
 	}
-	
+
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			b = append(b, []byte(d.Body+" \n"+)...)
+			b = append(b, []byte(d.Body+" \n")...)
 			errtxt = ioutil.WriteFile(path, b, 0644)
 			if errtxt != nil {
 				log.Fatal(errtxt)
@@ -107,5 +108,3 @@ func main() {
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 }
-
-
