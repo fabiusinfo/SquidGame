@@ -33,6 +33,24 @@ func failOnError(err error, msg string) {
 }
 
 func main() {
+
+	listner, err := net.Listen("tcp", ":8080")
+	//conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+	if err != nil {
+		panic("cannot connect with server " + err.Error())
+	}
+
+	serv := grpc.NewServer()
+	pb.RegisterSquidGameServiceServer(serv, &server{})
+	if err = serv.Serve(listner); err != nil {
+		panic("cannot initialize the server" + err.Error())
+
+	}
+
+
+
+
 	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -75,13 +93,13 @@ func main() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body){}
 			b = append(b, []byte(d.Body+" \n"+)...)
-		errtxt = ioutil.WriteFile(path, b, 0644)
-		if errtxt != nil {
-			log.Fatal(errtxt)
-		}
+			errtxt = ioutil.WriteFile(path, b, 0644)
+			if errtxt != nil {
+				log.Fatal(errtxt)
+			}
 
-		fmt.Println("Alguien murio")
-		return &pb.SendReply{Message: "El Pozo recibió la muerte de \n" + "El jugador: " + in.GetPlayer()}, nil
+			fmt.Println("Alguien murio")
+			return &pb.SendReply{Message: "El Pozo recibió la muerte de \n" + "El jugador: " + in.GetPlayer()}, nil
 
 		}
 	}()
@@ -91,19 +109,3 @@ func main() {
 }
 
 
-
-func main() {
-	listner, err := net.Listen("tcp", ":8080")
-	//conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
-
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
-
-	serv := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(serv, &server{})
-	if err = serv.Serve(listner); err != nil {
-		panic("cannot initialize the server" + err.Error())
-
-	}
-}
