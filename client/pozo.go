@@ -93,7 +93,8 @@ func main() {
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
-			b = append(b, []byte(d.Body+" \n")...)
+			cadena := string(d.Body)
+			b = append(b, []byte(cadena+" \n")...)
 			errtxt = ioutil.WriteFile(path, b, 0644)
 			if errtxt != nil {
 				log.Fatal(errtxt)
