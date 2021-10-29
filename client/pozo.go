@@ -38,6 +38,7 @@ func failOnError(err error, msg string) {
 
 func main() {
 
+	go func(){
 	listner, err := net.Listen("tcp", ":8080")
 	//conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -88,7 +89,7 @@ func main() {
 
 	if errtxt != nil {
 		log.Fatal(errtxt)
-	}
+	}}()
 
 	go func() {
 		/*for d := range msgs {
