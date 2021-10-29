@@ -85,15 +85,15 @@ func main() {
 
 	forever := make(chan bool)
 	// Resgistrar registro de muertes, registarr registro aweonao tonto culiao te veo te mato no weon noOOOOO
-	/*var path = "./registro_de_muertes.txt"
+	var path = "./registro_de_muertes.txt"
 	b, errtxt := ioutil.ReadFile(path)
 
 	if errtxt != nil {
 		log.Fatal(errtxt)
-	}*/
+	}
 
 	go func() {
-		/*for d := range msgs {
+		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 			cadena := string(d.Body)
 			b = append(b, []byte(cadena+" \n")...)
@@ -104,10 +104,8 @@ func main() {
 
 			fmt.Println("Alguien murio")
 
-		}*/
-		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
 		}
+		
 	}()
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
