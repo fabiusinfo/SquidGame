@@ -41,6 +41,7 @@ func crearArchivo(path string) {
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	//aqui implementar la escribicion jugador_1__ronda_1.txt
 	getplayer := strconv.Itoa(int(in.GetPlayer()))
+	getplay := strconv.Itoa(int(in.GetPlay()))
 	var path = "DN_plays/jugador_" + getplayer + "__ronda_" + in.GetStage() + ".txt"
 
 	crearArchivo(path)
@@ -52,7 +53,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	b = append(b)
+	b = append(b, []byte(getplay+" \n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {
