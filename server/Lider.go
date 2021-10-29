@@ -61,7 +61,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	if started == true {
 		if int(in.GetPlay()) > liderPlay {
 			alive = false
-			conn, err := amqp.Dial("amqp://admin:test@10.6.43.43:5672/")
+			conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 			failOnError(err, "Failed to connect to RabbitMQ")
 			defer conn.Close()
 
