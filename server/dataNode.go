@@ -61,7 +61,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 	fmt.Println("yo lo recibí")
-	return &pb.SendReply{Message: "El DataNode recibió las jugadas con éxito\n" + "El jugador " + getplayer + " hizo una jugada " + getplay + "en la etapa" + in.GetStage()}, nil
+	return &pb.SendReply{Stage: "Amongus", Alive: true}, nil
 }
 
 func main() {
