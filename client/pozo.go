@@ -36,7 +36,7 @@ func failOnError(err error, msg string) {
 	}
 }
 
-var monto_actual int = 100000000
+var monto_actual int = 0
 
 func main() {
 
@@ -93,11 +93,13 @@ func main() {
 	if errtxt != nil {
 		log.Fatal(errtxt)
 	}
-	monto_str := strconv.Itoa(monto_actual)
+
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 			cadena := string(d.Body)
+			monto_actual = monto_actual + 100000000
+			monto_str := strconv.Itoa(monto_actual)
 			b = append(b, []byte(cadena+" "+monto_str+" \n")...)
 			errtxt = ioutil.WriteFile(path, b, 0644)
 			if errtxt != nil {
