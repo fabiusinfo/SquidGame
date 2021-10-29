@@ -3,30 +3,30 @@ package main
 import (
 	//"context"
 	//"fmt"
-	//"io/ioutil"
+	"io/ioutil"
 	//"math/rand"
 	//"strconv"
 	//"time"
 	"log"
-	//"net"
+	"net"
 	
 	amqp "github.com/rabbitmq/amqp091-go"
 
 	//"fmt"
-	//pb "github.com/fabiusinfo/SquidGame/proto"
-	//"google.golang.org/grpc"
+	pb "github.com/fabiusinfo/SquidGame/proto"
+	"google.golang.org/grpc"
 
 	
 )
 
-/*type server struct {
+type server struct {
 	pb.UnimplementedSquidGameServiceServer
-}*/
+}
 
-/*func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
+func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	monto := "5000"
 	return &pb.AmountReply{Monto: monto}, nil
-}*/
+}
 
 // RabbitMQ dale recibe
 
