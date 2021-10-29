@@ -98,7 +98,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			log.Printf(" [x] Sent %d ", body)
 		}
 	} else {
-
+		log.Printf("aún no comienza el nivel")
 	}
 	log.Printf("Greeting: %s", r.GetStage())
 
