@@ -4,19 +4,19 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"strconv"
+
 	//"math/rand"
 	//"strconv"
 	//"time"
 	"log"
 	"net"
-	
+
 	amqp "github.com/rabbitmq/amqp091-go"
 
 	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
-
-	
 )
 
 type server struct {
@@ -36,22 +36,24 @@ func failOnError(err error, msg string) {
 	}
 }
 
+var monto_actual int = 100000000
+
 func main() {
 
-	go func(){
-	listner, err := net.Listen("tcp", ":8080")
-	//conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+	go func() {
+		listner, err := net.Listen("tcp", ":8080")
+		//conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
+		}
 
-	serv := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(serv, &server{})
-	if err = serv.Serve(listner); err != nil {
-		panic("cannot initialize the server" + err.Error())
+		serv := grpc.NewServer()
+		pb.RegisterSquidGameServiceServer(serv, &server{})
+		if err = serv.Serve(listner); err != nil {
+			panic("cannot initialize the server" + err.Error())
 
-	}
+		}
 	}()
 
 	conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
@@ -91,12 +93,12 @@ func main() {
 	if errtxt != nil {
 		log.Fatal(errtxt)
 	}
-
+	monto_str := strconv.Itoa(monto_actual)
 	go func() {
 		for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 			cadena := string(d.Body)
-			b = append(b, []byte(cadena+" \n")...)
+			b = append(b, []byte(cadena+" "+monto_str+" \n")...)
 			errtxt = ioutil.WriteFile(path, b, 0644)
 			if errtxt != nil {
 				log.Fatal(errtxt)
@@ -105,7 +107,7 @@ func main() {
 			fmt.Println("Alguien murio")
 
 		}
-		
+
 	}()
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")

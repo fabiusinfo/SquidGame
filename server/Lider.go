@@ -83,7 +83,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			s := in.GetStage()
 			i_str := strconv.Itoa(int(i))
 
-			body := "Jugador_" + i_str + "Ronda_" + s
+			body := "Jugador_" + i_str + " Ronda_" + s
 
 			err = ch.Publish(
 				"",     // exchange
