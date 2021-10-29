@@ -100,7 +100,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	} else {
 
 	}
-	//log.Printf("Greeting: %s", r.GetStage())
+	log.Printf("Greeting: %s", r.GetStage())
 
 	return &pb.SendReply{Stage: actualStage, Alive: alive}, nil
 }
