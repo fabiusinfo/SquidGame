@@ -80,10 +80,10 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			failOnError(err, "Failed to declare a queue")
 
 			i := in.GetPlayer()
-			s := in.GetStage()
-			i_str := strconv.Itoa(int(i))
-			s_str := strconv.Itoa(int(s))
-			body := "Jugador_" + i_str + "Ronda_" + s_str + " "
+			i_str := in.GetStage()
+			s := strconv.Itoa(int(i))
+
+			body := "Jugador_" + i_str + "Ronda_" + s
 
 			err = ch.Publish(
 				"",     // exchange
