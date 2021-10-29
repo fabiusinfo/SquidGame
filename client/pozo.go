@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	//"fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
