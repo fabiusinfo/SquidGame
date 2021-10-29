@@ -91,7 +91,7 @@ func main() {
 	}
 
 	go func() {
-		for d := range msgs {
+		/*for d := range msgs {
 			log.Printf("Received a message: %s", d.Body)
 			cadena := string(d.Body)
 			b = append(b, []byte(cadena+" \n")...)
@@ -102,6 +102,9 @@ func main() {
 
 			fmt.Println("Alguien murio")
 
+		}*/
+		for d := range msgs {
+			log.Printf("Received a message: %s", d.Body)
 		}
 	}()
 
