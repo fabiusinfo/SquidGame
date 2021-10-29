@@ -9,7 +9,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 
 	//"fmt"
-	//pb "github.com/fabiusinfo/SquidGame/proto"
+	pb "github.com/fabiusinfo/SquidGame/proto"
 	//"google.golang.org/grpc"
 
 	//"math/rand"
