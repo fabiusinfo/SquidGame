@@ -40,7 +40,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	} else {
 		direction = "10.6.43.44"
 	}
-
+fmt.Println("se reciben los siguientes parametros: player: "+ strconv.Itoa(int(in.GetPlayer())) +" ; play:  "+strconv.Itoa(int(in.GetPlay())))
 	conn, err := grpc.Dial(direction+":9000", grpc.WithInsecure())
 	serviceNN := pb.NewSquidGameServiceClient(conn)
 
