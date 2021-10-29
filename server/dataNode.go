@@ -52,7 +52,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 
-	b = append(b, []byte(in.GetPlay()+" \n"+)...)
+	b = append(b) ...
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {

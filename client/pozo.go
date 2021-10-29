@@ -24,7 +24,7 @@ type server struct {
 }
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
-	monto := "5000"
+	monto := strconv.Itoa(monto_actual)
 	return &pb.AmountReply{Monto: monto}, nil
 }
 
