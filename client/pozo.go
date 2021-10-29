@@ -19,14 +19,14 @@ import (
 	
 )
 
-type server struct {
+/*type server struct {
 	pb.UnimplementedSquidGameServiceServer
-}
+}*/
 
-func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
+/*func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	monto := "5000"
 	return &pb.AmountReply{Monto: monto}, nil
-}
+}*/
 
 // RabbitMQ dale recibe
 
