@@ -47,7 +47,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 	serviceLider := pb.NewSquidGameServiceClient(conn)
-	alive:=true
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
