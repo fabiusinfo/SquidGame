@@ -61,7 +61,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	if started == true {
 		if int(in.GetPlay()) > liderPlay {
 			alive = false
-			conn, err := amqp.Dial("amqp://guest:guest@10.6.43.43:5672/")
+			conn, err := amqp.Dial("amqp://admin:test@10.6.43.43:5672/")
 			failOnError(err, "Failed to connect to RabbitMQ")
 			defer conn.Close()
 
@@ -80,8 +80,10 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			failOnError(err, "Failed to declare a queue")
 
 			i := in.GetPlayer()
+			s := in.GetStage()
 			i_str := strconv.Itoa(int(i))
-			body := "Jugador: " + i_str + "ah muerto"
+			s_str := strconv.Itoa(int(s))
+			body := "Jugador_" + i_str + "Ronda_" + s_str + " " + monto
 
 			err = ch.Publish(
 				"",     // exchange
