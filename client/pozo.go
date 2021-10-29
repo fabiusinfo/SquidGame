@@ -52,6 +52,7 @@ func main() {
 		panic("cannot initialize the server" + err.Error())
 
 	}
+	}()
 
 	conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
@@ -89,7 +90,7 @@ func main() {
 
 	if errtxt != nil {
 		log.Fatal(errtxt)
-	}}()
+	}
 
 	go func() {
 		/*for d := range msgs {
