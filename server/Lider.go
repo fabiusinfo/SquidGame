@@ -59,7 +59,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	//RabbitMQ
 
 	if started == true {
-		pPlay:= strconv.Atoi(in.GetPlay())
+		pPlay, errpPlay:= strconv.Atoi(in.GetPlay())
+		fmt.Println(pPlay, errpPlay, reflect.TypeOf(intVar))
 		if pPlay > liderPlay {
 			alive = false
 			conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
