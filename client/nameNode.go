@@ -51,7 +51,7 @@ fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ;
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: se recibió")
+	log.Printf("Greeting: %s", r.GetStage())
 
 	// añadir al texto
 	b, errtxt := ioutil.ReadFile("registro.txt")
