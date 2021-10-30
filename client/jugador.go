@@ -15,7 +15,7 @@ import (
 
 func main() {
 	var action string
-	playerNumber := 15
+	playerNumber := "15"
 	play := "2"
 	actualStage:="none"
 	codes1 := "none"
@@ -36,7 +36,7 @@ func main() {
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: int32(i)})
+		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: strconv.Itoa(i)})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
@@ -74,7 +74,7 @@ func main() {
 			// unirse al juego del calamar
 		case "join":
 			if actualStage == "none" {
-				r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: int32(playerNumber)})
+				r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 				if err != nil {
 					log.Fatalf("could not greet: %v", err)
 				}
@@ -93,9 +93,8 @@ func main() {
 		case "send":
 			if actualStage != "none" && started == true{
 				
-				play, err2 := strconv.Atoi(play)
-				playsend:=int32(play)
-				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(playerNumber), Play: playsend, Stage: actualStage})
+		
+				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}
@@ -112,6 +111,7 @@ func main() {
 				for i:=0 ; i<15 ; i++ {
 					if playersAlive[i]==true{
 						fmt.Println(strconv.Itoa(i))
+						botPlayer:=strconv.Itoa(i)
 					conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 					if err != nil {
@@ -128,8 +128,8 @@ func main() {
 					//jugada aleatoria	
 					rand.Seed(time.Now().UnixNano())
         				playsend:= rand.Int63n(10)+1
-						
-						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: int32(i), Play: int32(playsend), Stage: actualStage})
+						playsend= strconv.Itoa(playsend)
+						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend, Stage: actualStage})
 					if err != nil {
 						log.Fatalf("fallo 1: %v", err)
 					}

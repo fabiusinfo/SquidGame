@@ -59,7 +59,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	//RabbitMQ
 
 	if started == true {
-		if int(in.GetPlay()) > liderPlay {
+		pPlay:= strconv.Atoi(in.GetPlay())
+		if pPlay > liderPlay {
 			alive = false
 			conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 			failOnError(err, "Failed to connect to RabbitMQ")
@@ -81,9 +82,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 			i := in.GetPlayer()
 			s := in.GetStage()
-			i_str := strconv.Itoa(int(i))
+			//i_str := strconv.Itoa(int(i))
 
-			body := "Jugador_" + i_str + " Ronda_" + s
+			body := "Jugador_" + i + " Ronda_" + s
 
 			err = ch.Publish(
 				"",     // exchange

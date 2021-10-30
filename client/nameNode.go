@@ -40,7 +40,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	} else {
 		direction = "10.6.43.44"
 	}
-fmt.Println("se reciben los siguientes parametros: player: "+ strconv.Itoa(int(in.GetPlayer())) +" ; play:  "+strconv.Itoa(int(in.GetPlay())))
+fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ; play:  "+in.GetPlay())
 	conn, err := grpc.Dial(direction+":9000", grpc.WithInsecure())
 	serviceNN := pb.NewSquidGameServiceClient(conn)
 
@@ -60,7 +60,7 @@ fmt.Println("se reciben los siguientes parametros: player: "+ strconv.Itoa(int(i
 		log.Fatal(errtxt)
 	}
 
-	b = append(b, []byte("Jugador_"+strconv.Itoa(int(in.GetPlayer()))+" Ronda_"+in.GetStage()+" "+direction+"\n")...)
+	b = append(b, []byte("Jugador_"+in.GetPlayer()+" Ronda_"+in.GetStage()+" "+direction+"\n")...)
 	errtxt = ioutil.WriteFile("registro.txt", b, 0644)
 
 	if errtxt != nil {
