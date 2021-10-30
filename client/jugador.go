@@ -14,9 +14,14 @@ import (
 	"time"
 )
 
+type PlayerStruct struct {
+	id    string
+	alive bool
+}
+
 func main() {
 	var action string
-	playerNumber := "15"
+	playerNumber := "1"
 	play := "2"
 	actualStage := "none"
 	codes1 := "none"
@@ -24,9 +29,15 @@ func main() {
 	codes3 := "none"
 	alive := true
 	started := false
-	var playersAlive [16]bool
+	//	var playersAlive [16]bool
+
+	var list_of_players []PlayerStruct
+
 	//inscribimos los bots
 	for i := 0; i < 15; i++ {
+
+		list_of_players = append(list_of_players, PlayerStruct{i + 2, true})
+
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 		if err != nil {
@@ -37,13 +48,14 @@ func main() {
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: strconv.Itoa(i)})
+		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: strconv.Itoa(i + 2)})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
 		log.Printf("inscrito")
 		//signed=r.GetSigned()
-		playersAlive[i] = true
+		list_of_players[i].id = strconv.Itoa(i + 2)
+		list_of_players[i].alive = true
 		//codes1 = r.GetCodes1()
 		codes2 = r.GetCodes2()
 		//codes3 = r.GetCodes3()
@@ -79,6 +91,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("could not greet: %v", err)
 				}
+				list_of_players = append(list_of_players, PlayerStruct{playerNumber, true})
 				log.Printf("inscrito")
 				//signed=r.GetSigned()
 				codes1 = r.GetCodes1()
@@ -105,15 +118,15 @@ func main() {
 
 				//log.Printf("Greeting: %s", r.GetMessage())
 				actualStage = r.GetStage()
-				alive = r.GetAlive()
+				list_of_players[15].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
 				//started = r.GetStarted()
 
 				//Este pedazo de código es para las jugadas de los bots
 
 				for i := 0; i < 15; i++ {
-					if playersAlive[i] == true {
+					if list_of_players[i].alive == true {
 						fmt.Println(strconv.Itoa(i))
-						botPlayer := strconv.Itoa(i)
+						botPlayer := list_of_players[i].id
 						conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 						if err != nil {
@@ -140,7 +153,7 @@ func main() {
 						//}
 						//log.Printf("Greeting: %s", r.GetMessage())
 						actualStage = r.GetStage()
-						playersAlive[i] = r.GetAlive()
+						list_of_players[i].alive = r.GetAlive()
 						//started = r.GetStarted()
 					}
 
