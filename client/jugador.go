@@ -130,8 +130,8 @@ func main() {
 						//jugada aleatoria
 						rand.Seed(time.Now().UnixNano())
 						playsend := rand.Int63n(10) + 1
-						playsend = strconv.Itoa(int(playsend))
-						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend, Stage: actualStage})
+						playsend_str := strconv.Itoa(int(playsend))
+						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend_str, Stage: actualStage})
 						if err != nil {
 							log.Fatalf("fallo 1: %v", err)
 						}
