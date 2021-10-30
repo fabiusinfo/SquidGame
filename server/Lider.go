@@ -22,7 +22,7 @@ type server struct {
 var liderPlay int
 var actualStage string
 var started bool
-var players [16]string
+//var players [16]string
 var totalPlayers int
 
 // Error para el Rabbit
@@ -33,7 +33,7 @@ func failOnError(err error, msg string) {
 }
 
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
-	players[in.GetPlayer()] = "alive"
+	//players[in.GetPlayer()] = "alive"
 	totalPlayers += 1
 	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
 }
