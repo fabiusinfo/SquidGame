@@ -60,7 +60,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 	if started == true {
 		pPlay, errpPlay:= strconv.Atoi(in.GetPlay())
-		fmt.Println(pPlay, errpPlay, reflect.TypeOf(intVar))
+		if errPlay != nil {
+		log.Fatalf("could not greet: %v", errpPlay)
+	}
 		if pPlay > liderPlay {
 			alive = false
 			conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
