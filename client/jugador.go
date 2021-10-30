@@ -25,7 +25,7 @@ func main() {
 	started:=false
 	var playersAlive[16]bool
 	//inscribimos los bots
-	for int i:=0 ; i<15 ; i++ {
+	for i:=0 ; i<15 ; i++ {
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 		if err != nil {
