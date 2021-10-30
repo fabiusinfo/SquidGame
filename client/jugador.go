@@ -36,7 +36,7 @@ func main() {
 	//inscribimos los bots
 	for i := 0; i < 15; i++ {
 
-		list_of_players = append(list_of_players, PlayerStruct{i + 2, true})
+		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true})
 
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
