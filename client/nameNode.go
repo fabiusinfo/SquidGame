@@ -67,7 +67,7 @@ fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ;
 		log.Fatal(errtxt)
 	}
 
-	return &pb.SendReply{Message: "Recibi la info, se la mando al datanode"}, nil
+	return &pb.SendReply{Stage:"www", Alive:true}, nil
 }
 
 func main() {
