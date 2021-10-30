@@ -48,7 +48,7 @@ func main() {
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
-		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: strconv.Itoa(i + 2)})
+		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: list_of_players[i].id})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
