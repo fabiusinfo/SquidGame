@@ -60,7 +60,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 	if started == true {
 		pPlay, errpPlay:= strconv.Atoi(in.GetPlay())
-		if errPlay != nil {
+		if errpPlay != nil {
 		log.Fatalf("could not greet: %v", errpPlay)
 	}
 		if pPlay > liderPlay {
