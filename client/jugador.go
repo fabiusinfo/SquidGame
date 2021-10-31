@@ -30,7 +30,7 @@ func main() {
 	codes2 := "none"
 	codes3 := "none"
 	alive := true
-	started := false
+	//started := false
 	flag1 := false
 	//	var playersAlive [16]bool
 
@@ -42,7 +42,7 @@ func main() {
 	}
 	servicePlayer := pb.NewSquidGameServiceClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-
+	defer cancel()
 	//inscripción
 	for !flag1 {
 		fmt.Println("escribe join para inscribirse en el SquidGame: ")
