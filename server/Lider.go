@@ -112,7 +112,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		} else {
 			log.Printf("aún no comienza el nivel")
 		}
-		log.Printf("Greeting: %s", r.GetStage())
+		//log.Printf("Greeting: %s", r.GetStage())
 
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
 	} else {
