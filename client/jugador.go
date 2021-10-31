@@ -35,8 +35,13 @@ func main() {
 	//	var playersAlive [16]bool
 
 	var list_of_players []PlayerStruct
+	
 	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+	if err != nil {
+		panic("cannot connect with server " + err.Error())
+	}
 	servicePlayer := pb.NewSquidGameServiceClient(conn)
+	
 	//inscripción
 	for !flag1{
 		fmt.Println("escribe join para inscribirse en el SquidGame: ")
