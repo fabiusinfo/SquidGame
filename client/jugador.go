@@ -114,7 +114,7 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[0].round})
+			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[0].round, Score:list_of_players[0].score + strconv.Atoi(play)})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}
@@ -127,6 +127,7 @@ func main() {
 				actualStage = r.GetStage()
 				list_of_players[0].round = r.GetRound()
 				list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
+				list_of_players[0].score + strconv.Atoi(play)
 				//started = r.GetStarted()
 
 			

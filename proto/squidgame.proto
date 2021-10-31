@@ -42,6 +42,7 @@ message SendRequest {
     string play = 2; //jugada
     string stage = 3; //etapa
     int32 round = 4; //ronda
+    int32 score = 5; //puntaje
     
 }
 
