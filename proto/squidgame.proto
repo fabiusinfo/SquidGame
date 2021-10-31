@@ -41,11 +41,13 @@ message SendRequest {
     string player = 1; //id jugador
     string play = 2; //jugada
     string stage = 3; //etapa
+    int32 round = 4; //ronda
 }
 
 message SendReply {
     string stage = 1;
     bool alive = 2;
+    int32 round = 3;
 }
 
 message AmountRequest {

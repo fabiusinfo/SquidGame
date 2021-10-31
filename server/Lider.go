@@ -21,6 +21,7 @@ type server struct {
 
 var liderPlay int
 var actualStage string
+var actualRound int32
 var started bool
 //var players [16]string
 var totalPlayers int
@@ -39,74 +40,79 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	alive := true
-	conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
+	if in.GetRound() == actualRound {
+		alive := true
+		conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
-	serviceLider := pb.NewSquidGameServiceClient(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-
-	r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-
-	//RabbitMQ
-
-	if started == true {
-		pPlay, errpPlay:= strconv.Atoi(in.GetPlay())
-		if errpPlay != nil {
-		log.Fatalf("could not greet: %v", errpPlay)
-	}
-		if pPlay > liderPlay {
-			alive = false
-			conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
-			failOnError(err, "Failed to connect to RabbitMQ")
-			defer conn.Close()
-
-			ch, err := conn.Channel()
-			failOnError(err, "Failed to open a channel")
-			defer ch.Close()
-
-			q, err := ch.QueueDeclare(
-				"hello", // name
-				false,   // durable
-				false,   // delete when unused
-				false,   // exclusive
-				false,   // no-wait
-				nil,     // arguments
-			)
-			failOnError(err, "Failed to declare a queue")
-
-			i := in.GetPlayer()
-			s := in.GetStage()
-			//i_str := strconv.Itoa(int(i))
-
-			body := "Jugador_" + i + " Ronda_" + s
-
-			err = ch.Publish(
-				"",     // exchange
-				q.Name, // routing key
-				false,  // mandatory
-				false,  // immediate
-				amqp.Publishing{
-					ContentType: "text/plain",
-					Body:        []byte(body),
-				})
-			failOnError(err, "Failed to publish a message")
-			log.Printf(" [x] Sent %d ", body)
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
 		}
-	} else {
-		log.Printf("aún no comienza el nivel")
-	}
-	log.Printf("Greeting: %s", r.GetStage())
 
-	return &pb.SendReply{Stage: actualStage, Alive: alive}, nil
+		serviceLider := pb.NewSquidGameServiceClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
+		r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round:in.GetRound()})
+		if err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+
+		//RabbitMQ
+
+		if started == true {
+			pPlay, errpPlay:= strconv.Atoi(in.GetPlay())
+			if errpPlay != nil {
+			log.Fatalf("could not greet: %v", errpPlay)
+		}
+			if pPlay > liderPlay {
+				alive = false
+				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+				failOnError(err, "Failed to connect to RabbitMQ")
+				defer conn.Close()
+
+				ch, err := conn.Channel()
+				failOnError(err, "Failed to open a channel")
+				defer ch.Close()
+
+				q, err := ch.QueueDeclare(
+					"hello", // name
+					false,   // durable
+					false,   // delete when unused
+					false,   // exclusive
+					false,   // no-wait
+					nil,     // arguments
+				)
+				failOnError(err, "Failed to declare a queue")
+
+				i := in.GetPlayer()
+				s := in.GetStage()
+				//i_str := strconv.Itoa(int(i))
+
+				body := "Jugador_" + i + " Ronda_" + s
+
+				err = ch.Publish(
+					"",     // exchange
+					q.Name, // routing key
+					false,  // mandatory
+					false,  // immediate
+					amqp.Publishing{
+						ContentType: "text/plain",
+						Body:        []byte(body),
+					})
+				failOnError(err, "Failed to publish a message")
+				log.Printf(" [x] Sent %d ", body)
+			}
+		} else {
+			log.Printf("aún no comienza el nivel")
+		}
+		log.Printf("Greeting: %s", r.GetStage())
+
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
+	} else {
+		log.Printf("ya realizaste la jugada en esta ronda")
+	}
 }
 
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
@@ -165,6 +171,8 @@ func main() {
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
+	//var ronda_actual int32
+	//ronda_actual = 0
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
 		fmt.Scanln(&SquidGame)
@@ -181,7 +189,9 @@ func main() {
 			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
 		started = true
+		actualRound=0
 		for i := 0; i < 4; i++ {
+			actualRound+=1
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))

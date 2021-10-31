@@ -17,6 +17,7 @@ import (
 type PlayerStruct struct {
 	id    string
 	alive bool
+	round int32
 }
 
 func main() {
@@ -36,7 +37,7 @@ func main() {
 	//inscribimos los bots
 	for i := 0; i < 15; i++ {
 
-		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true})
+		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1})
 
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -91,7 +92,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("could not greet: %v", err)
 				}
-				list_of_players = append(list_of_players, PlayerStruct{playerNumber, true})
+				list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 1})
 				log.Printf("inscrito")
 				//signed=r.GetSigned()
 				codes1 = r.GetCodes1()
@@ -107,7 +108,7 @@ func main() {
 		case "send":
 			if actualStage != "none" && started == true {
 
-				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage})
+				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[15].round})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}
@@ -118,6 +119,7 @@ func main() {
 
 				//log.Printf("Greeting: %s", r.GetMessage())
 				actualStage = r.GetStage()
+				list_of_players[15].round = r.GetRound()
 				list_of_players[15].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
 				//started = r.GetStarted()
 
@@ -144,7 +146,7 @@ func main() {
 						rand.Seed(time.Now().UnixNano())
 						playsend := rand.Int63n(10) + 1
 						playsend_str := strconv.Itoa(int(playsend))
-						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend_str, Stage: actualStage})
+						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend_str, Stage: actualStage, Round:list_of_players[i].round})
 						if err != nil {
 							log.Fatalf("fallo 1: %v", err)
 						}
@@ -153,6 +155,7 @@ func main() {
 						//}
 						//log.Printf("Greeting: %s", r.GetMessage())
 						actualStage = r.GetStage()
+						list_of_players[i].round = r.GetRound()
 						list_of_players[i].alive = r.GetAlive()
 						//started = r.GetStarted()
 					}
