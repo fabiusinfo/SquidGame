@@ -9,7 +9,7 @@ import (
 
 	//"math/rand"
 	"log"
-	"math/rand"
+	//"math/rand"
 	"strconv"
 	"time"
 )
@@ -35,7 +35,7 @@ func main() {
 	//	var playersAlive [16]bool
 
 	var list_of_players []PlayerStruct
-
+	servicePlayer := pb.NewSquidGameServiceClient(conn)
 	//inscripción
 	for !flag1{
 		fmt.Println("escribe join para inscribirse en el SquidGame: ")
@@ -114,7 +114,7 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[0].round, Score:list_of_players[0].score + strconv.Atoi(play)})
+			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[0].round, Score:list_of_players[0].score})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}
