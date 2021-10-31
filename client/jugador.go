@@ -113,6 +113,8 @@ func main() {
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
+				fmt.Println("escribe un número del 1 al 10: ")
+				fmt.Scanln(&play)
 
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
