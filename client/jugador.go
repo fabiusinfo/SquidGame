@@ -7,9 +7,8 @@ import (
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 
-	//"math/rand"
+	"math/rand"
 	"log"
-	//"math/rand"
 	"strconv"
 	"time"
 )
