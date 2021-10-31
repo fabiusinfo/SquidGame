@@ -74,7 +74,7 @@ func main() {
 	}
 
 	//inscribimos los bots
-	/*
+	
 	for i := 0; i < 15; i++ {
 
 		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1, 0})
@@ -102,7 +102,7 @@ func main() {
 		//codes3 = r.GetCodes3()
 		//actualStage=codes1
 		fmt.Println("inscripción al SquidGame realizada con éxito.")
-	}*/
+	}
 	fmt.Println(codes1 + codes2 + codes3)
 	//Aquí finaliza la inscripción
 
