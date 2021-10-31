@@ -147,6 +147,17 @@ func main() {
 
 			} else if action == "check" {
 				message := "solicito monto"
+
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+				if err != nil {
+					panic("cannot connect with server " + err.Error())
+				}
+
+				servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
 				r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
 				if err != nil {
 					log.Fatalf("no se pudo solicitar el monto: %v", err)
