@@ -41,6 +41,7 @@ func main() {
 		panic("cannot connect with server " + err.Error())
 	}
 	servicePlayer := pb.NewSquidGameServiceClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	
 	//inscripción
 	for !flag1{
