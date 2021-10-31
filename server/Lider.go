@@ -28,6 +28,7 @@ var liderPlay int
 var actualStage string
 var actualRound int32
 var started bool
+var list_of_players []PlayerStruct
 
 //var players [16]string
 var totalPlayers int
@@ -191,7 +192,6 @@ func main() {
 	}()
 
 	///////////// Interfaz
-	var list_of_players []PlayerStruct
 	var start string
 	var stage string
 	var next string
