@@ -30,7 +30,7 @@ func main() {
 	codes2 := "none"
 	codes3 := "none"
 	alive := true
-	//started := false
+	started := false
 	flag1 := false
 	//	var playersAlive [16]bool
 
