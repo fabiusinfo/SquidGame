@@ -168,13 +168,11 @@ func main() {
 			} else {
 				fmt.Println("ingresaste mal el comando")
 			}
-		}
-		// sección bots
+
+				// sección bots
 
 		//Este pedazo de código es para las jugadas de los bots
-		fmt.Println("entra en 1")
 		for i := 1; i < 16; i++ {
-			fmt.Println("entra en 2")
 			if list_of_players[i].alive == true {
 				fmt.Println(strconv.Itoa(i))
 				botPlayer := list_of_players[i].id
@@ -210,6 +208,8 @@ func main() {
 			}
 
 		}
+		}
+	
 
 	}
 	fmt.Println("me muero (explota)")
