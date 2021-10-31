@@ -146,7 +146,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
-	var list_of_players []PlayerStruct
 	message := "solicito monto"
 	//conexión con el pozo
 	conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
@@ -192,7 +191,7 @@ func main() {
 	}()
 
 	///////////// Interfaz
-
+	var list_of_players []PlayerStruct
 	var start string
 	var stage string
 	var next string
