@@ -65,8 +65,8 @@ func main() {
 		codes3 = r.GetCodes3()
 		actualStage = codes1
 		started = true
-		if started == true
-			{fmt.Println("inscripción al SquidGame realizada con éxito.")
+		if started == true {
+			fmt.Println("inscripción al SquidGame realizada con éxito.")
 		}
 	} else {
 		fmt.Println("ya estas inscrito.")
