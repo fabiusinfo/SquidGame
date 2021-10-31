@@ -112,39 +112,43 @@ func main() {
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
-				fmt.Println("escribe un número del 1 al 10: ")
-				fmt.Scanln(&play)
+				if list_of_players[0].alive ==true{
+					fmt.Println("escribe un número del 1 al 10: ")
+					fmt.Scanln(&play)
 
-				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+					conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
-				if err != nil {
-					panic("cannot connect with server " + err.Error())
-				}
+					if err != nil {
+						panic("cannot connect with server " + err.Error())
+					}
 
-				servicePlayer := pb.NewSquidGameServiceClient(conn)
+					servicePlayer := pb.NewSquidGameServiceClient(conn)
 
-				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-				defer cancel()
+					ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+					defer cancel()
 
-				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round: list_of_players[0].round, Score: list_of_players[0].score})
-				if err != nil {
-					log.Fatalf("fallo 1: %v", err)
-				}
-				/*
-					if err2 != nil {
-						log.Fatalf("fallo 2: %v", err2)
-					} */
+					r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round: list_of_players[0].round, Score: list_of_players[0].score})
+					if err != nil {
+						log.Fatalf("fallo 1: %v", err)
+					}
+					/*
+						if err2 != nil {
+							log.Fatalf("fallo 2: %v", err2)
+						} */
 
-				//log.Printf("Greeting: %s", r.GetMessage())
-				actualStage = r.GetStage()
-				list_of_players[0].round = r.GetRound()
-				list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
-				play_int, err32 := strconv.Atoi(play)
-				if err32 != nil {
-					log.Fatalf("fallo 32: %v", err32)
-				}
-				list_of_players[0].score = list_of_players[0].score + int32(play_int)
-				//started = r.GetStarted()
+					//log.Printf("Greeting: %s", r.GetMessage())
+					actualStage = r.GetStage()
+					list_of_players[0].round = r.GetRound()
+					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
+					play_int, err32 := strconv.Atoi(play)
+					if err32 != nil {
+						log.Fatalf("fallo 32: %v", err32)
+					}
+					list_of_players[0].score = list_of_players[0].score + int32(play_int)
+					//started = r.GetStarted()
+			} else {
+				fmt.Println("el jugador está muerto")
+			}
 
 			} else if action == "check" {
 				message := "solicito monto"
