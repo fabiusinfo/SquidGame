@@ -19,6 +19,11 @@ type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
 
+type PlayerStruct struct {
+	id    string
+	alive bool
+}
+
 var liderPlay int
 var actualStage string
 var actualRound int32
@@ -37,6 +42,7 @@ func failOnError(err error, msg string) {
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
 	//players[in.GetPlayer()] = "alive"
 	totalPlayers += 1
+	list_of_players = append(list_of_players, PlayerStruct{in.GetPlayer(), true})
 	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
 }
 
@@ -75,6 +81,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				}
 				if pPlay > liderPlay {
 					alive = false
+					for i:=0; i<16; i++ {
+						if list_of_players[i].id == in.GetPlayer(){
+							list_of_players[i].alive=false
+						}
+					}
 					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 					failOnError(err, "Failed to connect to RabbitMQ")
 					defer conn.Close()
@@ -109,7 +120,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 							Body:        []byte(body),
 						})
 					failOnError(err, "Failed to publish a message")
-					log.Printf(" [x] Sent %d ", body)
+					log.Printf(" ha muerdo: %d ", body)
+					//log.Printf(" [x] Sent %d ", body)
 				}
 			} else {
 				log.Printf("aún no comienza el nivel")
@@ -134,6 +146,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
+	var list_of_players []PlayerStruct
 	message := "solicito monto"
 	//conexión con el pozo
 	conn, err := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
@@ -219,6 +232,11 @@ func main() {
 		}
 
 		// Hay que anunciar a los ganadores del nivel con un print o algo asi
+		for i:=0 ; i<16 ; i++ {
+			if list_of_players[i].alive ==true {
+				fmt.Println("el jugador: "+list_of_players[i].id + "pasa al siguiente nivel")
+			}
+		}
 
 		actualStage = "2tc"
 
