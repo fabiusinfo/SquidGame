@@ -18,6 +18,7 @@ type PlayerStruct struct {
 	id    string
 	alive bool
 	round int32
+	score int32 
 }
 
 func main() {
@@ -49,7 +50,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 1})
+		list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 1,0})
 		log.Printf("inscrito")
 		//signed=r.GetSigned()
 		codes1 = r.GetCodes1()
@@ -65,7 +66,7 @@ func main() {
 	//inscribimos los bots
 	for i := 0; i < 15; i++ {
 
-		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1})
+		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1,0})
 
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -113,7 +114,7 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[15].round})
+			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[0].round})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}

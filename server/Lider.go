@@ -23,6 +23,7 @@ var liderPlay int
 var actualStage string
 var actualRound int32
 var started bool
+
 //var players [16]string
 var totalPlayers int
 
@@ -41,36 +42,39 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
+
 	if in.GetRound() == actualRound {
+		
+
 
 		//envío al nameNode
-		
+
 		/*
-		
-		conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
-		if err != nil {
-			panic("cannot connect with server " + err.Error())
-		}
+			conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
-		serviceLider := pb.NewSquidGameServiceClient(conn)
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
+			serviceLider := pb.NewSquidGameServiceClient(conn)
 
-		r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round:in.GetRound()})
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+
+			r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round:in.GetRound()})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
 		*/
 
 		//Envío al Pozo
 
 		if started == true {
-			pPlay, errpPlay:= strconv.Atoi(in.GetPlay())
+			pPlay, errpPlay := strconv.Atoi(in.GetPlay())
 			if errpPlay != nil {
-			log.Fatalf("could not greet: %v", errpPlay)
-		}
+				log.Fatalf("could not greet: %v", errpPlay)
+			}
 			if pPlay > liderPlay {
 				alive = false
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
@@ -115,10 +119,21 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		//log.Printf("Greeting: %s", r.GetStage())
 
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
-	} else {
+	}
+	else if actualRound == 0 {
+		log.Printf("Aun no comienza el nivel")
+		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
+		
+	}
+	else if in.GetScore() >=21{
+		fmt.Println("Jugador 1 a ganado ")
+		break
+	}
+	else {
 		log.Printf("ya realizaste la jugada en esta ronda")
 		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 	}
+	
 }
 
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
@@ -195,9 +210,10 @@ func main() {
 			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
 		started = true
-		actualRound=0
+		actualRound = 0
 		for i := 0; i < 4; i++ {
-			actualRound+=1
+
+			actualRound += 1
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
@@ -206,9 +222,9 @@ func main() {
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
 		}
-		fmt.Println("se ha muerto ste men: 2")
-		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
-		fmt.Println("los ganadores de la ronda son 1,2,3 ")
+
+		// Hay que anunciar a los ganadores del nivel con un print o algo asi
+
 		actualStage = "2tc"
 
 		fmt.Println("escribe start para comenzar la etapa 2: ")
