@@ -116,19 +116,19 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		}
 		//log.Printf("Greeting: %s", r.GetStage())
 
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1, Score: in.GetScore()}, nil
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
 	}
 	if actualRound == 0 {
 		log.Printf("Aun no comienza el nivel")
-		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound(), Score: in.GetScore()}, nil
+		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 
 	}
 	if in.GetScore() >= 21 {
 		fmt.Println("Jugador 1 a ganado ")
-		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound(), Score: in.GetScore()}, nil
+		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 	} else {
 		log.Printf("ya realizaste la jugada en esta ronda")
-		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound(), Score: in.GetScore()}, nil
+		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 	}
 
 }
