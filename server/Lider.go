@@ -82,9 +82,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				}
 				if pPlay > liderPlay {
 					alive = false
-					for i:=0; i<16; i++ {
-						if list_of_players[i].id == in.GetPlayer(){
-							list_of_players[i].alive=false
+					for i := 0; i < 16; i++ {
+						if list_of_players[i].id == in.GetPlayer() {
+							list_of_players[i].alive = false
 						}
 					}
 					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
@@ -129,18 +129,12 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			}
 			//log.Printf("Greeting: %s", r.GetStage())
 
-			
-
 		}
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
-		} else {
+	} else {
 		log.Printf("ya realizaste la jugada en esta ronda")
 		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 	}
-
-
-
-
 
 }
 
@@ -231,9 +225,9 @@ func main() {
 		}
 
 		// Hay que anunciar a los ganadores del nivel con un print o algo asi
-		for i:=0 ; i<16 ; i++ {
-			if list_of_players[i].alive ==true {
-				fmt.Println("el jugador: "+list_of_players[i].id + "pasa al siguiente nivel")
+		for i := 0; i < 16; i++ {
+			if list_of_players[i].alive == true {
+				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
 			}
 		}
 
