@@ -44,8 +44,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	alive := true
 
 	if in.GetRound() == actualRound {
-		
-
 
 		//envío al nameNode
 
@@ -123,17 +121,16 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	if actualRound == 0 {
 		log.Printf("Aun no comienza el nivel")
 		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
-		
+
 	}
-	if in.GetScore() >=21{
+	if in.GetScore() >= 21 {
 		fmt.Println("Jugador 1 a ganado ")
 		break
-	}
-	else {
+	} else {
 		log.Printf("ya realizaste la jugada en esta ronda")
 		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 	}
-	
+
 }
 
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
