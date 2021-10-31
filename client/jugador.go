@@ -113,6 +113,7 @@ func main() {
 			fmt.Scanln(&action)
 			if action == "send" {
 				if list_of_players[0].alive ==true{
+					if list_of_players[0].score < 21 {
 					fmt.Println("escribe un número del 1 al 10: ")
 					fmt.Scanln(&play)
 
@@ -146,6 +147,9 @@ func main() {
 					}
 					list_of_players[0].score = list_of_players[0].score + int32(play_int)
 					//started = r.GetStarted()
+				} else {
+					fmt.Println(" lograste sumar 21, estas salvado")
+				}
 			} else {
 				fmt.Println("el jugador está muerto")
 			}
@@ -178,6 +182,7 @@ func main() {
 		//Este pedazo de código es para las jugadas de los bots
 		for i := 1; i < 16; i++ {
 			if list_of_players[i].alive == true {
+				if list_of_players[i].score < 21 {
 				fmt.Println(strconv.Itoa(i))
 				botPlayer := list_of_players[i].id
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -209,6 +214,15 @@ func main() {
 				list_of_players[i].round = r.GetRound()
 				list_of_players[i].alive = r.GetAlive()
 				//started = r.GetStarted()
+				play_int, err32 := strconv.Atoi(play)
+					if err32 != nil {
+						log.Fatalf("fallo 32: %v", err32)
+					}
+					list_of_players[i].score = list_of_players[i].score + int32(playsend)
+				}
+				else {
+					fmt.Println(" lograste sumar 21, estas salvado")
+				}
 			}
 
 		}
