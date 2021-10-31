@@ -116,9 +116,10 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			}
 			//log.Printf("Greeting: %s", r.GetStage())
 
-			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
+			
 
 		}
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
 		} else {
 		log.Printf("ya realizaste la jugada en esta ronda")
 		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
