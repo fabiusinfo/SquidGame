@@ -35,6 +35,7 @@ func main() {
 	//	var playersAlive [16]bool
 
 	var list_of_players []PlayerStruct
+	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 	servicePlayer := pb.NewSquidGameServiceClient(conn)
 	//inscripción
 	for !flag1{
@@ -127,7 +128,7 @@ func main() {
 				actualStage = r.GetStage()
 				list_of_players[0].round = r.GetRound()
 				list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
-				list_of_players[0].score + strconv.Atoi(play)
+				list_of_players[0].score = list_of_players[0].score + strconv.Atoi(play)
 				//started = r.GetStarted()
 
 			
