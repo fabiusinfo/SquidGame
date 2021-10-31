@@ -131,8 +131,7 @@ func main() {
 				//started = r.GetStarted()
 
 			
-		}
-		else if action == "check"{
+		}else if action == "check"{
 			message := "solicito monto"
 			r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
 			if err != nil {
@@ -140,8 +139,7 @@ func main() {
 			}
 			log.Printf("Greeting: %s", r.GetMonto())
 
-		}
-		else {
+		}else {
 			fmt.Println("ingresaste mal el comando")
 		}
 	}
@@ -211,7 +209,7 @@ fmt.Println("me muero (explota)")
 						log.Fatalf("fallo 2: %v", err2)
 					} */
 
-				//log.Printf("Greeting: %s", r.GetMessage())
+				//log.Printf("Greeting: %s", r.GetMessage()) */
 
 				/*
 				actualStage = r.GetStage()
