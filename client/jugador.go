@@ -214,10 +214,11 @@ func main() {
 				list_of_players[i].round = r.GetRound()
 				list_of_players[i].alive = r.GetAlive()
 				//started = r.GetStarted()
+				/*
 				play_int, err32 := strconv.Atoi(play)
 					if err32 != nil {
 						log.Fatalf("fallo 32: %v", err32)
-					}
+					}*/
 					list_of_players[i].score = list_of_players[i].score + int32(playsend)
 				}else {
 					fmt.Println(" lograste sumar 21, estas salvado")
