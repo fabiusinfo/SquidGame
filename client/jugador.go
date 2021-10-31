@@ -36,13 +36,7 @@ func main() {
 
 	var list_of_players []PlayerStruct
 
-	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
-	servicePlayer := pb.NewSquidGameServiceClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+
 	//inscripción
 	for !flag1 {
 		fmt.Println("escribe join para inscribirse en el SquidGame: ")
@@ -53,6 +47,13 @@ func main() {
 	}
 
 	if actualStage == "none" {
+		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
+		}
+		servicePlayer := pb.NewSquidGameServiceClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
 		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
@@ -73,6 +74,7 @@ func main() {
 	}
 
 	//inscribimos los bots
+	/*
 	for i := 0; i < 15; i++ {
 
 		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1, 0})
@@ -100,7 +102,7 @@ func main() {
 		//codes3 = r.GetCodes3()
 		//actualStage=codes1
 		fmt.Println("inscripción al SquidGame realizada con éxito.")
-	}
+	}*/
 	fmt.Println(codes1 + codes2 + codes3)
 	//Aquí finaliza la inscripción
 
