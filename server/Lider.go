@@ -120,12 +120,12 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
 	}
-	else if actualRound == 0 {
+	if actualRound == 0 {
 		log.Printf("Aun no comienza el nivel")
 		return &pb.SendReply{Stage: in.GetStage(), Alive: alive, Round: in.GetRound()}, nil
 		
 	}
-	else if in.GetScore() >=21{
+	if in.GetScore() >=21{
 		fmt.Println("Jugador 1 a ganado ")
 		break
 	}
