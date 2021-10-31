@@ -30,7 +30,7 @@ func main() {
 	codes2 := "none"
 	codes3 := "none"
 	alive := true
-	started := false
+	//started := false
 	flag1 := false
 	//	var playersAlive [16]bool
 
@@ -64,7 +64,7 @@ func main() {
 		codes2 = r.GetCodes2()
 		codes3 = r.GetCodes3()
 		actualStage = codes1
-		started = true
+		started := true
 		fmt.Println("inscripción al SquidGame realizada con éxito.")
 	} else {
 		fmt.Println("ya estas inscrito.")
