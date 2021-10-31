@@ -219,8 +219,7 @@ func main() {
 						log.Fatalf("fallo 32: %v", err32)
 					}
 					list_of_players[i].score = list_of_players[i].score + int32(playsend)
-				}
-				else {
+				}else {
 					fmt.Println(" lograste sumar 21, estas salvado")
 				}
 			}
