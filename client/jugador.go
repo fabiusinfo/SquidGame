@@ -30,9 +30,37 @@ func main() {
 	codes3 := "none"
 	alive := true
 	started := false
+	flag1:=false
 	//	var playersAlive [16]bool
 
 	var list_of_players []PlayerStruct
+
+	//inscripción
+	for !flag1{
+		fmt.Println("escribe join para inscribirse en el SquidGame: ")
+		fmt.Scanln(&action)
+		if action == "join" {
+			flag1=true
+		}
+	}
+
+	if actualStage == "none" {
+		r, err := servicePlayer.JoinGame(ctx, &pb.JoinRequest{Player: playerNumber})
+		if err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+		list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 1})
+		log.Printf("inscrito")
+		//signed=r.GetSigned()
+		codes1 = r.GetCodes1()
+		codes2 = r.GetCodes2()
+		codes3 = r.GetCodes3()
+		actualStage = codes1
+		started = true
+		fmt.Println("inscripción al SquidGame realizada con éxito.")
+	} else {
+		fmt.Println("ya estas inscrito.")
+	}
 
 	//inscribimos los bots
 	for i := 0; i < 15; i++ {
@@ -64,6 +92,69 @@ func main() {
 		fmt.Println("inscripción al SquidGame realizada con éxito.")
 	}
 	fmt.Println(codes1 + codes2 + codes3)
+	//Aquí finaliza la inscripción
+
+	//Aquí realizar jugada o checkAmount nivel 1 ¿?
+	for alive {
+	flag1=false
+	for !flag1{
+		fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
+		fmt.Scanln(&action)
+		if action == "send" {
+
+			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
+
+			servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+
+			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[15].round})
+				if err != nil {
+					log.Fatalf("fallo 1: %v", err)
+				}
+				/*
+					if err2 != nil {
+						log.Fatalf("fallo 2: %v", err2)
+					} */
+
+				//log.Printf("Greeting: %s", r.GetMessage())
+				actualStage = r.GetStage()
+				list_of_players[0].round = r.GetRound()
+				list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
+				//started = r.GetStarted()
+
+			
+		}
+		else if action == "check"{
+			message := "solicito monto"
+			r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+			if err != nil {
+				log.Fatalf("no se pudo solicitar el monto: %v", err)
+			}
+			log.Printf("Greeting: %s", r.GetMonto())
+
+		}
+		else {
+			fmt.Println("ingresaste mal el comando")
+		}
+	}
+}
+fmt.Println("me muero (explota)")
+
+}
+	
+
+	//Aquí realizar jugada o checkAmount nivel 2 ¿?
+
+
+	//Aquí realizar jugada o checkAmount nivel 3 ¿?
+
+/*
 	for alive {
 		//fmt.Println("ID del jugador: " + playerNumber + " , Jugada: " + play + " , etapa: " + actualStage)
 		fmt.Println("Activar jugador, join->unirse, send->enviar jugadas, amount->solicitar monto: ")
@@ -108,6 +199,7 @@ func main() {
 		case "send":
 			if actualStage != "none" && started == true {
 
+
 				r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: playerNumber, Play: play, Stage: actualStage, Round:list_of_players[15].round})
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
@@ -118,6 +210,8 @@ func main() {
 					} */
 
 				//log.Printf("Greeting: %s", r.GetMessage())
+
+				/*
 				actualStage = r.GetStage()
 				list_of_players[15].round = r.GetRound()
 				list_of_players[15].alive = r.GetAlive() // el jugador debe estar en la posicion 15 de la lista
