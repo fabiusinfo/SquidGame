@@ -40,11 +40,11 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-
+	alive := true
 	if in.GetRound() == actualRound {
 
 		//envío al nameNode
-		alive := true
+		
 		/*
 		
 		conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
