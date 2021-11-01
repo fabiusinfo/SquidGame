@@ -379,12 +379,7 @@ func main() {
 				if err != nil {
 					log.Fatalf("fallo 1: %v", err)
 				}
-				/*
-					if err2 != nil {
-						log.Fatalf("fallo 2: %v", err2)
-					} */
-
-				//log.Printf("Greeting: %s", r.GetMessage())
+		
 				actualStage = r.GetStage()
 				list_of_players[0].round = r.GetRound()
 				list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
@@ -393,11 +388,8 @@ func main() {
 					log.Fatalf("fallo 32: %v", err32)
 				}
 				list_of_players[0].score = list_of_players[0].score + int32(play_int)
-				//started = r.GetStarted()
-			} else {
-				actualStage = r.GetStage()
-				fmt.Println(" lograste sumar 21, estas salvado")
-			}
+
+			} 
 		} else {
 			fmt.Println("el jugador está muerto")
 		}
@@ -444,8 +436,6 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			//play, err2 := strconv.Atoi(play)
-			//playsend:=int32(play)
 			//jugada aleatoria
 			rand.Seed(time.Now().UnixNano())
 			playsend := rand.Int63n(10) + 1
@@ -454,19 +444,11 @@ func main() {
 			if err != nil {
 				log.Fatalf("fallo 1: %v", err)
 			}
-			//if err2 != nil {
-			//	log.Fatalf("fallo 2: %v", err2)
-			//}
-			//log.Printf("Greeting: %s", r.GetMessage())
+
 			actualStage = r.GetStage()
 			list_of_players[i].round = r.GetRound()
 			list_of_players[i].alive = r.GetAlive()
-			//started = r.GetStarted()
-			/*
-			play_int, err32 := strconv.Atoi(play)
-				if err32 != nil {
-					log.Fatalf("fallo 32: %v", err32)
-				}*/
+		
 				list_of_players[i].score = list_of_players[i].score + int32(playsend)
 			}else {
 				fmt.Println(" lograste sumar 21, estas salvado")
