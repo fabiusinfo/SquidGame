@@ -236,7 +236,8 @@ func main() {
 			list_of_players[i].score=0
 		}
 //Aquí realizar jugada o checkAmount nivel 2 ¿?
-	}if actualStage == "2tc" {
+	}
+	if actualStage == "2tc" {
 		fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
@@ -358,7 +359,8 @@ func main() {
 	}
 
 //Aquí realizar jugada o checkAmount nivel 3 ¿?
-}if actualStage == "3tn" {
+}
+if actualStage == "3tn" {
 	flag1 = false
 	for !flag1 {
 		fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
