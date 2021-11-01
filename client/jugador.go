@@ -107,6 +107,7 @@ func main() {
 
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
 	if actualStage == "1rv" {
+		fmt.Println(actualStage)
 		flag1 = false
 		for !flag1 {
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
@@ -233,6 +234,7 @@ func main() {
 		}
 //Aquí realizar jugada o checkAmount nivel 2 ¿?
 	}else if actualStage == "2tc" {
+		fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
 		fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
