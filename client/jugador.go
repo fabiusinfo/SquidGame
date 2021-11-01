@@ -278,7 +278,7 @@ else if actualStage == "2tc" {
 				if err32 != nil {
 					log.Fatalf("fallo 32: %v", err32)
 				}
-				list_of_players[0].score = list_of_players[0].score + int32(play_int)
+				list_of_players[0].score += int32(play_int)
 				//started = r.GetStarted()
 			} else {
 				fmt.Println(" lograste sumar 21, estas salvado")
@@ -315,7 +315,7 @@ else if actualStage == "2tc" {
 	//Este pedazo de código es para las jugadas de los bots
 	for i := 1; i < 16; i++ {
 		if list_of_players[i].alive == true {
-			if list_of_players[i].score < 21 {
+			
 			fmt.Println(strconv.Itoa(i))
 			botPlayer := list_of_players[i].id
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -352,10 +352,8 @@ else if actualStage == "2tc" {
 				if err32 != nil {
 					log.Fatalf("fallo 32: %v", err32)
 				}*/
-				list_of_players[i].score = list_of_players[i].score + int32(playsend)
-			}else {
-				fmt.Println(" lograste sumar 21, estas salvado")
-			}
+				list_of_players[i].score += int32(playsend)
+			
 		}
 
 	}
