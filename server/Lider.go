@@ -281,7 +281,7 @@ func main() {
 		fmt.Println("escribe start para comenzar la etapa 2: ")
 		fmt.Scanln(&start)
 		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + stage)
+			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1

@@ -395,6 +395,7 @@ func main() {
 				list_of_players[0].score = list_of_players[0].score + int32(play_int)
 				//started = r.GetStarted()
 			} else {
+				actualStage = r.GetStage()
 				fmt.Println(" lograste sumar 21, estas salvado")
 			}
 		} else {
