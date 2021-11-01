@@ -238,6 +238,10 @@ func main() {
 		if start == "start" {
 			fmt.Println("Ha comenzado la etapa: " + stage)
 		}
+		liderPlay = int(rand.Int63n(3))
+		liderPlay = liderPlay + 1
+		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
@@ -248,6 +252,9 @@ func main() {
 		if start == "start" {
 			fmt.Println("Ha comenzado la etapa: " + stage)
 		}
+		liderPlay = int(rand.Int63n(9))
+		liderPlay = liderPlay + 1
+		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))	
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")

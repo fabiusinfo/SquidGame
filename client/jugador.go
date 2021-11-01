@@ -244,7 +244,7 @@ else if actualStage == "2tc" {
 		if action == "send" {
 			if list_of_players[0].alive ==true{
 				if list_of_players[0].score < 21 {
-				fmt.Println("escribe un número del 1 al 10: ")
+				fmt.Println("escribe un número del 1 al 4: ")
 				fmt.Scanln(&play)
 
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -330,7 +330,7 @@ else if actualStage == "2tc" {
 			//playsend:=int32(play)
 			//jugada aleatoria
 			rand.Seed(time.Now().UnixNano())
-			playsend := rand.Int63n(10) + 1
+			playsend := rand.Int63n(4) + 1
 			playsend_str := strconv.Itoa(int(playsend))
 			r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend_str, Stage: actualStage, Round:list_of_players[i].round})
 			if err != nil {
