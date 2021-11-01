@@ -308,11 +308,9 @@ func main() {
 		}
 		if passGroup1==true && passGroup2==true {
 			fmt.Println("ambos equipos pasan")
-		}
-		else if passGroup1==true && passGroup2==false {
+		}else if passGroup1==true && passGroup2==false {
 			fmt.Println("pasa el equipo 1")
-		}
-		else if passGroup1==false && passGroup2==true {
+		}else if passGroup1==false && passGroup2==true {
 			fmt.Println("pasa el equipo 2")
 		}else{
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
