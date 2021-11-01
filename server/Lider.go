@@ -22,6 +22,7 @@ type server struct {
 type PlayerStruct struct {
 	id    string
 	alive bool
+	score int
 }
 
 var liderPlay int
@@ -29,6 +30,9 @@ var actualStage string
 var actualRound int32
 var started bool
 var list_of_players []PlayerStruct
+//listas stage 2
+var group1 []PlayerStruct
+var group2 []PlayerStruct
 
 //var players [16]string
 var totalPlayers int
@@ -43,7 +47,7 @@ func failOnError(err error, msg string) {
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
 	//players[in.GetPlayer()] = "alive"
 	totalPlayers += 1
-	list_of_players = append(list_of_players, PlayerStruct{in.GetPlayer(), true})
+	list_of_players = append(list_of_players, PlayerStruct{in.GetPlayer(), true, 0})
 	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
 }
 
@@ -51,6 +55,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	alive := true
 	if actualRound != 0 {
 		if in.GetRound() == actualRound {
+			
 
 			//envío al nameNode
 
@@ -80,6 +85,14 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				if errpPlay != nil {
 					log.Fatalf("could not greet: %v", errpPlay)
 				}
+
+				for i :=0 ; i<16; i++ {
+					if list_of_players[i].id == in.GetPlayer() {
+	
+						list_of_players[i].score+=pPlay
+					}
+				}
+
 				if pPlay > liderPlay {
 					alive = false
 					for i := 0; i < 16; i++ {
@@ -225,13 +238,40 @@ func main() {
 		}
 
 		// Hay que anunciar a los ganadores del nivel con un print o algo asi
+		winnerCount:=0
 		for i := 0; i < 16; i++ {
+			list_of_players[i].score=0
 			if list_of_players[i].alive == true {
+				winnerCount+=1
 				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
+			}
+		//acá eliminamos al jugador sobrante.
+		}
+		for winnerCount%2 == 1 {
+			rand.Seed(time.Now().UnixNano())
+			liderPlay = int(rand.Int63n(15))
+			if  list_of_players[liderPlay].alive==true{
+				list_of_players[liderPlay].alive=false
+				winnerCount-=1
+				fmt.Println("el jugador: " + list_of_players[i].id + " es eliminado automáticamente")
 			}
 		}
 
 		actualStage = "2tc"
+		//esto separa a los ganadores de la ronda pasada en 2 grupos
+		changer:=0
+		for i:=0 ; i<16 ; i++ {
+			if list_of_players[i].alive == true {
+				if changer == 0 {
+					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
+					changer=1
+				} else {
+					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
+					changer=0
+				}
+
+			}
+		}
 
 		fmt.Println("escribe start para comenzar la etapa 2: ")
 		fmt.Scanln(&start)
