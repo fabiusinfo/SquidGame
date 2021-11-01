@@ -286,6 +286,39 @@ func main() {
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1
 		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+		scoreGroup1:=0
+		scoreGroup2:=0
+		passGroup1:=false
+		passGroup2:=false
+		for i:=0 ; i < len(group1) ; i++ {
+			scoreGroup1 += group1[i].score
+		}
+		for i:=0 ; i < len(group2) ; i++ {
+			scoreGroup2 += group2[i].score
+		}
+
+		if scoreGroup1%2 == liderPlay%2{
+			fmt.Println("pasa grupo 1")
+			passGroup1=true
+			
+		}
+		if scoreGroup2%2 == liderPlay%2{
+			fmt.Println("pasa grupo 2")
+			passGroup2=true
+		}
+		if passGroup1==true && passGroup2==true {
+			fmt.Println("ambos equipos pasan")
+		}
+		else if passGroup1==true && passGroup2==false {
+			fmt.Println("pasa el equipo 1")
+		}
+		else if passGroup1==false && passGroup2==true {
+			fmt.Println("pasa el equipo 2")
+		}else{
+			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
+		}
+
+
 
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
