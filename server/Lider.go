@@ -258,7 +258,7 @@ func main() {
 			if  list_of_players[liderPlay].alive==true{
 				list_of_players[liderPlay].alive=false
 				winnerCount-=1
-				fmt.Println("el jugador: " + list_of_players[i].id + " es eliminado automáticamente")
+				fmt.Println("el jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente")
 			}
 		}
 
