@@ -110,6 +110,9 @@ func main() {
 		fmt.Println(actualStage)
 		flag1 = false
 		for !flag1 {
+			if actualStage != "1rv" {
+				flag1 = true
+			}
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
