@@ -231,14 +231,15 @@ func main() {
 
 		}
 		}
-		fmt.Println("me muero (explota)")
+		fmt.Println(actualStage)
 		for i:=0 ; i<16 ; i++ {
 			list_of_players[i].score=0
 		}
 //Aquí realizar jugada o checkAmount nivel 2 ¿?
 	}
+	fmt.Println(actualStage)
 	if actualStage == "2tc" {
-		fmt.Println(actualStage)
+		
 	flag1 = false
 	for !flag1 {
 		fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
@@ -360,6 +361,7 @@ func main() {
 
 //Aquí realizar jugada o checkAmount nivel 3 ¿?
 }
+fmt.Println(actualStage)
 if actualStage == "3tn" {
 	flag1 = false
 	for !flag1 {
