@@ -286,6 +286,8 @@ func main() {
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1
 		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+		fmt.Println("ingresa start cuando los jugadores ya hayan realizado sus jugadas: ")
+		fmt.Scanln(&start)
 		scoreGroup1:=0
 		scoreGroup2:=0
 		passGroup1:=false
