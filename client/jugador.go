@@ -233,6 +233,9 @@ func main() {
 	fmt.Println("me muero (explota)")
 
 }
+for i:=0 ; i<16 ; i++ {
+	list_of_players[i].score=0
+}
 
 //Aquí realizar jugada o checkAmount nivel 2 ¿?
 
