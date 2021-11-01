@@ -28,7 +28,7 @@ func main() {
 	codes1 := "none"
 	codes2 := "none"
 	codes3 := "none"
-	alive := true
+	//alive := true
 	started := false
 	flag1 := false
 	//	var playersAlive [16]bool
@@ -227,19 +227,12 @@ func main() {
 
 		}
 		}
-	
-
-	}
-	fmt.Println("me muero (explota)")
-
-}
-for i:=0 ; i<16 ; i++ {
-	list_of_players[i].score=0
-}
-
+		fmt.Println("me muero (explota)")
+		for i:=0 ; i<16 ; i++ {
+			list_of_players[i].score=0
+		}
 //Aquí realizar jugada o checkAmount nivel 2 ¿?
-
-else if actualStage == "2tc" {
+	}else if actualStage == "2tc" {
 	flag1 = false
 	for !flag1 {
 		fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
@@ -483,6 +476,7 @@ else if actualStage == "2tc" {
 	}
 
 
+}
 }
 
 /*
