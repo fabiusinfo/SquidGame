@@ -156,31 +156,7 @@ func main() {
 				} else {
 					fmt.Println("el jugador está muerto")
 				}
-
-			} else if action == "check" {
-				message := "solicito monto"
-
-				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
-
-				if err != nil {
-					panic("cannot connect with server " + err.Error())
-				}
-
-				servicePlayer := pb.NewSquidGameServiceClient(conn)
-
-				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-				defer cancel()
-				r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
-				if err != nil {
-					log.Fatalf("no se pudo solicitar el monto: %v", err)
-				}
-				log.Printf("Greeting: %s", r.GetMonto())
-
-			} else {
-				fmt.Println("ingresaste mal el comando")
-			}
-
-			// sección bots
+					// sección bots
 
 			//Este pedazo de código es para las jugadas de los bots
 			for i := 1; i < 16; i++ {
@@ -230,6 +206,31 @@ func main() {
 				}
 				fmt.Println(list_of_players[i])
 			}
+
+			} else if action == "check" {
+				message := "solicito monto"
+
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+				if err != nil {
+					panic("cannot connect with server " + err.Error())
+				}
+
+				servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
+				r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
+				if err != nil {
+					log.Fatalf("no se pudo solicitar el monto: %v", err)
+				}
+				log.Printf("Greeting: %s", r.GetMonto())
+
+			} else {
+				fmt.Println("ingresaste mal el comando")
+			}
+
+		
 		}
 		fmt.Println(actualStage)
 		for i := 0; i < 16; i++ {
