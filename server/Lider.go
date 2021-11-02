@@ -232,7 +232,7 @@ func main() {
 		actualRound = 0
 		for i := 0; i < 4; i++ {
 
-			actualRound += 1
+			
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
@@ -243,6 +243,7 @@ func main() {
 			if i==3 {
 				actualStage="2tc"
 			}
+			actualRound += 1
 		}
 
 		// Si tienen menos de 21 puntos, hay tabla
