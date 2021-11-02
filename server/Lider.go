@@ -10,7 +10,7 @@ import (
 	"os"
 	"strconv"
 	"time"
-
+	"bufio"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	amqp "github.com/rabbitmq/amqp091-go"
 
@@ -242,6 +242,18 @@ func main() {
 		fmt.Scanln(&round_id)
 		fmt.Println(player_id + " " + round_id)
 		path := "DN_plays/jugador_" + player_id + "__ronda_" + round_id + "rv.txt"
+		func Readln(r *bufio.Reader) (string, error) {
+			var (isPrefix bool = true
+				 err error = nil
+				 line, ln []byte
+				)
+			for isPrefix && err == nil {
+				line, isPrefix, err = r.ReadLine()
+				ln = append(ln, line...)
+			}
+			return string(ln),err
+		  }
+
 		file, err := os.Open(path)
 		if err != nil {
 			log.Fatal(err)
@@ -251,8 +263,14 @@ func main() {
 				log.Fatal(err)
 			}
 		}()
-		b, err := ioutil.ReadAll(file)
-		fmt.Print(b)
+		//b, err := ioutil.ReadAll(file)
+		//fmt.Print(b)
+		r := bufio.NewReader(f)
+		s, e := Readln(r)
+		for e == nil {
+    		fmt.Println(s)
+    		s,e = Readln(r)
+}
 	}
 
 	for totalPlayers != 16 {
