@@ -240,6 +240,9 @@ func main() {
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
+			if i==3 {
+				actualStage="2tc"
+			}
 		}
 
 		// Si tienen menos de 21 puntos, hay tabla
