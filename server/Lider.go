@@ -30,6 +30,7 @@ var actualStage string
 var actualRound int32
 var started bool
 var list_of_players []PlayerStruct
+
 //listas stage 2
 var group1 []PlayerStruct
 var group2 []PlayerStruct
@@ -55,7 +56,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	alive := true
 	if actualRound != 0 {
 		if in.GetRound() == actualRound {
-			
 
 			//envío al nameNode
 
@@ -86,14 +86,14 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 					log.Fatalf("could not greet: %v", errpPlay)
 				}
 
-				for i :=0 ; i<16; i++ {
+				for i := 0; i < 16; i++ {
 					if list_of_players[i].id == in.GetPlayer() {
-	
-						list_of_players[i].score+=pPlay
+
+						list_of_players[i].score += pPlay
 					}
 				}
 
-				if actualStage =="1rv" {
+				if actualStage == "1rv" {
 
 					if pPlay > liderPlay {
 						alive = false
@@ -139,10 +139,10 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 						log.Printf(" ha muerdo: %d ", body)
 						//log.Printf(" [x] Sent %d ", body)
 					}
-			} else if actualStage =="2tc" {
-				log.Printf("la jugada fue realizada en 2tc")
-			} 
-			}else {
+				} else if actualStage == "2tc" {
+					log.Printf("la jugada fue realizada en 2tc")
+				}
+			} else {
 				log.Printf("aún no comienza el nivel")
 			}
 			//log.Printf("Greeting: %s", r.GetStage())
@@ -242,37 +242,46 @@ func main() {
 			fmt.Scanln(&next)
 		}
 
-		// Hay que anunciar a los ganadores del nivel con un print o algo asi
-		winnerCount:=0
+		// Si tienen menos de 21 puntos, hay tabla
 		for i := 0; i < 16; i++ {
-			list_of_players[i].score=0
+			if list_of_players[i].score < 21 {
+				list_of_players[i].alive = false
+				fmt.Println("el jugador: " + list_of_players[i].id + " fue eliminado por no alcanzar puntaje requerido")
+			}
+
+		}
+
+		// Hay que anunciar a los ganadores del nivel con un print o algo asi
+		winnerCount := 0
+		for i := 0; i < 16; i++ {
+			list_of_players[i].score = 0
 			if list_of_players[i].alive == true {
-				winnerCount+=1
+				winnerCount += 1
 				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
 			}
-		//acá eliminamos al jugador sobrante.
+			//acá eliminamos al jugador sobrante.
 		}
 		for winnerCount%2 == 1 {
 			rand.Seed(time.Now().UnixNano())
 			liderPlay = int(rand.Int63n(15))
-			if  list_of_players[liderPlay].alive==true{
-				list_of_players[liderPlay].alive=false
-				winnerCount-=1
+			if list_of_players[liderPlay].alive == true {
+				list_of_players[liderPlay].alive = false
+				winnerCount -= 1
 				fmt.Println("el jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente")
 			}
 		}
 
 		actualStage = "2tc"
 		//esto separa a los ganadores de la ronda pasada en 2 grupos
-		changer:=0
-		for i:=0 ; i<16 ; i++ {
+		changer := 0
+		for i := 0; i < 16; i++ {
 			if list_of_players[i].alive == true {
 				if changer == 0 {
 					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
-					changer=1
+					changer = 1
 				} else {
 					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
-					changer=0
+					changer = 0
 				}
 
 			}
@@ -288,37 +297,35 @@ func main() {
 		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 		fmt.Println("ingresa start cuando los jugadores ya hayan realizado sus jugadas: ")
 		fmt.Scanln(&start)
-		scoreGroup1:=0
-		scoreGroup2:=0
-		passGroup1:=false
-		passGroup2:=false
-		for i:=0 ; i < len(group1) ; i++ {
+		scoreGroup1 := 0
+		scoreGroup2 := 0
+		passGroup1 := false
+		passGroup2 := false
+		for i := 0; i < len(group1); i++ {
 			scoreGroup1 += group1[i].score
 		}
-		for i:=0 ; i < len(group2) ; i++ {
+		for i := 0; i < len(group2); i++ {
 			scoreGroup2 += group2[i].score
 		}
 
-		if scoreGroup1%2 == liderPlay%2{
+		if scoreGroup1%2 == liderPlay%2 {
 			fmt.Println("pasa grupo 1")
-			passGroup1=true
-			
+			passGroup1 = true
+
 		}
-		if scoreGroup2%2 == liderPlay%2{
+		if scoreGroup2%2 == liderPlay%2 {
 			fmt.Println("pasa grupo 2")
-			passGroup2=true
+			passGroup2 = true
 		}
-		if passGroup1==true && passGroup2==true {
+		if passGroup1 == true && passGroup2 == true {
 			fmt.Println("ambos equipos pasan")
-		}else if passGroup1==true && passGroup2==false {
+		} else if passGroup1 == true && passGroup2 == false {
 			fmt.Println("pasa el equipo 1")
-		}else if passGroup1==false && passGroup2==true {
+		} else if passGroup1 == false && passGroup2 == true {
 			fmt.Println("pasa el equipo 2")
-		}else{
+		} else {
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
 		}
-
-
 
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
@@ -332,7 +339,7 @@ func main() {
 		}
 		liderPlay = int(rand.Int63n(9))
 		liderPlay = liderPlay + 1
-		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))	
+		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
