@@ -76,7 +76,7 @@ func main() {
 	
 	for i := 1; i < 16; i++ {
 
-		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1, 0})
+		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 1), true, 1, 0})
 
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
