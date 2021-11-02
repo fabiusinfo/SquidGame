@@ -241,7 +241,7 @@ func main() {
 		fmt.Println("Ronda")
 		fmt.Scanln(&round_id)
 		fmt.Println(player_id + " " + round_id)
-		path := "DN_plays/jugador_" + player_id + "__ronda_" + round_id + ".txt"
+		path := "DN_plays/jugador_" + player_id + "__ronda_" + round_id + "rv.txt"
 		file, err := os.Open(path)
 		if err != nil {
 			log.Fatal(err)
