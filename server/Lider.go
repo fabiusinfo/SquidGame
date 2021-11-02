@@ -225,9 +225,9 @@ func main() {
 		//se da inicio al juego
 		fmt.Println("escribe start para comenzar la etapa 1: ")
 		fmt.Scanln(&start)
-		for id:=0 ; id<16 ; id++ {
+		for id := 0; id < 16; id++ {
 			fmt.Println(list_of_players[id].id)
-		} 
+		}
 		if start == "start" {
 			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
@@ -235,7 +235,6 @@ func main() {
 		actualRound = 1
 		for i := 0; i < 4; i++ {
 
-			
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
@@ -243,11 +242,11 @@ func main() {
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
-			if actualRound==3 {
-				actualStage="2tc"
+			if actualRound == 3 {
+				actualStage = "2tc"
 			}
 			actualRound += 1
-			
+
 		}
 
 		// Si tienen menos de 21 puntos, hay tabla
@@ -316,7 +315,8 @@ func main() {
 		for i := 0; i < len(group2); i++ {
 			scoreGroup2 += group2[i].score
 		}
-
+		fmt.Println("Grupo1: " + strconv.Itoa(scoreGroup1))
+		fmt.Println("Grupo2: " + strconv.Itoa(scoreGroup2))
 		if scoreGroup1%2 == liderPlay%2 {
 			fmt.Println("pasa grupo 1")
 			passGroup1 = true
