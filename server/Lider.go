@@ -243,7 +243,7 @@ func main() {
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
-			if actualRound==4 {
+			if actualRound==3 {
 				actualStage="2tc"
 			}
 			actualRound += 1
