@@ -256,7 +256,6 @@ func main() {
 			if action == "send" {
 				contStage+=1
 				if list_of_players[0].alive == true {
-					if list_of_players[0].score < 21 {
 						fmt.Println("escribe un número del 1 al 4: ")
 						fmt.Scanln(&play)
 
@@ -290,9 +289,7 @@ func main() {
 						}
 						list_of_players[0].score += int32(play_int)
 						//started = r.GetStarted()
-					} else {
-						fmt.Println(" lograste sumar 21, estas salvado")
-					}
+					
 				} else {
 					fmt.Println("el jugador está muerto")
 				}

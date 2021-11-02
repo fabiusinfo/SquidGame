@@ -302,14 +302,17 @@ func main() {
 			if list_of_players[i].alive == true {
 				if changer == 0 {
 					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
+					fmt.Println("se agrega al grupo 1: "+ list_of_players[i].id)
 					changer = 1
 				} else {
 					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
+					fmt.Println("se agrega al grupo 2: "+ list_of_players[i].id)
 					changer = 0
 				}
 
 			}
 		}
+	
 
 		fmt.Println("escribe start para comenzar la etapa 2: ")
 		fmt.Scanln(&start)
