@@ -192,6 +192,16 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 }
 
+func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
+	alive:=true
+	for i:=0 ; i< 16; i++ {
+		if list_of_players[i].id==in.GetPlayer()
+			alive=list_of_players[i].alive
+	}
+
+	return &pb.JoinReply{Dead:alive}, nil
+}
+
 func main() {
 	//códigos Etapas
 	//1rv

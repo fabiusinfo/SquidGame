@@ -14,6 +14,8 @@ service SquidGameService {
 
     rpc AmountCheck(AmountRequest) returns (AmountReply) {}
 
+    rpc DeadOrAlive(DeadRequest) returns (DeadReply) {}
+
 }
 
 message HelloRequest {
@@ -59,4 +61,12 @@ message AmountRequest {
 
 message AmountReply {
     string monto = 1;
+}
+
+message DeadRequest {
+    string player = 1;
+}
+
+message DeadReply {
+    bool dead = 1;
 }
