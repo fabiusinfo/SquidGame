@@ -244,7 +244,7 @@ func main() {
 
 		// Si tienen menos de 21 puntos, hay tabla
 		for j := 0; j < 16; j++ {
-			if list_of_players[j].score < 21 {
+			if (list_of_players[j].score < 21) && (list_of_players[j].alive == true) { //si tiene menos de 21 puntos y sigue vivo, se muere
 				list_of_players[j].alive = false
 				puntaje := strconv.Itoa(int(list_of_players[j].score))
 				fmt.Println("el jugador: " + list_of_players[j].id + " fue eliminado por no alcanzar puntaje requerido: " + puntaje)
