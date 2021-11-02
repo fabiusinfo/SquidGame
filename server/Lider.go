@@ -85,11 +85,25 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				if errpPlay != nil {
 					log.Fatalf("could not greet: %v", errpPlay)
 				}
+				if actualStage=="1rv"{
+					for i := 0; i < 16; i++ {
+						if list_of_players[i].id == in.GetPlayer() {
 
-				for i := 0; i < 16; i++ {
-					if list_of_players[i].id == in.GetPlayer() {
+							list_of_players[i].score += pPlay
+						}
+					}
+				}else if actualStage == "2tc" {
+					for i:=0 ; i< len(group1) ; i++ {
+						if group1[i].id == in.GetPlayer() {
 
-						list_of_players[i].score += pPlay
+							group1[i].score += pPlay
+						}
+					}
+					for i:=0 ; i< len(group2) ; i++ {
+						if group2[i].id == in.GetPlayer() {
+
+							group2[i].score += pPlay
+						}
 					}
 				}
 
