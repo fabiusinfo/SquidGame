@@ -107,12 +107,12 @@ func main() {
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
 	contStage:=0
 	actualStage="1rv"
-	if contStage<4 {
 		fmt.Println(actualStage)
 		flag1 = false
 		for !flag1 {
-			if actualStage != "1rv" {
+			if contStage==3 {
 				flag1 = true
+				break
 			}
 			fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
@@ -240,14 +240,17 @@ func main() {
 			list_of_players[i].score = 0
 		}
 		//Aquí realizar jugada o checkAmount nivel 2 ¿?
-	}
+	
 	contStage=0
 	actualStage="2tc"
 	fmt.Println(actualStage)
-	if contStage<1 {
 
 		flag1 = false
 		for !flag1 {
+			if contStage==1 {
+				flag1 = true
+				break
+			}
 			fmt.Println("STAGE 2: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
@@ -367,13 +370,16 @@ func main() {
 		}
 
 		//Aquí realizar jugada o checkAmount nivel 3 ¿?
-	}
+	
 	actualStage="3tn"
 	contStage=0
 	fmt.Println(actualStage)
-	if contStage<1{
 		flag1 = false
 		for !flag1 {
+			if contStage==1 {
+				flag1 = true
+				break
+			}
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
@@ -476,7 +482,7 @@ func main() {
 			}
 		}
 
-	}
+	
 }
 
 /*
