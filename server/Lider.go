@@ -229,7 +229,7 @@ func main() {
 			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
 		started = true
-		actualRound = 0
+		actualRound = 1
 		for i := 0; i < 4; i++ {
 
 			
@@ -240,7 +240,7 @@ func main() {
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
-			if i==3 {
+			if actualRound==4 {
 				actualStage="2tc"
 			}
 			actualRound += 1
