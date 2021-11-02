@@ -184,7 +184,7 @@ func main() {
 
 			//Este pedazo de código es para las jugadas de los bots
 			for i := 0; i < 15; i++ {
-				fmt.Println("esta es la id: " + list_of_players[i].id)
+				fmt.Println(list_of_players[i])
 				if list_of_players[i].alive == true {
 					if list_of_players[i].score < 21 {
 						fmt.Println(strconv.Itoa(i))
