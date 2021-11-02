@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"strconv"
 	"time"
 
@@ -58,9 +60,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		if in.GetRound() == actualRound {
 
 			//envío al nameNode
-
 			/*
-
 				conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
 				if err != nil {
@@ -72,12 +72,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 				defer cancel()
 
-				r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round:in.GetRound()})
+				r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round: in.GetRound()})
 				if err != nil {
 					log.Fatalf("could not greet: %v", err)
 				}
 			*/
-
 			//Envío al Pozo
 
 			if started == true {
@@ -85,21 +84,21 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				if errpPlay != nil {
 					log.Fatalf("could not greet: %v", errpPlay)
 				}
-				if actualStage=="1rv"{
+				if actualStage == "1rv" {
 					for i := 0; i < 16; i++ {
 						if list_of_players[i].id == in.GetPlayer() {
 
 							list_of_players[i].score += pPlay
 						}
 					}
-				}else if actualStage == "2tc" {
-					for i:=0 ; i< len(group1) ; i++ {
+				} else if actualStage == "2tc" {
+					for i := 0; i < len(group1); i++ {
 						if group1[i].id == in.GetPlayer() {
 
 							group1[i].score += pPlay
 						}
 					}
-					for i:=0 ; i< len(group2) ; i++ {
+					for i := 0; i < len(group2); i++ {
 						if group2[i].id == in.GetPlayer() {
 
 							group2[i].score += pPlay
@@ -221,12 +220,41 @@ func main() {
 	var start string
 	var stage string
 	var next string
+
+	var plays_check string
+	var player_id string
+	var round_id string
+
 	started = false
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
 	//var ronda_actual int32
 	//ronda_actual = 0
+
+	fmt.Println("--DEMO--")
+	fmt.Println("check -> Ver jugadas ")
+	fmt.Scanln(&plays_check)
+	if plays_check == "check" {
+		fmt.Println("Numero de jugador")
+		fmt.Scanln(&player_id)
+		fmt.Println("Ronda")
+		fmt.Scanln(&round_id)
+		fmt.Println(player_id + " " + round_id)
+		path := "DN_plays/jugador_" + player_id + "__ronda_" + round_id + ".txt"
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer func() {
+			if err = file.Close(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+		b, err := ioutil.ReadAll(file)
+		fmt.Print(b)
+	}
+
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
 		fmt.Scanln(&SquidGame)
@@ -253,14 +281,14 @@ func main() {
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = liderPlay + 6
-			
+
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
 			actualRound += 1
-			if i==3 {
+			if i == 3 {
 				actualStage = "2tc"
-				
+
 			}
 
 		}

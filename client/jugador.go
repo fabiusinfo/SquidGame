@@ -105,7 +105,9 @@ func main() {
 	//Aquí finaliza la inscripción
 
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
-	if actualStage == "1rv" {
+	contStage := 0
+	actualStage = "1rv"
+	if contStage < 4 {
 		fmt.Println(actualStage)
 		flag1 = false
 		for !flag1 {
@@ -115,6 +117,7 @@ func main() {
 			fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
+				contStage += 1
 				if list_of_players[0].alive == true {
 					if list_of_players[0].score < 21 {
 						fmt.Println("escribe un número del 1 al 10: ")
@@ -156,56 +159,56 @@ func main() {
 				} else {
 					fmt.Println("el jugador está muerto")
 				}
-					// sección bots
+				// sección bots
 
-			//Este pedazo de código es para las jugadas de los bots
-			for i := 1; i < 16; i++ {
+				//Este pedazo de código es para las jugadas de los bots
+				for i := 1; i < 16; i++ {
 
-				if list_of_players[i].alive == true {
-					if list_of_players[i].score < 21 {
-						fmt.Println(strconv.Itoa(i))
-						botPlayer := list_of_players[i].id
-						conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+					if list_of_players[i].alive == true {
+						if list_of_players[i].score < 21 {
+							fmt.Println(strconv.Itoa(i))
+							botPlayer := list_of_players[i].id
+							conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
-						if err != nil {
-							panic("cannot connect with server " + err.Error())
+							if err != nil {
+								panic("cannot connect with server " + err.Error())
+							}
+
+							servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+							ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+							defer cancel()
+
+							//play, err2 := strconv.Atoi(play)
+							//playsend:=int32(play)
+							//jugada aleatoria
+							rand.Seed(time.Now().UnixNano())
+							playsend := rand.Int63n(10) + 1
+							playsend_str := strconv.Itoa(int(playsend))
+							r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend_str, Stage: actualStage, Round: list_of_players[i].round})
+							if err != nil {
+								log.Fatalf("fallo 1: %v", err)
+							}
+							//if err2 != nil {
+							//	log.Fatalf("fallo 2: %v", err2)
+							//}
+							//log.Printf("Greeting: %s", r.GetMessage())
+							actualStage = r.GetStage()
+							list_of_players[i].round = r.GetRound()
+							list_of_players[i].alive = r.GetAlive()
+							//started = r.GetStarted()
+							/*
+								play_int, err32 := strconv.Atoi(play)
+									if err32 != nil {
+										log.Fatalf("fallo 32: %v", err32)
+									}*/
+							list_of_players[i].score = list_of_players[i].score + int32(playsend)
+						} else {
+							fmt.Println(" lograste sumar 21, estas salvado")
 						}
-
-						servicePlayer := pb.NewSquidGameServiceClient(conn)
-
-						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-						defer cancel()
-
-						//play, err2 := strconv.Atoi(play)
-						//playsend:=int32(play)
-						//jugada aleatoria
-						rand.Seed(time.Now().UnixNano())
-						playsend := rand.Int63n(10) + 1
-						playsend_str := strconv.Itoa(int(playsend))
-						r, err := servicePlayer.SendPlays(ctx, &pb.SendRequest{Player: botPlayer, Play: playsend_str, Stage: actualStage, Round: list_of_players[i].round})
-						if err != nil {
-							log.Fatalf("fallo 1: %v", err)
-						}
-						//if err2 != nil {
-						//	log.Fatalf("fallo 2: %v", err2)
-						//}
-						//log.Printf("Greeting: %s", r.GetMessage())
-						actualStage = r.GetStage()
-						list_of_players[i].round = r.GetRound()
-						list_of_players[i].alive = r.GetAlive()
-						//started = r.GetStarted()
-						/*
-							play_int, err32 := strconv.Atoi(play)
-								if err32 != nil {
-									log.Fatalf("fallo 32: %v", err32)
-								}*/
-						list_of_players[i].score = list_of_players[i].score + int32(playsend)
-					} else {
-						fmt.Println(" lograste sumar 21, estas salvado")
 					}
+					fmt.Println(list_of_players[i])
 				}
-				fmt.Println(list_of_players[i])
-			}
 
 			} else if action == "check" {
 				message := "solicito monto"
@@ -230,7 +233,6 @@ func main() {
 				fmt.Println("ingresaste mal el comando")
 			}
 
-		
 		}
 		fmt.Println(actualStage)
 		for i := 0; i < 16; i++ {
@@ -238,14 +240,17 @@ func main() {
 		}
 		//Aquí realizar jugada o checkAmount nivel 2 ¿?
 	}
+	contStage = 0
+	actualStage = "2tc"
 	fmt.Println(actualStage)
-	if actualStage == "2tc" {
+	if contStage < 1 {
 
 		flag1 = false
 		for !flag1 {
 			fmt.Println("STAGE 2: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
+				contStage += 1
 				if list_of_players[0].alive == true {
 					if list_of_players[0].score < 21 {
 						fmt.Println("escribe un número del 1 al 4: ")
@@ -362,8 +367,10 @@ func main() {
 
 		//Aquí realizar jugada o checkAmount nivel 3 ¿?
 	}
+	actualStage = "3tn"
+	contStage = 0
 	fmt.Println(actualStage)
-	if actualStage == "3tn" {
+	if contStage < 1 {
 		flag1 = false
 		for !flag1 {
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
