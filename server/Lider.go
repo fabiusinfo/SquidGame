@@ -267,7 +267,7 @@ func main() {
 		}()
 		//b, err := ioutil.ReadAll(file)
 		//fmt.Print(b)
-		r := bufio.NewReader(f)
+		r := bufio.NewReader(file)
 		s, e := Readln(r)
 		for e == nil {
 			fmt.Println(s)
