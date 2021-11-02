@@ -94,7 +94,7 @@ func main() {
 		}
 		log.Printf("inscrito")
 		//signed=r.GetSigned()
-		list_of_players[i].id = strconv.Itoa(i + 2)
+		list_of_players[i].id = strconv.Itoa(i + 1)
 		list_of_players[i].alive = true
 		//codes1 = r.GetCodes1()
 		codes2 = r.GetCodes2()
