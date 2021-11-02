@@ -57,7 +57,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 1, 0})
+		list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 0, 0})
 		log.Printf("inscrito")
 		//signed=r.GetSigned()
 		codes1 = r.GetCodes1()
@@ -76,7 +76,7 @@ func main() {
 	
 	for i := 0; i < 15; i++ {
 
-		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1, 0})
+		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 0, 0})
 
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
