@@ -246,7 +246,7 @@ func main() {
 		for i := 0; i < 16; i++ {
 			if list_of_players[i].score < 21 {
 				list_of_players[i].alive = false
-				fmt.Println("el jugador: " + list_of_players[i].id + " fue eliminado por no alcanzar puntaje requerido")
+				fmt.Println("el jugador: " + list_of_players[i].id + " fue eliminado por no alcanzar puntaje requerido " + list_of_players[i].score)
 			}
 
 		}
