@@ -74,7 +74,7 @@ func main() {
 
 	//inscribimos los bots
 	
-	for i := 1; i < 15; i++ {
+	for i := 1; i < 16; i++ {
 
 		list_of_players = append(list_of_players, PlayerStruct{strconv.Itoa(i + 2), true, 1, 0})
 
