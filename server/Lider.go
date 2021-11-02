@@ -253,7 +253,7 @@ func main() {
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = liderPlay + 6
-			if actualRound == 4 {
+			if i==3 {
 				actualStage = "2tc"
 				
 			}
