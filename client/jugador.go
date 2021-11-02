@@ -93,7 +93,7 @@ func main() {
 		}
 		log.Printf("inscrito")
 		//signed=r.GetSigned()
-		list_of_players[i].id = strconv.Itoa(i + 1)
+		list_of_players[i].id = strconv.Itoa(i + 2)
 		list_of_players[i].alive = true
 		//codes1 = r.GetCodes1()
 		codes2 = r.GetCodes2()
@@ -183,7 +183,7 @@ func main() {
 			// sección bots
 
 			//Este pedazo de código es para las jugadas de los bots
-			for i := 0; i < 15; i++ {
+			for i := 0; i < 16; i++ {
 				fmt.Println(list_of_players[i])
 				if list_of_players[i].alive == true {
 					if list_of_players[i].score < 21 {
