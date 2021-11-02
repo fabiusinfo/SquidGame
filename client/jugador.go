@@ -112,7 +112,7 @@ func main() {
 			if actualStage != "1rv" {
 				flag1 = true
 			}
-			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
+			fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
 				if list_of_players[0].alive == true {
@@ -184,7 +184,7 @@ func main() {
 
 			//Este pedazo de código es para las jugadas de los bots
 			for i := 1; i < 16; i++ {
-				fmt.Println(list_of_players[i])
+
 				if list_of_players[i].alive == true {
 					if list_of_players[i].score < 21 {
 						fmt.Println(strconv.Itoa(i))
@@ -228,7 +228,7 @@ func main() {
 						fmt.Println(" lograste sumar 21, estas salvado")
 					}
 				}
-
+				fmt.Println(list_of_players[i])
 			}
 		}
 		fmt.Println(actualStage)
@@ -242,7 +242,7 @@ func main() {
 
 		flag1 = false
 		for !flag1 {
-			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
+			fmt.Println("STAGE 2: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
 				if list_of_players[0].alive == true {
