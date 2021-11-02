@@ -105,7 +105,9 @@ func main() {
 	//Aquí finaliza la inscripción
 
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
-	if actualStage == "1rv" {
+	contStage:=0
+	actualStage="1rv"
+	if contStage<4 {
 		fmt.Println(actualStage)
 		flag1 = false
 		for !flag1 {
@@ -115,6 +117,7 @@ func main() {
 			fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
+				contStage+=1
 				if list_of_players[0].alive == true {
 					if list_of_players[0].score < 21 {
 						fmt.Println("escribe un número del 1 al 10: ")
@@ -238,14 +241,17 @@ func main() {
 		}
 		//Aquí realizar jugada o checkAmount nivel 2 ¿?
 	}
+	contStage=0
+	actualStage="2tc"
 	fmt.Println(actualStage)
-	if actualStage == "2tc" {
+	if contStage<1 {
 
 		flag1 = false
 		for !flag1 {
 			fmt.Println("STAGE 2: escribe send -> enviar jugada, check -> solicitar monto: ")
 			fmt.Scanln(&action)
 			if action == "send" {
+				contStage+=1
 				if list_of_players[0].alive == true {
 					if list_of_players[0].score < 21 {
 						fmt.Println("escribe un número del 1 al 4: ")
@@ -362,8 +368,10 @@ func main() {
 
 		//Aquí realizar jugada o checkAmount nivel 3 ¿?
 	}
+	actualStage="3tn"
+	contStage=0
 	fmt.Println(actualStage)
-	if actualStage == "3tn" {
+	if contStage<1{
 		flag1 = false
 		for !flag1 {
 			fmt.Println("escribe send -> enviar jugada, check -> solicitar monto: ")
