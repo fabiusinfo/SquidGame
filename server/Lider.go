@@ -264,10 +264,11 @@ func main() {
 		defer cancel()
 		player := "2"
 		r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: player})
-		fmt.Println(r.GetPlays())
+		
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
+		fmt.Println(r.GetPlays())
 	}
 
 	for totalPlayers != 16 {

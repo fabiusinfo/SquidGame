@@ -169,6 +169,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 		}
 		//"El jugador: " + numerojugador[1] + " tiene una jugada de la ronda: " + numeroronda[1] + " en la ip: " + ip_maquina
 		cont += 1
+		fmt.Println(cont)
 		
 		//fmt.Println(plays)
 		//s, e = Readln(r)
