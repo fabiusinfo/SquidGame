@@ -108,7 +108,7 @@ func main() {
 		r := bufio.NewReader(file)
 		s, e := Readln(r)
 		for e == nil {
-			ese := strings.Split("s", " ")
+			ese := strings.Split(s, " ")
 			fmt.Println(ese)
 			s, e = Readln(r)
 		}
