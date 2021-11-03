@@ -117,6 +117,6 @@ func main() {
 		}
 	}()
 	x:="none"
-	fmt.Println("escribe join para inscribirse en el SquidGame: ")
+	fmt.Println("Escribe cualquier wea ")
 	fmt.Scanln(&x)
 }
