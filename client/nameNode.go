@@ -10,6 +10,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
@@ -59,6 +60,7 @@ func generateID() string {
 }
 
 var delet int = 1
+
 //habilitar el puerto 8080 en la máquina 162        Javier: listoco, comando aplicado
 //acá definir la función sendplays
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
@@ -125,7 +127,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.AllplaysReply, error) {
 	// Leer jugadas de jugadores que jugaron el juego
 	player := in.GetPlayer()
-	plays := "Jugadas de "+player+"\n"
+	plays := "Jugadas de " + player + "\n"
 	fmt.Println("--DEMO--")
 	fmt.Println("check -> Ver jugadas ")
 	var plays_check string
@@ -151,8 +153,8 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 			//Ruta := "DN_plays/jugador_" + num_jugador + "__ronda_" + num_ronda + "rv.txt"
 			numerojugador := strings.Split(num_jugador, "_") // [Jugador n]
 			numeroronda := strings.Split(num_ronda, "_")     // [Ronda 1rv]
-			if player == numerojugador[1]{
-				plays += "Ronda: "+numeroronda[1]+"\n"
+			if player == numerojugador[1] {
+				plays += "Ronda: " + numeroronda[1] + "\n"
 				//ahora vamos a conectarnos con el datanode que tiene el archivo
 				conn, err := grpc.Dial(ip_maquina+":8080", grpc.WithInsecure())
 				if err != nil {
@@ -161,7 +163,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 				servicePlayer := pb.NewSquidGameServiceClient(conn)
 				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 				defer cancel()
-				arch := "jugador_"+numerojugador[1]+"__ronda_"+num_ronda[1]+".txt"
+				arch := "jugador_" + numerojugador[1] + "__ronda_" + num_ronda[1] + ".txt"
 				r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: arch})
 				plays += r.GetPlays() //agregamos las jugadas a nuestro super string
 				if err != nil {
@@ -174,12 +176,12 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 			//s, e = Readln(r)
 		}
 	}
-	
+
 	return &pb.AllplaysReply{Plays: plays}, nil
 }
 
 func main() {
-	
+
 	/*
 		// Leer jugadas de jugadores que jugaron el juego
 		fmt.Println("--DEMO--")
