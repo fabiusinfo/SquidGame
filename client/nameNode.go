@@ -213,20 +213,23 @@ func main() {
 			}
 		} */
 	// nos convertimos en servidor (NameNode)
-	listner, err := net.Listen("tcp", ":8080")
+	go func() {
+		listner, err := net.Listen("tcp", ":8080")
 
-	if err != nil {
-		panic("cannot create tcp connection" + err.Error())
-	}
+		if err != nil {
+			panic("cannot create tcp connection" + err.Error())
+		}
 
-	serv := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(serv, &server{})
+		serv := grpc.NewServer()
+		pb.RegisterSquidGameServiceServer(serv, &server{})
 
-	//esto es lo que estaba al final, no sé donde ponerlo
-	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
-	}
+		//esto es lo que estaba al final, no sé donde ponerlo
+		if err = serv.Serve(listner); err != nil {
+			log.Printf("paso por el fallo")
+			panic("cannot initialize the server" + err.Error())
+		}
+
+	}()
 
 	var first string
 
