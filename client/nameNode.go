@@ -30,6 +30,26 @@ func Readln(r *bufio.Reader) (string, error) {
 	return string(ln), err
 }
 
+func existeError(err error) bool {
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return (err != nil)
+}
+
+func crearArchivo(path string) {
+	//Verifica que el archivo existe
+	var _, err = os.Stat(path)
+	//Crea el archivo si no existe
+	if os.IsNotExist(err) {
+		var file, err = os.Create(path)
+		if existeError(err) {
+			return
+		}
+		defer file.Close()
+	}
+}
+
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
@@ -70,7 +90,17 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	log.Printf("Greeting: %s", r.GetStage())
 
 	// añadir al texto
-	b, errtxt := ioutil.ReadFile("registro.txt")
+	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+	err = os.Remove(nombreArchivo)
+	if err != nil {
+		fmt.Printf("Error eliminando archivo: %v\n", err)
+	} else {
+		fmt.Println("Eliminado correctamente")
+	}
+
+	crearArchivo(nombreArchivo)
+
+	b, errtxt := ioutil.ReadFile(nombreArchivo)
 
 	if errtxt != nil {
 		log.Fatal(errtxt)
