@@ -378,17 +378,20 @@ func main() {
 		}
 		if passGroup1 == true && passGroup2 == true {
 			fmt.Println("ambos equipos pasan")
+			winnerCount =len(group2)+len(group1)
 		} else if passGroup1 == true && passGroup2 == false {
 			fmt.Println("pasa el equipo 1")
 			for i:=0 ; i< len(group2); i++ {
 				group2[i].alive=false
 			}
+			winnerCount =len(group1)
 
 		} else if passGroup1 == false && passGroup2 == true {
 			fmt.Println("pasa el equipo 2")
 			for i:=0 ; i< len(group1); i++ {
 				group1[i].alive=false
 			}
+			winnerCount =len(group2)
 		} else {
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
 			rand.Seed(time.Now().UnixNano())
@@ -398,19 +401,19 @@ func main() {
 				for i:=0 ; i< len(group2); i++ {
 					group2[i].alive=false
 				}
+				winnerCount =len(group1)
 
 			}else {
 				fmt.Println("pasa el equipo 2")
 				for i:=0 ; i< len(group1); i++ {
 					group1[i].alive=false
 				}
-
+				winnerCount =len(group2)
 			}
 
 			
 		}
-
-		fmt.Println("se ha muerto ste men: 2")
+		
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
 		actualStage = "3tn"
