@@ -92,7 +92,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 	r := bufio.NewReader(file)
 	s, e := Readln(r)
 	for e == nil {
-		plays2 += s
+		plays2 += string(s)
 	}
 	return &pb.AllplaysReply{Plays: plays2}, nil
 }
