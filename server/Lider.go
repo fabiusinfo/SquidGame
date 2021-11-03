@@ -85,24 +85,21 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 			//envío al nameNode
 
-			/*
+			conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
 
-				conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
 
-				if err != nil {
-					panic("cannot connect with server " + err.Error())
-				}
+			serviceLider := pb.NewSquidGameServiceClient(conn)
 
-				serviceLider := pb.NewSquidGameServiceClient(conn)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
 
-				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-				defer cancel()
-
-				r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round:in.GetRound()})
-				if err != nil {
-					log.Fatalf("could not greet: %v", err)
-				}
-			*/
+			r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round: in.GetRound()})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
 
 			//Envío al Pozo
 
