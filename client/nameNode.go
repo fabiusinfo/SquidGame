@@ -108,8 +108,8 @@ func main() {
 		r := bufio.NewReader(file)
 		s, e := Readln(r)
 		for e == nil {
-			ese := strings.Split(s, " ")
-			fmt.Println(ese[0])
+			linea := strings.Split(s, " ")
+			fmt.Println(strings.Split(linea[0], "_")[1])
 			s, e = Readln(r)
 		}
 	}
