@@ -100,18 +100,20 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 
 func main() {
 	// nos convertimos en servidor (dataNode)
-	listner, err := net.Listen("tcp", ":9000")
+	go func() {
+		listner, err := net.Listen("tcp", ":9000")
 
-	if err != nil {
-		panic("cannot create tcp connection" + err.Error())
-	}
+		if err != nil {
+			panic("cannot create tcp connection" + err.Error())
+		}
 
-	servDN := grpc.NewServer()
-	pb.RegisterSquidGameServiceServer(servDN, &server{})
+		servDN := grpc.NewServer()
+		pb.RegisterSquidGameServiceServer(servDN, &server{})
 
-	//esto es lo que estaba al final, no sé donde ponerlo
-	if err = servDN.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
-		panic("cannot initialize the server" + err.Error())
+		//esto es lo que estaba al final, no sé donde ponerlo
+		if err = servDN.Serve(listner); err != nil {
+			log.Printf("paso por el fallo")
+			panic("cannot initialize the server" + err.Error())
+		}
 	}
 }
