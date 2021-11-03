@@ -94,7 +94,7 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 						failOnError(err, "Failed to declare a queue")
 
 						i := in.GetPlayer()
-						s := in.GetStage()
+						//s := in.GetStage()
 						//i_str := strconv.Itoa(int(i))
 
 						body := "Jugador_" + i + " Ronda_" + actualStage
