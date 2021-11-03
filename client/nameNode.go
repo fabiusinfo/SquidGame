@@ -110,7 +110,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 func main() {
 
-	var plays_check string
+	//var plays_check string
 	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
 	err := os.Remove(nombreArchivo)
 	if err != nil {
