@@ -2,6 +2,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"io/ioutil"
@@ -12,6 +13,7 @@ import (
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
+
 
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
@@ -59,6 +61,28 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 	fmt.Println("yo lo recibí")
 	return &pb.SendReply{Stage: "Amongus", Alive: true}, nil
+}
+
+//CONSULTA preguntar sobre todas las jugadas en todas las rondas de un determinado jugador
+func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.AllplaysReply, error) {
+	// Leer jugadas de jugadores que jugaron el juego
+	path := in.GetPlayer() //aqui recibe el nombre del archivo
+	plays2 := ""
+	file, err := os.Open(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		if err = file.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+	r := bufio.NewReader(file)
+	s, e := Readln(r)
+	for e == nil {
+		plays2 += s
+	}
+	return &pb.AllplaysReply{Plays: plays2}, nil
 }
 
 func main() {

@@ -123,7 +123,57 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 //CONSULTA preguntar sobre todas las jugadas en todas las rondas de un determinado jugador
 func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.AllplaysReply, error) {
-	plays :="blablablbaln"
+	// Leer jugadas de jugadores que jugaron el juego
+	player := in.GetPlayer()
+	plays := "Jugadas de "+player+"\n"
+	fmt.Println("--DEMO--")
+	fmt.Println("check -> Ver jugadas ")
+	fmt.Scanln(&plays_check)
+	if plays_check == "check" {
+		path := "registro.txt"
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer func() {
+			if err = file.Close(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+		r := bufio.NewReader(file)
+		s, e := Readln(r)
+		for e == nil {
+			linea := strings.Split(s, " ")
+			num_jugador := linea[0]
+			num_ronda := linea[1]
+			ip_maquina := linea[2]
+			//Ruta := "DN_plays/jugador_" + num_jugador + "__ronda_" + num_ronda + "rv.txt"
+			numerojugador := strings.Split(num_jugador, "_") // [Jugador n]
+			numeroronda := strings.Split(num_ronda, "_")     // [Ronda 1rv]
+			if player == numerojugador[1]{
+				plays += "Ronda: "+numeroronda[1]+"\n"
+				//ahora vamos a conectarnos con el datanode que tiene el archivo
+				conn, err := grpc.Dial(ip_maquina+":8080", grpc.WithInsecure())
+				if err != nil {
+					panic("cannot connect with server " + err.Error())
+				}
+				servicePlayer := pb.NewSquidGameServiceClient(conn)
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
+				arch := "jugador_"+numerojugador[1]"__ronda_"+num_ronda[1]+".txt"
+				r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: arch})
+				plays += r.GetPlays() //agregamos las jugadas a nuestro super string
+				if err != nil {
+					log.Fatalf("could not greet: %v", err)
+				}
+
+			}
+			//"El jugador: " + numerojugador[1] + " tiene una jugada de la ronda: " + numeroronda[1] + " en la ip: " + ip_maquina
+			fmt.Println(plays)
+			//s, e = Readln(r)
+		}
+	}
+	
 	return &pb.AllplaysReply{Plays: plays}, nil
 }
 
