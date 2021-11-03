@@ -8,9 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net"
-	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
@@ -87,37 +85,37 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 }
 
 func main() {
+	/*
+		var plays_check string
 
-	var plays_check string
-
-	// Leer jugadas de jugadores que jugaron el juego
-	fmt.Println("--DEMO--")
-	fmt.Println("check -> Ver jugadas ")
-	fmt.Scanln(&plays_check)
-	if plays_check == "check" {
-		path := "registro.txt"
-		file, err := os.Open(path)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer func() {
-			if err = file.Close(); err != nil {
+		// Leer jugadas de jugadores que jugaron el juego
+		fmt.Println("--DEMO--")
+		fmt.Println("check -> Ver jugadas ")
+		fmt.Scanln(&plays_check)
+		if plays_check == "check" {
+			path := "registro.txt"
+			file, err := os.Open(path)
+			if err != nil {
 				log.Fatal(err)
 			}
-		}()
-		r := bufio.NewReader(file)
-		s, e := Readln(r)
-		for e == nil {
-			linea := strings.Split(s, " ")
-			num_jugador := linea[0]
-			//num_ronda := linea[1]
-			//ip_maquina := linea[2]
-			//Ruta := "DN_plays/jugador_" + num_jugador + "__ronda_" + num_ronda + "rv.txt"
-			//numerojugador := strings.Split(jugador, "_")
-			fmt.Println(num_jugador)
-			s, e = Readln(r)
-		}
-	}
+			defer func() {
+				if err = file.Close(); err != nil {
+					log.Fatal(err)
+				}
+			}()
+			r := bufio.NewReader(file)
+			s, e := Readln(r)
+			for e == nil {
+				linea := strings.Split(s, " ")
+				//num_jugador := linea[0]
+				//num_ronda := linea[1]
+				//ip_maquina := linea[2]
+				//Ruta := "DN_plays/jugador_" + num_jugador + "__ronda_" + num_ronda + "rv.txt"
+				//numerojugador := strings.Split(jugador, "_")
+				fmt.Println(num_jugador)
+				s, e = Readln(r)
+			}
+		}   */
 	// nos convertimos en servidor (NameNode)
 	listner, err := net.Listen("tcp", ":8080")
 
