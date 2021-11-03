@@ -10,6 +10,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
@@ -107,7 +108,8 @@ func main() {
 		r := bufio.NewReader(file)
 		s, e := Readln(r)
 		for e == nil {
-			fmt.Println(s + " fortnite")
+			ese := strings.Split("s", " ")
+			fmt.Println(ese)
 			s, e = Readln(r)
 		}
 	}
