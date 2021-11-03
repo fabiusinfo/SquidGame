@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"strconv"
 	"time"
 
@@ -14,6 +16,19 @@ import (
 
 	"google.golang.org/grpc"
 )
+
+func Readln(r *bufio.Reader) (string, error) {
+	var (
+		isPrefix bool  = true
+		err      error = nil
+		line, ln []byte
+	)
+	for isPrefix && err == nil {
+		line, isPrefix, err = r.ReadLine()
+		ln = append(ln, line...)
+	}
+	return string(ln), err
+}
 
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
@@ -53,17 +68,15 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
-	alive:=true
-	for i:=0 ; i< 16; i++ {
-		if list_of_players[i].id==in.GetPlayer(){
-			alive=list_of_players[i].alive
+	alive := true
+	for i := 0; i < 16; i++ {
+		if list_of_players[i].id == in.GetPlayer() {
+			alive = list_of_players[i].alive
 		}
 	}
 
-	return &pb.DeadReply{Dead:alive}, nil
+	return &pb.DeadReply{Dead: alive}, nil
 }
-
-
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
@@ -98,21 +111,21 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				if errpPlay != nil {
 					log.Fatalf("could not greet: %v", errpPlay)
 				}
-				if actualStage=="1rv"{
+				if actualStage == "1rv" {
 					for i := 0; i < 16; i++ {
 						if list_of_players[i].id == in.GetPlayer() {
 
 							list_of_players[i].score += pPlay
 						}
 					}
-				}else if actualStage == "2tc" {
-					for i:=0 ; i< len(group1) ; i++ {
+				} else if actualStage == "2tc" {
+					for i := 0; i < len(group1); i++ {
 						if group1[i].id == in.GetPlayer() {
 
 							group1[i].score += pPlay
 						}
 					}
-					for i:=0 ; i< len(group2) ; i++ {
+					for i := 0; i < len(group2); i++ {
 						if group2[i].id == in.GetPlayer() {
 
 							group2[i].score += pPlay
@@ -185,8 +198,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
-
-
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	message := "solicito monto"
 	//conexión con el pozo
@@ -206,8 +217,6 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	log.Printf("Greeting: %s", r.GetMonto())
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 }
-
-
 
 func main() {
 	//códigos Etapas
@@ -238,12 +247,47 @@ func main() {
 	var start string
 	var stage string
 	var next string
+
+	var plays_check string
+	var player_id string
+	var round_id string
+
 	started = false
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
 	//var ronda_actual int32
 	//ronda_actual = 0
+
+	// Leer jugadas de jugadores que jugaron el juego
+	fmt.Println("--DEMO--")
+	fmt.Println("check -> Ver jugadas ")
+	fmt.Scanln(&plays_check)
+	if plays_check == "check" {
+		fmt.Println("Numero de jugador")
+		fmt.Scanln(&player_id)
+		fmt.Println("Ronda")
+		fmt.Scanln(&round_id)
+		fmt.Println(player_id + " " + round_id)
+		path := "DN_plays/jugador_" + player_id + "__ronda_" + round_id + "rv.txt"
+
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer func() {
+			if err = file.Close(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+		r := bufio.NewReader(file)
+		s, e := Readln(r)
+		for e == nil {
+			fmt.Println(s)
+			s, e = Readln(r)
+		}
+	}
+
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
 		fmt.Scanln(&SquidGame)
@@ -270,14 +314,14 @@ func main() {
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = liderPlay + 6
-			
+
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
 			actualRound += 1
-			if i==3 {
+			if i == 3 {
 				actualStage = "2tc"
-				
+
 			}
 
 		}
@@ -319,17 +363,16 @@ func main() {
 			if list_of_players[i].alive == true {
 				if changer == 0 {
 					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("se agrega al grupo 1: "+ list_of_players[i].id)
+					fmt.Println("se agrega al grupo 1: " + list_of_players[i].id)
 					changer = 1
 				} else {
 					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("se agrega al grupo 2: "+ list_of_players[i].id)
+					fmt.Println("se agrega al grupo 2: " + list_of_players[i].id)
 					changer = 0
 				}
 
 			}
 		}
-	
 
 		fmt.Println("escribe start para comenzar la etapa 2: ")
 		fmt.Scanln(&start)
