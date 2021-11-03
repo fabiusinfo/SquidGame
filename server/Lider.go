@@ -100,7 +100,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			if err != nil {
 				log.Fatalf("could not greet: %v", err)
 			}
-
+			fmt.Println(r.GetStage())
 			//Envío al Pozo
 
 			if started == true {
