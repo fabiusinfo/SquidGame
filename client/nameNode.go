@@ -165,10 +165,11 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 			if err != nil {
 				log.Fatalf("could not greet: %v", err)
 			}
-
+		
 		}
 		//"El jugador: " + numerojugador[1] + " tiene una jugada de la ronda: " + numeroronda[1] + " en la ip: " + ip_maquina
 		cont += 1
+		break
 		//fmt.Println(plays)
 		//s, e = Readln(r)
 	}
