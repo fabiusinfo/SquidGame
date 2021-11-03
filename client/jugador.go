@@ -28,6 +28,7 @@ func main() {
 	codes1 := "none"
 	codes2 := "none"
 	codes3 := "none"
+	next:="none"
 	//alive := true
 	started := false
 	flag1 := false
@@ -64,6 +65,7 @@ func main() {
 		codes3 = r.GetCodes3()
 		actualStage = codes1
 		started = true
+		
 		if started == true {
 			fmt.Println("inscripción al SquidGame realizada con éxito.")
 		}
@@ -103,6 +105,9 @@ func main() {
 	}
 	fmt.Println(codes1 + codes2 + codes3)
 	//Aquí finaliza la inscripción
+
+	fmt.Println("ingresa next para comenzar el nivel 1")
+		fmt.Scanln(&next)
 
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
 	contStage:=0
@@ -235,6 +240,8 @@ func main() {
 
 		
 		}
+		fmt.Println("ingresa next para comenzar el nivel 2")
+		fmt.Scanln(&next)
 		fmt.Println(actualStage)
 		for i := 0; i < 16; i++ {
 			list_of_players[i].score = 0
@@ -250,7 +257,7 @@ func main() {
 						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 						defer cancel()
 
-						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id })
+						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id , Stage: actualStage })
 						if err != nil {
 							log.Fatalf("fallo 1: %v", err)
 						}
@@ -381,6 +388,30 @@ func main() {
 
 				}
 
+			}
+		}
+		fmt.Println("ingresa next para comenzar el nivel 3")
+		fmt.Scanln(&next)
+
+		for i := 0; i < 16; i++ {
+			list_of_players[i].score = 0
+			if list_of_players[i].alive == true {
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+						if err != nil {
+							panic("cannot connect with server " + err.Error())
+						}
+
+						servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+						defer cancel()
+
+						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id, Stage: actualStage  })
+						if err != nil {
+							log.Fatalf("fallo 1: %v", err)
+						}
+						list_of_players[i].alive=r.GetDead()
 			}
 		}
 

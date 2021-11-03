@@ -54,9 +54,22 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
 	alive:=true
-	for i:=0 ; i< 16; i++ {
-		if list_of_players[i].id==in.GetPlayer(){
-			alive=list_of_players[i].alive
+	if in.GetStage()=="1rv"{
+		for i:=0 ; i< 16; i++ {
+			if list_of_players[i].id==in.GetPlayer(){
+				alive=list_of_players[i].alive
+			}
+		}
+	} else if in.GetStage() == "2tc" {
+		for i:=0 ; i< len(group1); i++ {
+			if group1[i].id==in.GetPlayer(){
+				alive=group1[i].alive
+			}
+		}
+		for i:=0 ; i< len(group2); i++ {
+			if group2[i].id==in.GetPlayer(){
+				alive=group2[i].alive
+			}
 		}
 	}
 
@@ -336,6 +349,7 @@ func main() {
 		if start == "start" {
 			fmt.Println("Ha comenzado la etapa: " + actualStage)
 		}
+		rand.Seed(time.Now().UnixNano())
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1
 		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
@@ -366,10 +380,34 @@ func main() {
 			fmt.Println("ambos equipos pasan")
 		} else if passGroup1 == true && passGroup2 == false {
 			fmt.Println("pasa el equipo 1")
+			for i:=0 ; i< len(group2); i++ {
+				group2[i].alive=false
+			}
+
 		} else if passGroup1 == false && passGroup2 == true {
 			fmt.Println("pasa el equipo 2")
+			for i:=0 ; i< len(group1); i++ {
+				group1[i].alive=false
+			}
 		} else {
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
+			rand.Seed(time.Now().UnixNano())
+			liderPlay = int(rand.Int63n(1))
+			if liderPlay==0 {
+				fmt.Println("pasa el equipo 1")
+				for i:=0 ; i< len(group2); i++ {
+					group2[i].alive=false
+				}
+
+			}else {
+				fmt.Println("pasa el equipo 2")
+				for i:=0 ; i< len(group1); i++ {
+					group1[i].alive=false
+				}
+
+			}
+
+			
 		}
 
 		fmt.Println("se ha muerto ste men: 2")
