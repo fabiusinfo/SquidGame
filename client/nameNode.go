@@ -128,6 +128,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 	plays := "Jugadas de "+player+"\n"
 	fmt.Println("--DEMO--")
 	fmt.Println("check -> Ver jugadas ")
+	var plays_check string
 	fmt.Scanln(&plays_check)
 	if plays_check == "check" {
 		path := "registro.txt"
