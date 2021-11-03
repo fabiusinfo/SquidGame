@@ -78,6 +78,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 //CONSULTA preguntar sobre todas las jugadas en todas las rondas de un determinado jugador
 func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.AllplaysReply, error) {
 	// Leer jugadas de jugadores que jugaron el juego
+	fmt.Println("holita, si entre uwu")
 	path := in.GetPlayer() //aqui recibe el nombre del archivo
 	plays2 := ""
 	file, err := os.Open(path)
