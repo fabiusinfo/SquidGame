@@ -228,7 +228,7 @@ func main() {
 	servicePlayer := pb.NewSquidGameServiceClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	player = "2"
+	player := "2"
 	r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: player})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
