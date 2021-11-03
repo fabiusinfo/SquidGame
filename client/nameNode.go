@@ -128,7 +128,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 	// Leer jugadas de jugadores que jugaron el juego
 	player := in.GetPlayer()
 	plays := "Jugadas de " + player + "\n"
-	
+
 	path := "registro.txt"
 	file, err := os.Open(path)
 	if err != nil {
@@ -140,9 +140,9 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 		}
 	}()
 	r := bufio.NewReader(file)
-	s, e := Readln(r)
+	ese, e := Readln(r)
 	for e == nil {
-		linea := strings.Split(s, " ")
+		linea := strings.Split(ese, " ")
 		num_jugador := linea[0]
 		num_ronda := linea[1]
 		ip_maquina := linea[2]
