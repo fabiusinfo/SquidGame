@@ -152,7 +152,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 		if player == numerojugador[1] {
 			plays += "Ronda: " + numeroronda[1] + "\n"
 			//ahora vamos a conectarnos con el datanode que tiene el archivo
-			conn, err := grpc.Dial(ip_maquina+":8080", grpc.WithInsecure())
+			conn, err := grpc.Dial(ip_maquina+":9000", grpc.WithInsecure())
 			if err != nil {
 				panic("cannot connect with server " + err.Error())
 			}
