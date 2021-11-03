@@ -109,7 +109,9 @@ func main() {
 		s, e := Readln(r)
 		for e == nil {
 			linea := strings.Split(s, " ")
-			fmt.Println(strings.Split(linea[0], "_")[1])
+			jugador := linea[0]
+			numerojugador := strings.Split(jugador, "_")
+			fmt.Println(numerojugador[0])
 			s, e = Readln(r)
 		}
 	}
