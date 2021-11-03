@@ -160,7 +160,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 				servicePlayer := pb.NewSquidGameServiceClient(conn)
 				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 				defer cancel()
-				arch := "jugador_"+numerojugador[1]"__ronda_"+num_ronda[1]+".txt"
+				arch := "jugador_"+numerojugador[1]+"__ronda_"+num_ronda[1]+".txt"
 				r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: arch})
 				plays += r.GetPlays() //agregamos las jugadas a nuestro super string
 				if err != nil {
