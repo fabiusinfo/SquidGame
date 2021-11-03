@@ -109,9 +109,12 @@ func main() {
 		s, e := Readln(r)
 		for e == nil {
 			linea := strings.Split(s, " ")
-			//jugador := linea[0]
+			num_jugador := linea[0]
+			//num_ronda := linea[1]
+			//ip_maquina := linea[2]
+			//Ruta := "DN_plays/jugador_" + num_jugador + "__ronda_" + num_ronda + "rv.txt"
 			//numerojugador := strings.Split(jugador, "_")
-			fmt.Println(linea)
+			fmt.Println(num_jugador)
 			s, e = Readln(r)
 		}
 	}
