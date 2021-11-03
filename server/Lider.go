@@ -219,21 +219,6 @@ func main() {
 	//1rv
 	//2tc
 	//3tn
-
-	conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
-	servicePlayer := pb.NewSquidGameServiceClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	player := "2"
-	r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: player})
-	fmt.Println(r.GetPlays())
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-
 	go func() {
 		// nos convertimos en servidor (LIDER)
 		listner, err := net.Listen("tcp", ":8080")
@@ -263,6 +248,27 @@ func main() {
 	SquidGame := "none"
 	//var ronda_actual int32
 	//ronda_actual = 0
+
+	// Leer jugadas de jugadores que jugaron el juego
+	var plays_check string
+	fmt.Println("--DEMO--")
+	fmt.Println("check -> Ver jugadas ")
+	fmt.Scanln(&plays_check)
+	if plays_check == "check" {
+		conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
+		}
+		servicePlayer := pb.NewSquidGameServiceClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		player := "2"
+		r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: player})
+		fmt.Println(r.GetPlays())
+		if err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+	}
 
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
