@@ -58,12 +58,25 @@ func generateID() string {
 	return "ID: " + strconv.Itoa(rand.Int())
 }
 
+var delet int = 1
 //habilitar el puerto 8080 en la máquina 162        Javier: listoco, comando aplicado
 //acá definir la función sendplays
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	////// Kathy y Eloli deben implementar la consulta a los 3 datanodes de forma aleatoria para poder
 	//enviar la jugada a cualquiera de los 3.
 	var direction string
+
+	//var plays_check string
+	if delet == 1 {
+		delet = 0
+		nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+		err := os.Remove(nombreArchivo)
+		if err != nil {
+			fmt.Printf("Error eliminando archivo: %v\n", err)
+		} else {
+			fmt.Println("Eliminado correctamente")
+		}
+	}
 
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Int63n(3)
@@ -109,15 +122,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 }
 
 func main() {
-
-	//var plays_check string
-	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
-	err := os.Remove(nombreArchivo)
-	if err != nil {
-		fmt.Printf("Error eliminando archivo: %v\n", err)
-	} else {
-		fmt.Println("Eliminado correctamente")
-	}
+	
 	/*
 		// Leer jugadas de jugadores que jugaron el juego
 		fmt.Println("--DEMO--")
