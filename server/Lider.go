@@ -245,6 +245,7 @@ func main() {
 	//var ronda_actual int32
 	//ronda_actual = 0
 
+	// Leer jugadas de jugadores que jugaron el juego
 	fmt.Println("--DEMO--")
 	fmt.Println("check -> Ver jugadas ")
 	fmt.Scanln(&plays_check)
@@ -265,8 +266,6 @@ func main() {
 				log.Fatal(err)
 			}
 		}()
-		//b, err := ioutil.ReadAll(file)
-		//fmt.Print(b)
 		r := bufio.NewReader(file)
 		s, e := Readln(r)
 		for e == nil {
