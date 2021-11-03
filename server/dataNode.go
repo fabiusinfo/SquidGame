@@ -116,4 +116,7 @@ func main() {
 			panic("cannot initialize the server" + err.Error())
 		}
 	}()
+	x:="none"
+	fmt.Println("escribe join para inscribirse en el SquidGame: ")
+	fmt.Scanln(&x)
 }
