@@ -382,13 +382,21 @@ func main() {
 
 			}
 		}
+		started = false
 	
-
-		fmt.Println("escribe start para comenzar la etapa 2: ")
-		fmt.Scanln(&start)
-		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + actualStage)
+		flag1 = false
+		for !flag1 {
+			fmt.Println("escribe start para comenzar la etapa 2: ")
+			fmt.Scanln(&start)
+			if start == "start" {
+				started=true
+				flag1=true
+				fmt.Println("Ha comenzado la etapa: " + actualStage)
+			}else{
+					fmt.Println("ingresaste mal el comando")
+				}
 		}
+		
 		rand.Seed(time.Now().UnixNano())
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1
@@ -458,10 +466,19 @@ func main() {
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
 		actualStage = "3tn"
 
-		fmt.Println("escribe start para comenzar la etapa 3: ")
-		fmt.Scanln(&start)
-		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + stage)
+		started = false
+	
+		flag1 = false
+		for !flag1 {
+			fmt.Println("escribe start para comenzar la etapa 3: ")
+			fmt.Scanln(&start)
+			if start == "start" {
+				started=true
+				flag1=true
+				fmt.Println("Ha comenzado la etapa: " + actualStage)
+			}else{
+					fmt.Println("ingresaste mal el comando")
+				}
 		}
 		liderPlay = int(rand.Int63n(9))
 		liderPlay = liderPlay + 1

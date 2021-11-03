@@ -105,9 +105,18 @@ func main() {
 	}
 	fmt.Println(codes1 + codes2 + codes3)
 	//Aquí finaliza la inscripción
-
-	fmt.Println("ingresa next para comenzar el nivel 1")
+	flag1 = false
+	for !flag1 {
+		fmt.Println("ingresa next para comenzar el nivel 1")
 		fmt.Scanln(&next)
+		if next == "next" {
+			flag1 = true
+		}else{
+			fmt.Println("ingresaste mal el comando")
+		}
+	}
+
+	
 
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
 	contStage:=0
@@ -240,8 +249,18 @@ func main() {
 
 		
 		}
-		fmt.Println("ingresa next para comenzar el nivel 2")
-		fmt.Scanln(&next)
+		
+
+		flag1 = false
+		for !flag1 {
+			fmt.Println("ingresa next para comenzar el nivel 2")
+			fmt.Scanln(&next)
+			if next == "next" {
+				flag1 = true
+			}else{
+				fmt.Println("ingresaste mal el comando")
+			}
+		}
 		fmt.Println(actualStage)
 		for i := 0; i < 16; i++ {
 			list_of_players[i].score = 0
@@ -390,8 +409,17 @@ func main() {
 
 			}
 		}
-		fmt.Println("ingresa next para comenzar el nivel 3")
-		fmt.Scanln(&next)
+
+		flag1 = false
+		for !flag1 {
+			fmt.Println("ingresa next para comenzar el nivel 3")
+			fmt.Scanln(&next)
+			if next == "next" {
+				flag1 = true
+			}else{
+				fmt.Println("ingresaste mal el comando")
+			}
+		}
 
 		for i := 0; i < 16; i++ {
 			list_of_players[i].score = 0
