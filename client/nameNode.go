@@ -113,7 +113,7 @@ func main() {
 			num_ronda := linea[1]
 			ip_maquina := linea[2]
 			//Ruta := "DN_plays/jugador_" + num_jugador + "__ronda_" + num_ronda + "rv.txt"
-			numerojugador := strings.Split(jugador, "_")
+			numerojugador := strings.Split(num_jugador, "_")
 			fmt.Println("El jugador: " + numerojugador + "tiene una jugada de la ronda: " + num_ronda + " en la ip: " + ip_maquina)
 			s, e = Readln(r)
 		}
