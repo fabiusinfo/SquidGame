@@ -16,6 +16,8 @@ service SquidGameService {
 
     rpc DeadOrAlive(DeadRequest) returns (DeadReply) {}
 
+    rpc AllPlaysOf(AllplaysRequest) returns (AllplaysReply) {}
+
 }
 
 message HelloRequest {
@@ -69,4 +71,12 @@ message DeadRequest {
 
 message DeadReply {
     bool dead = 1;
+}
+
+message AllplaysRequest {
+    string player = 1;
+}
+
+message AllplaysReply {
+    string plays = 1;
 }
