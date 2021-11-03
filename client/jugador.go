@@ -110,7 +110,26 @@ func main() {
 		fmt.Println("ingresa next para comenzar el nivel 1")
 		fmt.Scanln(&next)
 		if next == "next" {
-			flag1 = true
+			if started==true{
+				flag1 = true
+				break
+			}
+			
+			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
+		}
+
+		servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		r, err := servicePlayer.Started(ctx, &pb.StartRequest{Message: "solicito ingresar al nivel 1"})
+		if err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+		started=r.GetStarted()
 		}else{
 			fmt.Println("ingresaste mal el comando")
 		}
@@ -256,7 +275,26 @@ func main() {
 			fmt.Println("ingresa next para comenzar el nivel 2")
 			fmt.Scanln(&next)
 			if next == "next" {
-				flag1 = true
+				if started==true{
+					flag1 = true
+					break
+				}
+				
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+	
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
+	
+			servicePlayer := pb.NewSquidGameServiceClient(conn)
+	
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+			r, err := servicePlayer.Started(ctx, &pb.StartRequest{Message: "solicito ingresar al nivel 2"})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			started=r.GetStarted()
 			}else{
 				fmt.Println("ingresaste mal el comando")
 			}
@@ -415,7 +453,26 @@ func main() {
 			fmt.Println("ingresa next para comenzar el nivel 3")
 			fmt.Scanln(&next)
 			if next == "next" {
-				flag1 = true
+				if started==true{
+					flag1 = true
+					break
+				}
+				
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+	
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
+	
+			servicePlayer := pb.NewSquidGameServiceClient(conn)
+	
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+			r, err := servicePlayer.Started(ctx, &pb.StartRequest{Message: "solicito ingresar al nivel 3"})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			started=r.GetStarted()
 			}else{
 				fmt.Println("ingresaste mal el comando")
 			}

@@ -289,7 +289,7 @@ func main() {
 
 	///////////// Interfaz
 	var start string
-	var stage string
+	//var stage string
 	var next string
 	started = false
 	actualStage = "1rv"
@@ -384,7 +384,7 @@ func main() {
 		}
 		started = false
 	
-		flag1 = false
+		flag1 := false
 		for !flag1 {
 			fmt.Println("escribe start para comenzar la etapa 2: ")
 			fmt.Scanln(&start)
@@ -486,7 +486,7 @@ func main() {
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
-		stage = "4end"
+		actualStage = "4end"
 	}
 
 	//enviar

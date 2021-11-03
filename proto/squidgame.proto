@@ -16,6 +16,8 @@ service SquidGameService {
 
     rpc DeadOrAlive(DeadRequest) returns (DeadReply) {}
 
+    rpc Started(StartRequest) returns (StartReply) {}
+
 }
 
 message HelloRequest {
@@ -70,4 +72,12 @@ message DeadRequest {
 
 message DeadReply {
     bool dead = 1;
+}
+
+message StartRequest {
+    string message = 1;
+}
+
+message StartReply {
+    bool started = 1;
 }
