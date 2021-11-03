@@ -134,12 +134,12 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	r, err := serviceClient.AllPlaysOf(ctx, &pb.AllplaysRequest{Message: message})
+	r, err := serviceClient.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: message})
 	if err != nil {
 		log.Fatalf("no se pudieron solicitar las jugadas: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetPlays())
-	return &pb.AllplaysReply{Jugadas: r.GetPlays()}, nil
+	return &pb.AllplaysReply{Plays: r.GetPlays()}, nil
 }
 
 func main() {
