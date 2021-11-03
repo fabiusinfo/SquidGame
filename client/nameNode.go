@@ -107,7 +107,7 @@ func main() {
 		r := bufio.NewReader(file)
 		s, e := Readln(r)
 		for e == nil {
-			fmt.Println(s)
+			fmt.Println(s + " fortnite")
 			s, e = Readln(r)
 		}
 	}
