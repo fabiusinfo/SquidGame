@@ -14,6 +14,10 @@ import (
 	"google.golang.org/grpc"
 )
 
+type server struct {
+	pb.UnimplementedSquidGameServiceServer
+}
+
 func Readln(r *bufio.Reader) (string, error) {
 	var (
 		isPrefix bool  = true
@@ -25,10 +29,6 @@ func Readln(r *bufio.Reader) (string, error) {
 		ln = append(ln, line...)
 	}
 	return string(ln), err
-}
-
-type server struct {
-	pb.UnimplementedSquidGameServiceServer
 }
 
 func existeError(err error) bool {
@@ -90,9 +90,9 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 		}
 	}()
 	r := bufio.NewReader(file)
-	s, e := Readln(r)
+	ese, e := Readln(r)
 	for e == nil {
-		plays2 += string(s)
+		plays2 += string(ese)
 	}
 	return &pb.AllplaysReply{Plays: plays2}, nil
 }

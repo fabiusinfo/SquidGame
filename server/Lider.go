@@ -214,7 +214,6 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 }
 
-
 func main() {
 	//códigos Etapas
 	//1rv
