@@ -128,7 +128,7 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 	// Leer jugadas de jugadores que jugaron el juego
 	player := in.GetPlayer()
 	plays := "Jugadas de " + player + "\n"
-
+	cont := 0
 	path := "registro.txt"
 	file, err := os.Open(path)
 	if err != nil {
@@ -168,10 +168,11 @@ func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.Al
 
 		}
 		//"El jugador: " + numerojugador[1] + " tiene una jugada de la ronda: " + numeroronda[1] + " en la ip: " + ip_maquina
-		fmt.Println(plays)
+		cont += 1
+		//fmt.Println(plays)
 		//s, e = Readln(r)
 	}
-
+	fmt.Println(cont)
 	return &pb.AllplaysReply{Plays: plays}, nil
 }
 
