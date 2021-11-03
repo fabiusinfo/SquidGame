@@ -24,6 +24,7 @@ type SquidGameServiceClient interface {
 	SendPlays(ctx context.Context, in *SendRequest, opts ...grpc.CallOption) (*SendReply, error)
 	AmountCheck(ctx context.Context, in *AmountRequest, opts ...grpc.CallOption) (*AmountReply, error)
 	DeadOrAlive(ctx context.Context, in *DeadRequest, opts ...grpc.CallOption) (*DeadReply, error)
+	AllPlaysOf(ctx context.Context, in *AllplaysRequest, opts ...grpc.CallOption) (*AllplaysReply, error)
 }
 
 type squidGameServiceClient struct {
@@ -79,6 +80,15 @@ func (c *squidGameServiceClient) DeadOrAlive(ctx context.Context, in *DeadReques
 	return out, nil
 }
 
+func (c *squidGameServiceClient) AllPlaysOf(ctx context.Context, in *AllplaysRequest, opts ...grpc.CallOption) (*AllplaysReply, error) {
+	out := new(AllplaysReply)
+	err := c.cc.Invoke(ctx, "/grpc.SquidGameService/AllPlaysOf", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SquidGameServiceServer is the server API for SquidGameService service.
 // All implementations must embed UnimplementedSquidGameServiceServer
 // for forward compatibility
@@ -89,6 +99,7 @@ type SquidGameServiceServer interface {
 	SendPlays(context.Context, *SendRequest) (*SendReply, error)
 	AmountCheck(context.Context, *AmountRequest) (*AmountReply, error)
 	DeadOrAlive(context.Context, *DeadRequest) (*DeadReply, error)
+	AllPlaysOf(context.Context, *AllplaysRequest) (*AllplaysReply, error)
 	mustEmbedUnimplementedSquidGameServiceServer()
 }
 
@@ -110,6 +121,9 @@ func (UnimplementedSquidGameServiceServer) AmountCheck(context.Context, *AmountR
 }
 func (UnimplementedSquidGameServiceServer) DeadOrAlive(context.Context, *DeadRequest) (*DeadReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeadOrAlive not implemented")
+}
+func (UnimplementedSquidGameServiceServer) AllPlaysOf(context.Context, *AllplaysRequest) (*AllplaysReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AllPlaysOf not implemented")
 }
 func (UnimplementedSquidGameServiceServer) mustEmbedUnimplementedSquidGameServiceServer() {}
 
@@ -214,6 +228,24 @@ func _SquidGameService_DeadOrAlive_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SquidGameService_AllPlaysOf_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AllplaysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SquidGameServiceServer).AllPlaysOf(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.SquidGameService/AllPlaysOf",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SquidGameServiceServer).AllPlaysOf(ctx, req.(*AllplaysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SquidGameService_ServiceDesc is the grpc.ServiceDesc for SquidGameService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -240,6 +272,10 @@ var SquidGameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeadOrAlive",
 			Handler:    _SquidGameService_DeadOrAlive_Handler,
+		},
+		{
+			MethodName: "AllPlaysOf",
+			Handler:    _SquidGameService_AllPlaysOf_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
