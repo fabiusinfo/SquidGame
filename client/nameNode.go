@@ -121,6 +121,27 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	return &pb.SendReply{Stage: "www", Alive: true}, nil
 }
 
+//CONSULTA preguntar sobre todas las jugadas en todas las rondas de un determinado jugador
+func (s *server) AllPlaysOf(ctx context.Context, in *pb.AllplaysRequest) (*pb.AllplaysReply, error) {
+	message := "Solicito jugadas del jugador"
+	//conexión con el Lider
+	conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+	if err != nil {
+		panic("cannot connect with lider " + err.Error())
+	}
+	serviceClient := pb.NewSquidGameServiceClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	r, err := serviceClient.AllPlaysOf(ctx, &pb.AllplaysRequest{Message: message})
+	if err != nil {
+		log.Fatalf("no se pudieron solicitar las jugadas: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetPlays())
+	return &pb.AllplaysReply{Jugadas: r.GetPlays()}, nil
+}
+
 func main() {
 	
 	/*

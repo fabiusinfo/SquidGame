@@ -60,7 +60,7 @@ func failOnError(err error, msg string) {
 }
 
 func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinReply, error) {
-	//players[in.GetPlayer()] = "alive"
+	//players[in.GetPlayer()] = "alive" servidor, aqui recibe lo de que se quiere unir el jugador
 	totalPlayers += 1
 	list_of_players = append(list_of_players, PlayerStruct{in.GetPlayer(), true, 0})
 	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
@@ -214,11 +214,24 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 }
 
+
 func main() {
 	//códigos Etapas
 	//1rv
 	//2tc
 	//3tn
+
+	conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
+	if err != nil {
+		panic("cannot connect with server " + err.Error())
+	}
+	servicePlayer := pb.NewSquidGameServiceClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := servicePlayer.AllPlaysOf(ctx, &pb.AllplaysRequest{Player: 2})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
 
 	go func() {
 		// nos convertimos en servidor (LIDER)

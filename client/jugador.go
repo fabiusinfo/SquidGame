@@ -45,6 +45,7 @@ func main() {
 	}
 
 	if actualStage == "none" {
+		//oye, quiero inscribirme en el juego
 		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 		if err != nil {
 			panic("cannot connect with server " + err.Error())
