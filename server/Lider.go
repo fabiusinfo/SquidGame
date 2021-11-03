@@ -7,7 +7,6 @@ import (
 	"log"
 	"math/rand"
 	"net"
-	"os"
 	"strconv"
 	"time"
 
@@ -244,46 +243,12 @@ func main() {
 	var start string
 	var stage string
 	var next string
-
-	var plays_check string
-	var player_id string
-	var round_id string
-
 	started = false
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
 	//var ronda_actual int32
 	//ronda_actual = 0
-
-	// Leer jugadas de jugadores que jugaron el juego
-	fmt.Println("--DEMO--")
-	fmt.Println("check -> Ver jugadas ")
-	fmt.Scanln(&plays_check)
-	if plays_check == "check" {
-		fmt.Println("Numero de jugador")
-		fmt.Scanln(&player_id)
-		fmt.Println("Ronda")
-		fmt.Scanln(&round_id)
-		fmt.Println(player_id + " " + round_id)
-		path := "DN_plays/jugador_" + player_id + "__ronda_" + round_id + "rv.txt"
-
-		file, err := os.Open(path)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer func() {
-			if err = file.Close(); err != nil {
-				log.Fatal(err)
-			}
-		}()
-		r := bufio.NewReader(file)
-		s, e := Readln(r)
-		for e == nil {
-			fmt.Println(s)
-			s, e = Readln(r)
-		}
-	}
 
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
