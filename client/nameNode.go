@@ -1,18 +1,33 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"strconv"
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
+
+func Readln(r *bufio.Reader) (string, error) {
+	var (
+		isPrefix bool  = true
+		err      error = nil
+		line, ln []byte
+	)
+	for isPrefix && err == nil {
+		line, isPrefix, err = r.ReadLine()
+		ln = append(ln, line...)
+	}
+	return string(ln), err
+}
 
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
@@ -40,7 +55,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	} else {
 		direction = "10.6.43.44"
 	}
-fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ; play:  "+in.GetPlay())
+	fmt.Println("se reciben los siguientes parametros: player: " + in.GetPlayer() + " ; play:  " + in.GetPlay())
 	conn, err := grpc.Dial(direction+":9000", grpc.WithInsecure())
 	serviceNN := pb.NewSquidGameServiceClient(conn)
 
@@ -67,11 +82,35 @@ fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ;
 		log.Fatal(errtxt)
 	}
 
-	return &pb.SendReply{Stage:"www", Alive:true}, nil
+	return &pb.SendReply{Stage: "www", Alive: true}, nil
 }
 
 func main() {
 
+	var plays_check string
+
+	// Leer jugadas de jugadores que jugaron el juego
+	fmt.Println("--DEMO--")
+	fmt.Println("check -> Ver jugadas ")
+	fmt.Scanln(&plays_check)
+	if plays_check == "check" {
+		path := "registro.txt"
+		file, err := os.Open(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer func() {
+			if err = file.Close(); err != nil {
+				log.Fatal(err)
+			}
+		}()
+		r := bufio.NewReader(file)
+		s, e := Readln(r)
+		for e == nil {
+			fmt.Println(s)
+			s, e = Readln(r)
+		}
+	}
 	// nos convertimos en servidor (NameNode)
 	listner, err := net.Listen("tcp", ":8080")
 
