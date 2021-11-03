@@ -72,7 +72,7 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 			}
 		}
 	}else {
-
+		log.Printf("estoy en la tercera ronda y no se que hacer, ayuuuda")
 	}
 	if alive == false {
 		conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
