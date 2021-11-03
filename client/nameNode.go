@@ -91,13 +91,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 	// añadir al texto
 	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
-	err = os.Remove(nombreArchivo)
-	if err != nil {
-		fmt.Printf("Error eliminando archivo: %v\n", err)
-	} else {
-		fmt.Println("Eliminado correctamente")
-	}
-
 	crearArchivo(nombreArchivo)
 
 	b, errtxt := ioutil.ReadFile(nombreArchivo)
@@ -119,7 +112,13 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 func main() {
 
 	var plays_check string
-
+	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+	err := os.Remove(nombreArchivo)
+	if err != nil {
+		fmt.Printf("Error eliminando archivo: %v\n", err)
+	} else {
+		fmt.Println("Eliminado correctamente")
+	}
 	// Leer jugadas de jugadores que jugaron el juego
 	fmt.Println("--DEMO--")
 	fmt.Println("check -> Ver jugadas ")
