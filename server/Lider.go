@@ -52,6 +52,19 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
 }
 
+func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
+	alive:=true
+	for i:=0 ; i< 16; i++ {
+		if list_of_players[i].id==in.GetPlayer(){
+			alive=list_of_players[i].alive
+		}
+	}
+
+	return &pb.DeadReply{Dead:alive}, nil
+}
+
+
+
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
 	if actualRound != 0 {
@@ -172,6 +185,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 //"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
 
+
+
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	message := "solicito monto"
 	//conexión con el pozo
@@ -192,15 +207,7 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 }
 
-func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
-	alive:=true
-	for i:=0 ; i< 16; i++ {
-		if list_of_players[i].id==in.GetPlayer()
-			alive=list_of_players[i].alive
-	}
 
-	return &pb.JoinReply{Dead:alive}, nil
-}
 
 func main() {
 	//códigos Etapas
