@@ -115,5 +115,5 @@ func main() {
 			log.Printf("paso por el fallo")
 			panic("cannot initialize the server" + err.Error())
 		}
-	}
+	}()
 }
