@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"context"
 	"fmt"
 	"log"
@@ -16,6 +15,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+/*
 func Readln(r *bufio.Reader) (string, error) {
 	var (
 		isPrefix bool  = true
@@ -27,7 +27,7 @@ func Readln(r *bufio.Reader) (string, error) {
 		ln = append(ln, line...)
 	}
 	return string(ln), err
-}
+}*/
 
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
