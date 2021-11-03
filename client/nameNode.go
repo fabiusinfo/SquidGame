@@ -109,7 +109,7 @@ func main() {
 		s, e := Readln(r)
 		for e == nil {
 			ese := strings.Split(s, " ")
-			fmt.Println(ese)
+			fmt.Println(ese[0])
 			s, e = Readln(r)
 		}
 	}
