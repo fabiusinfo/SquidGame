@@ -28,11 +28,7 @@ func main() {
 	codes1 := "none"
 	codes2 := "none"
 	codes3 := "none"
-<<<<<<< HEAD
-=======
 	next:="none"
-	//alive := true
->>>>>>> 8aed0a526d6819861bbfc377fdac0f4683e6a4e4
 	started := false
 	flag1 := false
 
@@ -245,10 +241,6 @@ func main() {
 		} else {
 			fmt.Println("ingresaste mal el comando")
 		}
-<<<<<<< HEAD
-
-	}
-=======
 		
 
 		flag1 = false
@@ -306,7 +298,6 @@ func main() {
 	
 	contStage=0
 	actualStage="2tc"
->>>>>>> 8aed0a526d6819861bbfc377fdac0f4683e6a4e4
 	fmt.Println(actualStage)
 	for i := 0; i < 16; i++ {
 		list_of_players[i].score = 0
@@ -382,10 +373,6 @@ func main() {
 
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
-<<<<<<< HEAD
-			if err != nil {
-				panic("cannot connect with server " + err.Error())
-=======
 		flag1 = false
 		for !flag1 {
 			fmt.Println("ingresa next para comenzar el nivel 3")
@@ -448,7 +435,6 @@ func main() {
 			if contStage==1 {
 				flag1 = true
 				break
->>>>>>> 8aed0a526d6819861bbfc377fdac0f4683e6a4e4
 			}
 
 			servicePlayer := pb.NewSquidGameServiceClient(conn)
