@@ -558,6 +558,7 @@ func main() {
 
 			flag1 = false
 			for !flag1 {
+
 				fmt.Println("escribe start para comenzar la etapa 3: ")
 				fmt.Scanln(&start)
 				if start == "start" {
@@ -574,8 +575,8 @@ func main() {
 
 			// Jugadas
 			//aqui esta el problema uwu
-			for i := 0; i < len(group3); i++ {
-				fmt.Println("entre al for")
+			for i := 0; i < len(group3)-1; i++ {
+				fmt.Println(group3)
 				if group3[i].score == group3[i+1].score {
 					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
 					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
