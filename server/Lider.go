@@ -325,6 +325,7 @@ func main() {
 			}
 
 		}
+		started=false
 
 		// Si siguen vivos pero tienen menos de 21 puntos, son eliminados
 		for j := 0; j < 16; j++ {
@@ -373,7 +374,7 @@ func main() {
 
 			}
 		}
-		started = false
+
 
 		flag1 := false
 		for !flag1 {
