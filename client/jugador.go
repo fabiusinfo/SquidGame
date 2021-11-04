@@ -253,11 +253,6 @@ func main() {
 			fmt.Println("ingresa next para comenzar el nivel 2")
 			fmt.Scanln(&next)
 			if next == "next" {
-				if started==true{
-					flag1 = true
-					break
-				}
-				
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 	
 			if err != nil {
@@ -273,6 +268,12 @@ func main() {
 				log.Fatalf("could not greet: %v", err)
 			}
 			started=r.GetStarted()
+				if started==true{
+					flag1 = true
+					break
+				}
+				
+				
 			}else{
 				fmt.Println("ingresaste mal el comando")
 			}
