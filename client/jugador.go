@@ -447,8 +447,7 @@ func main() {
 			}
 			log.Printf("Greeting: %s", r.GetMonto())
 
-		} else {
-			fmt.Println("ingresaste mal el comando")
+		}
 		}
 
 		// sección bots
