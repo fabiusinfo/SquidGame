@@ -552,54 +552,49 @@ func main() {
 			if groupaux[i].alive == true {
 				group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
 				fmt.Println("se agrega la ronda final: " + groupaux[i].id)
-		}
-
-
-
-		started = false
-
-		flag1 = false
-		for !flag1 {
-			fmt.Println("escribe start para comenzar la etapa 3: ")
-			fmt.Scanln(&start)
-			if start == "start" {
-				started = true
-				flag1 = true
-				fmt.Println("Ha comenzado la etapa: " + actualStage)
-			} else {
-				fmt.Println("ingresaste mal el comando")
-			}
-		}
-		liderPlay = int(rand.Int63n(9))
-		liderPlay = liderPlay + 1
-		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
-
-		// Jugadas
-
-		for i:=0; i<len(group3); i++{
-			if group3[i].score == group3[i+1].score{
-				fmt.Println(group3[i].id +" es un ganador del Squid Game \n")
-				fmt.Println(group3[i+1].id +" es un ganador del Squid Game \n")
-			} else if int(math.Abs(float64(liderPlay)-group3[i])) == int(math.Abs(float64(liderPlay)-group3[i+1])) {  // si el calculo da el mismo resultado pues ambos ganan
-				fmt.Println(group3[i].id +" es un ganador del Squid Game \n")
-				fmt.Println(group3[i+1].id +" es un ganador del Squid Game \n")
-			} else if int(math.Abs(float64(liderPlay)-group3[i])) < int(math.Abs(float64(liderPlay)-group3[i+1])) {
-				fmt.Println(group3[i].id +" es un ganador del Squid Game \n")
-			} else{
-				fmt.Println(group3[i+1].id +" es un ganador del Squid Game \n")
 			}
 
-			
+			started = false
 
-			i++
+			flag1 = false
+			for !flag1 {
+				fmt.Println("escribe start para comenzar la etapa 3: ")
+				fmt.Scanln(&start)
+				if start == "start" {
+					started = true
+					flag1 = true
+					fmt.Println("Ha comenzado la etapa: " + actualStage)
+				} else {
+					fmt.Println("ingresaste mal el comando")
+				}
+			}
+			liderPlay = int(rand.Int63n(9))
+			liderPlay = liderPlay + 1
+			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+
+			// Jugadas
+
+			for i := 0; i < len(group3); i++ {
+				if group3[i].score == group3[i+1].score {
+					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+				} else if int(math.Abs(float64(liderPlay)-group3[i])) == int(math.Abs(float64(liderPlay)-group3[i+1])) { // si el calculo da el mismo resultado pues ambos ganan
+					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+				} else if int(math.Abs(float64(liderPlay)-group3[i])) < int(math.Abs(float64(liderPlay)-group3[i+1])) {
+					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+				} else {
+					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+				}
+
+				i++
+			}
+
+			fmt.Println("se ha muerto ste men: 2")
+			fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
+			fmt.Println("los ganadores de la ronda son 1,2,3 ")
+			actualStage = "4end"
 		}
 
-
-
-		fmt.Println("se ha muerto ste men: 2")
-		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
-		fmt.Println("los ganadores de la ronda son 1,2,3 ")
-		actualStage = "4end"
 	}
-
 }
