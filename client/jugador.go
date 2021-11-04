@@ -103,7 +103,7 @@ func main() {
 	//Aquí finaliza la inscripción
 
 
-
+	started=false
 	flag1 = false
 	for !flag1 {
 		fmt.Println("ingresa next para comenzar el nivel 1")
