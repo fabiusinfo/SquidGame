@@ -1,4 +1,3 @@
-////// Kathy y Eloli deben implementar la estructura del DataNode habilitandolos como servidor.
 package main
 
 import (
@@ -38,7 +37,7 @@ func crearArchivo(path string) {
 }
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	//aqui implementar la escribicion jugador_1__ronda_1.txt
+	//aqui implementar la escritura del archivo de texto
 	var path = "DN_plays/jugador_" + in.GetPlayer() + "__ronda_" + in.GetStage() + ".txt"
 
 	crearArchivo(path)
@@ -50,7 +49,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	b = append(b, []byte(in.GetPlay()+" \n")...) //hay que conseguirse la jugada, quizas en el mercado negro hay
+	b = append(b, []byte(in.GetPlay()+" \n")...)
 	errtxt = ioutil.WriteFile(path, b, 0644)
 
 	if errtxt != nil {

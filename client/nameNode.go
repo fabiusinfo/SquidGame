@@ -7,7 +7,6 @@ import (
 	"log"
 	"math/rand"
 	"net"
-	"strconv"
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
@@ -18,41 +17,28 @@ type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
 
-func generateID() string {
-	rand.Seed(time.Now().Unix())
-	return "ID: " + strconv.Itoa(rand.Int())
-}
-
-//habilitar el puerto 8080 en la máquina 162        Javier: listoco, comando aplicado
-//acá definir la función sendplays
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
-	////// Kathy y Eloli deben implementar la consulta a los 3 datanodes de forma aleatoria para poder
 	//enviar la jugada a cualquiera de los 3.
 	var direction string
-
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Int63n(3)
-
 	if id == 0 {
-		direction = "10.6.43.41"
+		direction = "10.6.43.41" // maquina 1
 	} else if id == 1 {
-		direction = "10.6.43.43"
+		direction = "10.6.43.43" // maquina 3
 	} else {
-		direction = "10.6.43.44"
+		direction = "10.6.43.44" // maquina 4
 	}
-fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ; play:  "+in.GetPlay())
+	fmt.Println("se reciben los siguientes parametros: player: " + in.GetPlayer() + " ; play:  " + in.GetPlay())
 	conn, err := grpc.Dial(direction+":9000", grpc.WithInsecure())
 	serviceNN := pb.NewSquidGameServiceClient(conn)
-
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-
 	r, err := serviceNN.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetStage())
-
 	// añadir al texto
 	b, errtxt := ioutil.ReadFile("registro.txt")
 
@@ -67,7 +53,7 @@ fmt.Println("se reciben los siguientes parametros: player: "+in.GetPlayer() +" ;
 		log.Fatal(errtxt)
 	}
 
-	return &pb.SendReply{Stage:"www", Alive:true}, nil
+	return &pb.SendReply{Stage: "www", Alive: true}, nil
 }
 
 func main() {

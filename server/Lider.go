@@ -147,7 +147,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 
 						i := in.GetPlayer()
 						s := in.GetStage()
-						//i_str := strconv.Itoa(int(i))
 
 						body := "Jugador_" + i + " Ronda_" + s
 
@@ -162,7 +161,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 							})
 						failOnError(err, "Failed to publish a message")
 						log.Printf(" ha muerdo: %d ", body)
-						//log.Printf(" [x] Sent %d ", body)
 					}
 				} else if actualStage == "2tc" {
 					log.Printf("la jugada fue realizada en 2tc")
