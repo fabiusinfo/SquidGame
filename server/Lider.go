@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
 	"math/rand"
 	"net"
 	"strconv"
@@ -493,20 +494,20 @@ func main() {
 		//aqui esta terminando la ronda 2
 
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son: " + strconv.Itoa(winnerCount))
-		for i := 0; i < 16; i++ {
-			list_of_players[i].score = 0
-			if list_of_players[i].alive == true {
-				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
+		for i := 0; i < len(groupaux); i++ {
+			groupaux[i].score = 0
+			if groupaux[i].alive == true {
+				fmt.Println("el jugador: " + groupaux[i].id + " pasa al siguiente nivel")
 			}
 		}
 		//Se elimina si son impares
 		for winnerCount%2 == 1 {
 			rand.Seed(time.Now().UnixNano())
 			liderPlay = int(rand.Int63n(15))
-			if list_of_players[liderPlay].alive == true {
-				list_of_players[liderPlay].alive = false
+			if groupaux[liderPlay].alive == true {
+				groupaux[liderPlay].alive = false
 				winnerCount -= 1
-				fmt.Println("el jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente")
+				fmt.Println("el jugador: " + groupaux[liderPlay].id + " es eliminado automáticamente")
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 				failOnError(err, "Failed to connect to RabbitMQ")
 				defer conn.Close()
@@ -527,7 +528,7 @@ func main() {
 				//s := in.GetStage()
 				//i_str := strconv.Itoa(int(i))
 
-				body := "Jugador_" + list_of_players[liderPlay].id + " Ronda_" + actualStage
+				body := "Jugador_" + groupaux[liderPlay].id + " Ronda_" + actualStage
 
 				err = ch.Publish(
 					"",     // exchange
@@ -547,9 +548,13 @@ func main() {
 		actualStage = "3tn"
 
 		//for que recorra los vivos, haga parejas y entre ellos se saquen la madre
-		for i := 0; i < winnerCount/2; i++ {
-
+		for i := 0; i < len(groupaux); i++ {
+			if groupaux[i].alive == true {
+				group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
+				fmt.Println("se agrega la ronda final: " + groupaux[i].id)
 		}
+
+
 
 		started = false
 
@@ -568,6 +573,29 @@ func main() {
 		liderPlay = int(rand.Int63n(9))
 		liderPlay = liderPlay + 1
 		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+
+		// Jugadas
+
+		for i:=0; i<len(group3); i++{
+			if group3[i].score == group3[i+1].score{
+				fmt.Println(group3[i].id +" es un ganador del Squid Game \n")
+				fmt.Println(group3[i+1].id +" es un ganador del Squid Game \n")
+			} else if int(math.Abs(float64(liderPlay)-group3[i])) == int(math.Abs(float64(liderPlay)-group3[i+1])) {  // si el calculo da el mismo resultado pues ambos ganan
+				fmt.Println(group3[i].id +" es un ganador del Squid Game \n")
+				fmt.Println(group3[i+1].id +" es un ganador del Squid Game \n")
+			} else if int(math.Abs(float64(liderPlay)-group3[i])) < int(math.Abs(float64(liderPlay)-group3[i+1])) {
+				fmt.Println(group3[i].id +" es un ganador del Squid Game \n")
+			} else{
+				fmt.Println(group3[i+1].id +" es un ganador del Squid Game \n")
+			}
+
+			
+
+			i++
+		}
+
+
+
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
