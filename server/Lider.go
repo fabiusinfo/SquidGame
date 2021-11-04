@@ -54,10 +54,63 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
 	alive := true
-	for i := 0; i < 16; i++ {
-		if list_of_players[i].id == in.GetPlayer() {
-			alive = list_of_players[i].alive
+	if in.GetStage() == "1rv" {
+		for i := 0; i < 16; i++ {
+			if list_of_players[i].id == in.GetPlayer() {
+				alive = list_of_players[i].alive
+			}
 		}
+	} else if in.GetStage() == "2tc" {
+		for i := 0; i < len(group1); i++ {
+			if group1[i].id == in.GetPlayer() {
+				alive = group1[i].alive
+			}
+		}
+		for i := 0; i < len(group2); i++ {
+			if group2[i].id == in.GetPlayer() {
+				alive = group2[i].alive
+			}
+		}
+	} else {
+		log.Printf("estoy en la tercera ronda y no se que hacer, ayuuuda")
+	}
+	if alive == false {
+		conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+		failOnError(err, "Failed to connect to RabbitMQ")
+		defer conn.Close()
+
+		ch, err := conn.Channel()
+		failOnError(err, "Failed to open a channel")
+		defer ch.Close()
+
+		q, err := ch.QueueDeclare(
+			"hello", // name
+			false,   // durable
+			false,   // delete when unused
+			false,   // exclusive
+			false,   // no-wait
+			nil,     // arguments
+		)
+		failOnError(err, "Failed to declare a queue")
+
+		i := in.GetPlayer()
+		//s := in.GetStage()
+		//i_str := strconv.Itoa(int(i))
+
+		body := "Jugador_" + i + " Ronda_" + actualStage
+
+		err = ch.Publish(
+			"",     // exchange
+			q.Name, // routing key
+			false,  // mandatory
+			false,  // immediate
+			amqp.Publishing{
+				ContentType: "text/plain",
+				Body:        []byte(body),
+			})
+		failOnError(err, "Failed to publish a message")
+		log.Printf(" ha muerdo: %d ", body)
+		//log.Printf(" [x] Sent %d ", body)
 	}
 
 	return &pb.DeadReply{Dead: alive}, nil
@@ -224,7 +277,7 @@ func main() {
 
 	///////////// Interfaz
 	var start string
-	var stage string
+	//var stage string
 	var next string
 	started = false
 	actualStage = "1rv"
@@ -316,12 +369,22 @@ func main() {
 
 			}
 		}
+		started = false
 
-		fmt.Println("escribe start para comenzar la etapa 2: ")
-		fmt.Scanln(&start)
-		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + actualStage)
+		flag1 := false
+		for !flag1 {
+			fmt.Println("escribe start para comenzar la etapa 2: ")
+			fmt.Scanln(&start)
+			if start == "start" {
+				started = true
+				flag1 = true
+				fmt.Println("Ha comenzado la etapa: " + actualStage)
+			} else {
+				fmt.Println("ingresaste mal el comando")
+			}
 		}
+
+		rand.Seed(time.Now().UnixNano())
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1
 		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
@@ -350,23 +413,58 @@ func main() {
 		}
 		if passGroup1 == true && passGroup2 == true {
 			fmt.Println("ambos equipos pasan")
+			winnerCount = len(group2) + len(group1)
 		} else if passGroup1 == true && passGroup2 == false {
 			fmt.Println("pasa el equipo 1")
+			for i := 0; i < len(group2); i++ {
+				group2[i].alive = false
+			}
+			winnerCount = len(group1)
+
 		} else if passGroup1 == false && passGroup2 == true {
 			fmt.Println("pasa el equipo 2")
+			for i := 0; i < len(group1); i++ {
+				group1[i].alive = false
+			}
+			winnerCount = len(group2)
 		} else {
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
+			rand.Seed(time.Now().UnixNano())
+			liderPlay = int(rand.Int63n(1))
+			if liderPlay == 0 {
+				fmt.Println("pasa el equipo 1")
+				for i := 0; i < len(group2); i++ {
+					group2[i].alive = false
+				}
+				winnerCount = len(group1)
+
+			} else {
+				fmt.Println("pasa el equipo 2")
+				for i := 0; i < len(group1); i++ {
+					group1[i].alive = false
+				}
+				winnerCount = len(group2)
+			}
+
 		}
 
-		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
 		actualStage = "3tn"
 
-		fmt.Println("escribe start para comenzar la etapa 3: ")
-		fmt.Scanln(&start)
-		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + stage)
+		started = false
+
+		flag1 = false
+		for !flag1 {
+			fmt.Println("escribe start para comenzar la etapa 3: ")
+			fmt.Scanln(&start)
+			if start == "start" {
+				started = true
+				flag1 = true
+				fmt.Println("Ha comenzado la etapa: " + actualStage)
+			} else {
+				fmt.Println("ingresaste mal el comando")
+			}
 		}
 		liderPlay = int(rand.Int63n(9))
 		liderPlay = liderPlay + 1
@@ -374,7 +472,7 @@ func main() {
 		fmt.Println("se ha muerto ste men: 2")
 		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
-		stage = "4end"
+		actualStage = "4end"
 	}
 
 }

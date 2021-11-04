@@ -28,6 +28,11 @@ func main() {
 	codes1 := "none"
 	codes2 := "none"
 	codes3 := "none"
+<<<<<<< HEAD
+=======
+	next:="none"
+	//alive := true
+>>>>>>> 8aed0a526d6819861bbfc377fdac0f4683e6a4e4
 	started := false
 	flag1 := false
 
@@ -61,6 +66,7 @@ func main() {
 		codes3 = r.GetCodes3()
 		actualStage = codes1
 		started = true
+		
 		if started == true {
 			fmt.Println("inscripción al SquidGame realizada con éxito.")
 		}
@@ -99,6 +105,37 @@ func main() {
 	}
 	fmt.Println(codes1 + codes2 + codes3)
 	//Aquí finaliza la inscripción
+	flag1 = false
+	for !flag1 {
+		fmt.Println("ingresa next para comenzar el nivel 1")
+		fmt.Scanln(&next)
+		if next == "next" {
+			if started==true{
+				flag1 = true
+				break
+			}
+			
+			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+		if err != nil {
+			panic("cannot connect with server " + err.Error())
+		}
+
+		servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+		r, err := servicePlayer.Started(ctx, &pb.StartRequest{Message: "solicito ingresar al nivel 1"})
+		if err != nil {
+			log.Fatalf("could not greet: %v", err)
+		}
+		started=r.GetStarted()
+		}else{
+			fmt.Println("ingresaste mal el comando")
+		}
+	}
+
+	
 
 	//Aquí realizar jugada o checkAmount nivel 1 ¿?
 	contStage := 0
@@ -208,8 +245,68 @@ func main() {
 		} else {
 			fmt.Println("ingresaste mal el comando")
 		}
+<<<<<<< HEAD
 
 	}
+=======
+		
+
+		flag1 = false
+		for !flag1 {
+			fmt.Println("ingresa next para comenzar el nivel 2")
+			fmt.Scanln(&next)
+			if next == "next" {
+				if started==true{
+					flag1 = true
+					break
+				}
+				
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+	
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
+	
+			servicePlayer := pb.NewSquidGameServiceClient(conn)
+	
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+			r, err := servicePlayer.Started(ctx, &pb.StartRequest{Message: "solicito ingresar al nivel 2"})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			started=r.GetStarted()
+			}else{
+				fmt.Println("ingresaste mal el comando")
+			}
+		}
+		fmt.Println(actualStage)
+		for i := 0; i < 16; i++ {
+			list_of_players[i].score = 0
+			if list_of_players[i].alive == true {
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+						if err != nil {
+							panic("cannot connect with server " + err.Error())
+						}
+
+						servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+						defer cancel()
+
+						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id , Stage: actualStage })
+						if err != nil {
+							log.Fatalf("fallo 1: %v", err)
+						}
+						list_of_players[i].alive=r.GetDead()
+			}
+		}
+		//Aquí realizar jugada o checkAmount nivel 2 ¿?
+	
+	contStage=0
+	actualStage="2tc"
+>>>>>>> 8aed0a526d6819861bbfc377fdac0f4683e6a4e4
 	fmt.Println(actualStage)
 	for i := 0; i < 16; i++ {
 		list_of_players[i].score = 0
@@ -285,8 +382,73 @@ func main() {
 
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
+<<<<<<< HEAD
 			if err != nil {
 				panic("cannot connect with server " + err.Error())
+=======
+		flag1 = false
+		for !flag1 {
+			fmt.Println("ingresa next para comenzar el nivel 3")
+			fmt.Scanln(&next)
+			if next == "next" {
+				if started==true{
+					flag1 = true
+					break
+				}
+				
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+	
+			if err != nil {
+				panic("cannot connect with server " + err.Error())
+			}
+	
+			servicePlayer := pb.NewSquidGameServiceClient(conn)
+	
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
+			r, err := servicePlayer.Started(ctx, &pb.StartRequest{Message: "solicito ingresar al nivel 3"})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			started=r.GetStarted()
+			}else{
+				fmt.Println("ingresaste mal el comando")
+			}
+		}
+
+		for i := 0; i < 16; i++ {
+			list_of_players[i].score = 0
+			if list_of_players[i].alive == true {
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+						if err != nil {
+							panic("cannot connect with server " + err.Error())
+						}
+
+						servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+						defer cancel()
+
+						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id, Stage: actualStage  })
+						if err != nil {
+							log.Fatalf("fallo 1: %v", err)
+						}
+						list_of_players[i].alive=r.GetDead()
+			}
+		}
+
+		//Aquí realizar jugada o checkAmount nivel 3 ¿?
+	
+	actualStage="3tn"
+	contStage=0
+	fmt.Println(actualStage)
+		flag1 = false
+		for !flag1 {
+			if contStage==1 {
+				flag1 = true
+				break
+>>>>>>> 8aed0a526d6819861bbfc377fdac0f4683e6a4e4
 			}
 
 			servicePlayer := pb.NewSquidGameServiceClient(conn)
