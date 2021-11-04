@@ -106,7 +106,7 @@ func main() {
 				log.Fatal(errtxt)
 			}
 
-			fmt.Println("Muere: "+cadena)
+			fmt.Println("\n")
 
 		}
 
