@@ -53,17 +53,15 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
-	alive:=true
-	for i:=0 ; i< 16; i++ {
-		if list_of_players[i].id==in.GetPlayer(){
-			alive=list_of_players[i].alive
+	alive := true
+	for i := 0; i < 16; i++ {
+		if list_of_players[i].id == in.GetPlayer() {
+			alive = list_of_players[i].alive
 		}
 	}
 
-	return &pb.DeadReply{Dead:alive}, nil
+	return &pb.DeadReply{Dead: alive}, nil
 }
-
-
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
@@ -98,21 +96,21 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 				if errpPlay != nil {
 					log.Fatalf("could not greet: %v", errpPlay)
 				}
-				if actualStage=="1rv"{
+				if actualStage == "1rv" {
 					for i := 0; i < 16; i++ {
 						if list_of_players[i].id == in.GetPlayer() {
 
 							list_of_players[i].score += pPlay
 						}
 					}
-				}else if actualStage == "2tc" {
-					for i:=0 ; i< len(group1) ; i++ {
+				} else if actualStage == "2tc" {
+					for i := 0; i < len(group1); i++ {
 						if group1[i].id == in.GetPlayer() {
 
 							group1[i].score += pPlay
 						}
 					}
-					for i:=0 ; i< len(group2) ; i++ {
+					for i := 0; i < len(group2); i++ {
 						if group2[i].id == in.GetPlayer() {
 
 							group2[i].score += pPlay
@@ -172,8 +170,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			} else {
 				log.Printf("aún no comienza el nivel")
 			}
-			//log.Printf("Greeting: %s", r.GetStage())
-
 		}
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
 	} else {
@@ -182,10 +178,6 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 
 }
-
-//"El jugador " + in.GetPlayer() + " hizo una jugada " + in.GetPlay() + "en la etapa" + in.GetStage()
-
-
 
 func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.AmountReply, error) {
 	message := "solicito monto"
@@ -206,8 +198,6 @@ func (s *server) AmountCheck(ctx context.Context, in *pb.AmountRequest) (*pb.Amo
 	log.Printf("Greeting: %s", r.GetMonto())
 	return &pb.AmountReply{Monto: r.GetMonto()}, nil
 }
-
-
 
 func main() {
 	//códigos Etapas
@@ -242,8 +232,7 @@ func main() {
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
-	//var ronda_actual int32
-	//ronda_actual = 0
+
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
 		fmt.Scanln(&SquidGame)
@@ -270,21 +259,21 @@ func main() {
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = liderPlay + 6
-			
+
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
 			fmt.Scanln(&next)
 			actualRound += 1
-			if i==3 {
+			if i == 3 {
 				actualStage = "2tc"
-				
+
 			}
 
 		}
 
-		// Si tienen menos de 21 puntos, hay tabla
+		// Si siguen vivos pero tienen menos de 21 puntos, son eliminados
 		for j := 0; j < 16; j++ {
-			if (list_of_players[j].score < 21) && (list_of_players[j].alive == true) { //si tiene menos de 21 puntos y sigue vivo, se muere
+			if (list_of_players[j].score < 21) && (list_of_players[j].alive == true) {
 				list_of_players[j].alive = false
 				puntaje := strconv.Itoa(int(list_of_players[j].score))
 				fmt.Println("el jugador: " + list_of_players[j].id + " fue eliminado por no alcanzar puntaje requerido: " + puntaje)
@@ -292,7 +281,7 @@ func main() {
 
 		}
 
-		// Hay que anunciar a los ganadores del nivel con un print o algo asi
+		// Hay que anunciar a los ganadores del nivel
 		winnerCount := 0
 		for i := 0; i < 16; i++ {
 			list_of_players[i].score = 0
@@ -300,7 +289,7 @@ func main() {
 				winnerCount += 1
 				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
 			}
-			//acá eliminamos al jugador sobrante.
+			//acá eliminamos al azar, al jugador sobrante.
 		}
 		for winnerCount%2 == 1 {
 			rand.Seed(time.Now().UnixNano())
@@ -313,23 +302,22 @@ func main() {
 		}
 
 		actualStage = "2tc"
-		//esto separa a los ganadores de la ronda pasada en 2 grupos
+		//Separar a los ganadores de la ronda pasada en 2 grupos
 		changer := 0
 		for i := 0; i < 16; i++ {
 			if list_of_players[i].alive == true {
 				if changer == 0 {
 					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("se agrega al grupo 1: "+ list_of_players[i].id)
+					fmt.Println("se agrega al grupo 1: " + list_of_players[i].id)
 					changer = 1
 				} else {
 					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("se agrega al grupo 2: "+ list_of_players[i].id)
+					fmt.Println("se agrega al grupo 2: " + list_of_players[i].id)
 					changer = 0
 				}
 
 			}
 		}
-	
 
 		fmt.Println("escribe start para comenzar la etapa 2: ")
 		fmt.Scanln(&start)
@@ -390,57 +378,5 @@ func main() {
 		fmt.Println("los ganadores de la ronda son 1,2,3 ")
 		stage = "4end"
 	}
-
-	//enviar
-
-	// NAMENOOOOOOOOOOOOOOOOOOOOOODEEEEEEEEEEEEEEE
-	/*conn, err := grpc.Dial("10.6.43.42:8080", grpc.WithInsecure())
-
-	if err != nil {
-		panic("cannot connect with server " + err.Error())
-	}
-
-	serviceLider := pb.NewSquidGameServiceClient(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-
-	playerID := "1"
-	stage := "1"
-	jugada := "5"
-
-	r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: playerID, Play: jugada, Stage: stage})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	log.Printf("Greeting: %s", r.GetMessage())/*
-
-	//////////////////////
-
-	// POZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-
-	/*var second string
-	message := "solicitar"
-
-	fmt.Println("ingresa la letra a para solicitar monto: ")
-	fmt.Scanln(&second)
-
-	//if true {} aqui parte el POZO
-	conn2, err2 := grpc.Dial("10.6.43.43:8080", grpc.WithInsecure())
-
-	if err2 != nil {
-		panic("cannot connect with pozo " + err.Error())
-	}
-	serviceClient := pb.NewSquidGameServiceClient(conn2)
-	//ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	//aqui primer intento del consultar desde el servidor a otra entidad.
-	r2, err3 := serviceClient.AmountCheck(ctx, &pb.AmountRequest{Message: message})
-	if err3 != nil {
-		log.Fatalf("no se pudo solicitar el monto: %v", err3)
-	}
-	log.Printf("Greeting: %s", r2.GetMessage())
-	*/
-	/////////////////////////////
 
 }
