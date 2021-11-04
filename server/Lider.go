@@ -34,6 +34,10 @@ var list_of_players []PlayerStruct
 //listas stage 2
 var group1 []PlayerStruct
 var group2 []PlayerStruct
+var groupaux []PlayerStruct
+
+//listas stage 3
+var group3 []PlayerStruct
 
 //var players [16]string
 var totalPlayers int
@@ -53,7 +57,7 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 }
 
 func (s *server) Started(ctx context.Context, in *pb.StartRequest) (*pb.StartReply, error) {
-	return &pb.StartReply{Started:started}, nil
+	return &pb.StartReply{Started: started}, nil
 }
 
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
@@ -78,7 +82,6 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 	} else {
 		log.Printf("estoy en la tercera ronda y no se que hacer, ayuuuda")
 	}
-	
 
 	return &pb.DeadReply{Dead: alive}, nil
 }
@@ -288,7 +291,7 @@ func main() {
 			}
 
 		}
-		started=false
+		started = false
 
 		// Si siguen vivos pero tienen menos de 21 puntos, son eliminados
 		for j := 0; j < 16; j++ {
@@ -296,41 +299,41 @@ func main() {
 				list_of_players[j].alive = false
 				puntaje := strconv.Itoa(int(list_of_players[j].score))
 				fmt.Println("el jugador: " + list_of_players[j].id + " fue eliminado por no alcanzar puntaje requerido: " + puntaje)
-					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
-					failOnError(err, "Failed to connect to RabbitMQ")
-					defer conn.Close()
-			
-					ch, err := conn.Channel()
-					failOnError(err, "Failed to open a channel")
-					defer ch.Close()
-			
-					q, err := ch.QueueDeclare(
-						"hello", // name
-						false,   // durable
-						false,   // delete when unused
-						false,   // exclusive
-						false,   // no-wait
-						nil,     // arguments
-					)
-					failOnError(err, "Failed to declare a queue")
-					//s := in.GetStage()
-					//i_str := strconv.Itoa(int(i))
-			
-					body := "Jugador_" + list_of_players[j].id  + " Ronda_" + actualStage
-			
-					err = ch.Publish(
-						"",     // exchange
-						q.Name, // routing key
-						false,  // mandatory
-						false,  // immediate
-						amqp.Publishing{
-							ContentType: "text/plain",
-							Body:        []byte(body),
-						})
-					failOnError(err, "Failed to publish a message")
-					log.Printf(" ha muerdo: %d ", body)
-					//log.Printf(" [x] Sent %d ", body)
-				
+				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+				failOnError(err, "Failed to connect to RabbitMQ")
+				defer conn.Close()
+
+				ch, err := conn.Channel()
+				failOnError(err, "Failed to open a channel")
+				defer ch.Close()
+
+				q, err := ch.QueueDeclare(
+					"hello", // name
+					false,   // durable
+					false,   // delete when unused
+					false,   // exclusive
+					false,   // no-wait
+					nil,     // arguments
+				)
+				failOnError(err, "Failed to declare a queue")
+				//s := in.GetStage()
+				//i_str := strconv.Itoa(int(i))
+
+				body := "Jugador_" + list_of_players[j].id + " Ronda_" + actualStage
+
+				err = ch.Publish(
+					"",     // exchange
+					q.Name, // routing key
+					false,  // mandatory
+					false,  // immediate
+					amqp.Publishing{
+						ContentType: "text/plain",
+						Body:        []byte(body),
+					})
+				failOnError(err, "Failed to publish a message")
+				log.Printf(" ha muerdo: %d ", body)
+				//log.Printf(" [x] Sent %d ", body)
+
 			}
 
 		}
@@ -353,39 +356,39 @@ func main() {
 				winnerCount -= 1
 				fmt.Println("el jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente")
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
-					failOnError(err, "Failed to connect to RabbitMQ")
-					defer conn.Close()
-			
-					ch, err := conn.Channel()
-					failOnError(err, "Failed to open a channel")
-					defer ch.Close()
-			
-					q, err := ch.QueueDeclare(
-						"hello", // name
-						false,   // durable
-						false,   // delete when unused
-						false,   // exclusive
-						false,   // no-wait
-						nil,     // arguments
-					)
-					failOnError(err, "Failed to declare a queue")
-					//s := in.GetStage()
-					//i_str := strconv.Itoa(int(i))
-			
-					body := "Jugador_" + list_of_players[liderPlay].id  + " Ronda_" + actualStage
-			
-					err = ch.Publish(
-						"",     // exchange
-						q.Name, // routing key
-						false,  // mandatory
-						false,  // immediate
-						amqp.Publishing{
-							ContentType: "text/plain",
-							Body:        []byte(body),
-						})
-					failOnError(err, "Failed to publish a message")
-					log.Printf(" ha muerdo: %d ", body)
-					//log.Printf(" [x] Sent %d ", body)
+				failOnError(err, "Failed to connect to RabbitMQ")
+				defer conn.Close()
+
+				ch, err := conn.Channel()
+				failOnError(err, "Failed to open a channel")
+				defer ch.Close()
+
+				q, err := ch.QueueDeclare(
+					"hello", // name
+					false,   // durable
+					false,   // delete when unused
+					false,   // exclusive
+					false,   // no-wait
+					nil,     // arguments
+				)
+				failOnError(err, "Failed to declare a queue")
+				//s := in.GetStage()
+				//i_str := strconv.Itoa(int(i))
+
+				body := "Jugador_" + list_of_players[liderPlay].id + " Ronda_" + actualStage
+
+				err = ch.Publish(
+					"",     // exchange
+					q.Name, // routing key
+					false,  // mandatory
+					false,  // immediate
+					amqp.Publishing{
+						ContentType: "text/plain",
+						Body:        []byte(body),
+					})
+				failOnError(err, "Failed to publish a message")
+				log.Printf(" ha muerdo: %d ", body)
+				//log.Printf(" [x] Sent %d ", body)
 			}
 		}
 
@@ -406,7 +409,6 @@ func main() {
 
 			}
 		}
-
 
 		flag1 := false
 		for !flag1 {
@@ -451,20 +453,23 @@ func main() {
 		if passGroup1 == true && passGroup2 == true {
 			fmt.Println("ambos equipos pasan")
 			winnerCount = len(group2) + len(group1)
-		}else if passGroup1 == true && passGroup2 == false {
+			groupaux = append(group1, group2...)
+		} else if passGroup1 == true && passGroup2 == false {
 			fmt.Println("pasa el equipo 1")
 			for i := 0; i < len(group2); i++ {
 				group2[i].alive = false
+
 			}
 			winnerCount = len(group1)
-
+			groupaux = group1
 		} else if passGroup1 == false && passGroup2 == true {
 			fmt.Println("pasa el equipo 2")
 			for i := 0; i < len(group1); i++ {
 				group1[i].alive = false
 			}
 			winnerCount = len(group2)
-		}else {
+			groupaux = group2
+		} else {
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
 			rand.Seed(time.Now().UnixNano())
 			liderPlay = int(rand.Int63n(1))
@@ -474,20 +479,77 @@ func main() {
 					group2[i].alive = false
 				}
 				winnerCount = len(group1)
-
+				groupaux = group1
 			} else {
 				fmt.Println("pasa el equipo 2")
 				for i := 0; i < len(group1); i++ {
 					group1[i].alive = false
 				}
 				winnerCount = len(group2)
+				groupaux = group2
 			}
 
 		}
+		//aqui esta terminando la ronda 2
 
-		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
-		fmt.Println("los ganadores de la ronda son 1,2,3 ")
+		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son: " + strconv.Itoa(winnerCount))
+		for i := 0; i < 16; i++ {
+			list_of_players[i].score = 0
+			if list_of_players[i].alive == true {
+				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
+			}
+		}
+		//Se elimina si son impares
+		for winnerCount%2 == 1 {
+			rand.Seed(time.Now().UnixNano())
+			liderPlay = int(rand.Int63n(15))
+			if list_of_players[liderPlay].alive == true {
+				list_of_players[liderPlay].alive = false
+				winnerCount -= 1
+				fmt.Println("el jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente")
+				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+				failOnError(err, "Failed to connect to RabbitMQ")
+				defer conn.Close()
+
+				ch, err := conn.Channel()
+				failOnError(err, "Failed to open a channel")
+				defer ch.Close()
+
+				q, err := ch.QueueDeclare(
+					"hello", // name
+					false,   // durable
+					false,   // delete when unused
+					false,   // exclusive
+					false,   // no-wait
+					nil,     // arguments
+				)
+				failOnError(err, "Failed to declare a queue")
+				//s := in.GetStage()
+				//i_str := strconv.Itoa(int(i))
+
+				body := "Jugador_" + list_of_players[liderPlay].id + " Ronda_" + actualStage
+
+				err = ch.Publish(
+					"",     // exchange
+					q.Name, // routing key
+					false,  // mandatory
+					false,  // immediate
+					amqp.Publishing{
+						ContentType: "text/plain",
+						Body:        []byte(body),
+					})
+				failOnError(err, "Failed to publish a message")
+				log.Printf(" ha muerdo: %d ", body)
+				//log.Printf(" [x] Sent %d ", body)
+			}
+		}
+
 		actualStage = "3tn"
+
+		//for que recorra los vivos, haga parejas y entre ellos se saquen la madre
+		for i := 0; i < winnerCount/2; i++ {
+
+		}
 
 		started = false
 
