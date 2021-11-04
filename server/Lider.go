@@ -52,6 +52,10 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
 }
 
+func (s *server) Started(ctx context.Context, in *pb.StartRequest) (*pb.StartReply, error) {
+	return &pb.StartReply{Started:started}, nil
+}
+
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
 	alive := true
 	if in.GetStage() == "1rv" {
