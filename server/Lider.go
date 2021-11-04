@@ -578,10 +578,10 @@ func main() {
 				if group3[i].score == group3[i+1].score {
 					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
 					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-				} else if int(math.Abs(float64(liderPlay)-group3[i])) == int(math.Abs(float64(liderPlay)-group3[i+1])) { // si el calculo da el mismo resultado pues ambos ganan
+				} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
 					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
 					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-				} else if int(math.Abs(float64(liderPlay)-group3[i])) < int(math.Abs(float64(liderPlay)-group3[i+1])) {
+				} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
 					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
 				} else {
 					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
