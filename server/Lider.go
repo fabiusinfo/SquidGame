@@ -577,7 +577,7 @@ func main() {
 			// Jugadas
 			//aqui esta el problema uwu
 			for i := 0; i < len(group3)-1; i++ {
-				fmt.Println(group3)
+				fmt.Println(len(group3))
 				if group3[i].score == group3[i+1].score {
 					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
 					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
