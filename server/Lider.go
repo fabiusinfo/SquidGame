@@ -414,7 +414,7 @@ func main() {
 		if passGroup1 == true && passGroup2 == true {
 			fmt.Println("ambos equipos pasan")
 			winnerCount = len(group2) + len(group1)
-		} else if passGroup1 == true && passGroup2 == false {
+		}else if passGroup1 == true && passGroup2 == false {
 			fmt.Println("pasa el equipo 1")
 			for i := 0; i < len(group2); i++ {
 				group2[i].alive = false
@@ -427,7 +427,7 @@ func main() {
 				group1[i].alive = false
 			}
 			winnerCount = len(group2)
-		} else {
+		}else {
 			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
 			rand.Seed(time.Now().UnixNano())
 			liderPlay = int(rand.Int63n(1))
