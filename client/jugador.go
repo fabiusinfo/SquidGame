@@ -245,29 +245,6 @@ func main() {
 			fmt.Println("ingresaste mal el comando")
 		}
 	}
-
-	fmt.Println(actualStage)
-		for i := 0; i < 16; i++ {
-			list_of_players[i].score = 0
-			if list_of_players[i].alive == true {
-				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
-
-						if err != nil {
-							panic("cannot connect with server " + err.Error())
-						}
-
-						servicePlayer := pb.NewSquidGameServiceClient(conn)
-
-						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-						defer cancel()
-
-						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id , Stage: actualStage })
-						if err != nil {
-							log.Fatalf("fallo 1: %v", err)
-						}
-						list_of_players[i].alive=r.GetDead()
-			}
-		}
 		
 
 		flag1 = false
@@ -300,7 +277,28 @@ func main() {
 			}
 		}
 	
-		
+		fmt.Println(actualStage)
+		for i := 0; i < 16; i++ {
+			list_of_players[i].score = 0
+			if list_of_players[i].alive == true {
+				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+						if err != nil {
+							panic("cannot connect with server " + err.Error())
+						}
+
+						servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+						ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+						defer cancel()
+
+						r, err := servicePlayer.DeadOrAlive(ctx, &pb.DeadRequest{Player:list_of_players[i].id , Stage: actualStage })
+						if err != nil {
+							log.Fatalf("fallo 1: %v", err)
+						}
+						list_of_players[i].alive=r.GetDead()
+			}
+		}
 
 
 
@@ -314,7 +312,7 @@ func main() {
 			flag1 = true
 			break
 		}
-		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
+		fmt.Println("STAGE 2: escribe send -> enviar jugada, check -> solicitar monto: ")
 		fmt.Scanln(&action)
 		if action == "send" {
 			contStage += 1
