@@ -504,7 +504,7 @@ func main() {
 		//Se elimina si son impares
 		for winnerCount%2 == 1 {
 			rand.Seed(time.Now().UnixNano())
-			liderPlay = int(rand.Int63n(15))
+			liderPlay = int(rand.Int63n(int64(len(groupaux))))
 			if groupaux[liderPlay].alive == true {
 				groupaux[liderPlay].alive = false
 				winnerCount -= 1
