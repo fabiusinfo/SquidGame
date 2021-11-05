@@ -478,6 +478,7 @@ func main() {
 
 			for !flag1 {
 				fmt.Println("Escribe -start- para comenzar la etapa 2: ")
+				actualRound = 1
 				fmt.Scanln(&start)
 				if start == "start" {
 					started = true
@@ -630,6 +631,7 @@ func main() {
 
 		if finisher {
 			actualStage = "3tn"
+			actualRound = 1
 			started = false
 			//for que recorra los vivos, haga parejas y entre ellos jueguen
 			for i := 0; i < len(groupaux); i++ {
