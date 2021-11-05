@@ -95,7 +95,7 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
-	flaggy=true
+	flaggy = true
 	if actualRound != 0 {
 		if in.GetRound() == actualRound {
 
@@ -200,18 +200,18 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 						failOnError(err, "Failed to publish a message")
 						log.Printf("Ha muerto: %s ", body)
 					}
-				} 
+				}
 			} else {
 				log.Printf("aún no comienza el nivel")
 
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
+				return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 			}
 			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
-		}else{
+		} else {
 			log.Printf("ya realizaste la jugada en esta ronda ")
 			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 		}
-		
+
 	} else {
 		log.Printf("el lider todavía no comienza la ronda")
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
@@ -272,10 +272,10 @@ func main() {
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
-	flaggy=false
-	finisher:=true
+	flaggy = false
+	finisher := true
 	flag1 := false
-	Winner:="none"
+	Winner := "none"
 
 	for totalPlayers != 16 {
 		fmt.Println("Escribe -start- para iniciar el SquidGame: ")
@@ -301,7 +301,7 @@ func main() {
 			fmt.Println("Ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = 8
-			guardian:=false
+			guardian := false
 			//liderPlay + 6
 			for !guardian {
 				fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
@@ -311,18 +311,18 @@ func main() {
 					fmt.Println("Escribe -next- para la siguiente ronda: ")
 				}
 				fmt.Scanln(&next)
-				if next=="next" {
+				if next == "next" {
 					if flaggy == false {
 						fmt.Println("Los jugadores todavía no realizan las jugadas ")
-					}else{
-						guardian=true
+					} else {
+						guardian = true
 					}
-				}else{
+				} else {
 					fmt.Println("Ingresaste mal el comando ")
 				}
 			}
 			actualRound += 1
-			flaggy=false
+			flaggy = false
 			if i == 3 {
 				actualStage = "2tc"
 
@@ -336,7 +336,7 @@ func main() {
 			if (list_of_players[j].score < 21) && (list_of_players[j].alive == true) {
 				list_of_players[j].alive = false
 				puntaje := strconv.Itoa(int(list_of_players[j].score))
-				fmt.Println("El jugador " + list_of_players[j].id + " fue eliminado: " + puntaje +"/21 :c") // 14/21
+				fmt.Println("El jugador " + list_of_players[j].id + " fue eliminado: " + puntaje + "/21 :c") // 14/21
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 				failOnError(err, "Failed to connect to RabbitMQ")
 				defer conn.Close()
@@ -357,7 +357,7 @@ func main() {
 				//s := in.GetStage()
 				//i_str := strconv.Itoa(int(i))
 
-				body := "Jugador_" + list_of_players[j].id + " Ronda_" + actualStage
+				body := "Jugador_" + list_of_players[j].id + " Ronda_1rv"
 
 				err = ch.Publish(
 					"",     // exchange
@@ -383,16 +383,16 @@ func main() {
 			if list_of_players[i].alive == true {
 				winnerCount += 1
 				fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
-				Winner=list_of_players[i].id 
+				Winner = list_of_players[i].id
 			}
 			//acá eliminamos al azar, al jugador sobrante.
 		}
-		if winnerCount==1{
+		if winnerCount == 1 {
 			fmt.Println("El ganador del SquidGame es: " + Winner)
-			finisher=false
+			finisher = false
 		}
 
-		if finisher{
+		if finisher {
 			for winnerCount%2 == 1 {
 				rand.Seed(time.Now().UnixNano())
 				liderPlay = int(rand.Int63n(15))
@@ -442,141 +442,134 @@ func main() {
 					if list_of_players[i].alive == true {
 						winnerCount += 1
 						fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
-						Winner=list_of_players[i].id 
+						Winner = list_of_players[i].id
 					}
-			//acá eliminamos al azar, al jugador sobrante.
-		}
-
-			}
-
-			if winnerCount==1{
-				fmt.Println("El ganador del SquidGame es: " + Winner)
-				finisher=false
-			}
-
-	}
-
-
-	if finisher{
-		actualStage = "2tc"
-		//Separar a los ganadores de la ronda pasada en 2 grupos
-		changer := 0
-		for i := 0; i < 16; i++ {
-			if list_of_players[i].alive == true {
-				if changer == 0 {
-					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("Se agrega al grupo 1: " + list_of_players[i].id)
-					changer = 1
-				} else {
-					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("Se agrega al grupo 2: " + list_of_players[i].id)
-					changer = 0
+					//acá eliminamos al azar, al jugador sobrante.
 				}
 
 			}
-		}
-		started = false
-	
-		for !flag1 {
-			fmt.Println("Escribe -start- para comenzar la etapa 2: ")
-			fmt.Scanln(&start)
-			if start == "start" {
-				started = true
-				flag1 = true
-				fmt.Println("Ha comenzado la etapa " + actualStage + ": Tirar la Cuerda")
-			} else {
-				fmt.Println("Ingresaste mal el comando")
+
+			if winnerCount == 1 {
+				fmt.Println("El ganador del SquidGame es: " + Winner)
+				finisher = false
 			}
+
 		}
 
-		rand.Seed(time.Now().UnixNano())
-		liderPlay = int(rand.Int63n(3))
-		liderPlay = liderPlay + 1
-		fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
-		fmt.Println("Ingresa -start- cuando los jugadores ya hayan realizado sus jugadas: ")
-		fmt.Scanln(&start)
-		scoreGroup1 := 0
-		scoreGroup2 := 0
-		passGroup1 := false
-		passGroup2 := false
-		for i := 0; i < len(group1); i++ {
-			scoreGroup1 += group1[i].score
-		}
-		for i := 0; i < len(group2); i++ {
-			scoreGroup2 += group2[i].score
-		}
-		fmt.Println("Grupo1: " + strconv.Itoa(scoreGroup1))
-		fmt.Println("Grupo2: " + strconv.Itoa(scoreGroup2))
-		if scoreGroup1%2 == liderPlay%2 {
-			passGroup1 = true
-		}
-		if scoreGroup2%2 == liderPlay%2 {
-			passGroup2 = true
-		}
-		if passGroup1 == true && passGroup2 == true {
-			fmt.Println("Ambos grupos avanzan! yey")
-			winnerCount = len(group2) + len(group1)
-			groupaux = append(group1, group2...)
-		} else if passGroup1 == true && passGroup2 == false {
-			fmt.Println("Avanza el Grupo 1")
-			for i := 0; i < len(group2); i++ {
-				group2[i].alive = false
+		if finisher {
+			actualStage = "2tc"
+			//Separar a los ganadores de la ronda pasada en 2 grupos
+			changer := 0
+			for i := 0; i < 16; i++ {
+				if list_of_players[i].alive == true {
+					if changer == 0 {
+						group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
+						fmt.Println("Se agrega al grupo 1: " + list_of_players[i].id)
+						changer = 1
+					} else {
+						group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
+						fmt.Println("Se agrega al grupo 2: " + list_of_players[i].id)
+						changer = 0
+					}
+
+				}
 			}
-			winnerCount = len(group1)
-			groupaux = group1
-		} else if passGroup1 == false && passGroup2 == true {
-			fmt.Println("Avanza el Grupo 2")
-			for i := 0; i < len(group1); i++ {
-				group1[i].alive = false
+			started = false
+
+			for !flag1 {
+				fmt.Println("Escribe -start- para comenzar la etapa 2: ")
+				fmt.Scanln(&start)
+				if start == "start" {
+					started = true
+					flag1 = true
+					fmt.Println("Ha comenzado la etapa " + actualStage + ": Tirar la Cuerda")
+				} else {
+					fmt.Println("Ingresaste mal el comando")
+				}
 			}
-			winnerCount = len(group2)
-			groupaux = group2
-		} else {
+
 			rand.Seed(time.Now().UnixNano())
-			liderPlay = int(rand.Int63n(1))
-			if liderPlay == 0 {
-				fmt.Println("Avanza el Grupo 1 por aletoriedad")
+			liderPlay = int(rand.Int63n(3))
+			liderPlay = liderPlay + 1
+			fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
+			fmt.Println("Ingresa -start- cuando los jugadores ya hayan realizado sus jugadas: ")
+			fmt.Scanln(&start)
+			scoreGroup1 := 0
+			scoreGroup2 := 0
+			passGroup1 := false
+			passGroup2 := false
+			for i := 0; i < len(group1); i++ {
+				scoreGroup1 += group1[i].score
+			}
+			for i := 0; i < len(group2); i++ {
+				scoreGroup2 += group2[i].score
+			}
+			fmt.Println("Grupo1: " + strconv.Itoa(scoreGroup1))
+			fmt.Println("Grupo2: " + strconv.Itoa(scoreGroup2))
+			if scoreGroup1%2 == liderPlay%2 {
+				passGroup1 = true
+			}
+			if scoreGroup2%2 == liderPlay%2 {
+				passGroup2 = true
+			}
+			if passGroup1 == true && passGroup2 == true {
+				fmt.Println("Ambos grupos avanzan! yey")
+				winnerCount = len(group2) + len(group1)
+				groupaux = append(group1, group2...)
+			} else if passGroup1 == true && passGroup2 == false {
+				fmt.Println("Avanza el Grupo 1")
 				for i := 0; i < len(group2); i++ {
 					group2[i].alive = false
 				}
 				winnerCount = len(group1)
 				groupaux = group1
-			} else {
-				fmt.Println("Avanza el Grupo 2 por aletoriedad")
+			} else if passGroup1 == false && passGroup2 == true {
+				fmt.Println("Avanza el Grupo 2")
 				for i := 0; i < len(group1); i++ {
 					group1[i].alive = false
 				}
 				winnerCount = len(group2)
 				groupaux = group2
+			} else {
+				rand.Seed(time.Now().UnixNano())
+				liderPlay = int(rand.Int63n(1))
+				if liderPlay == 0 {
+					fmt.Println("Avanza el Grupo 1 por aletoriedad")
+					for i := 0; i < len(group2); i++ {
+						group2[i].alive = false
+					}
+					winnerCount = len(group1)
+					groupaux = group1
+				} else {
+					fmt.Println("Avanza el Grupo 2 por aletoriedad")
+					for i := 0; i < len(group1); i++ {
+						group1[i].alive = false
+					}
+					winnerCount = len(group2)
+					groupaux = group2
+				}
+
 			}
-
 		}
-	}
-		
-
-
-
-
 
 		//aqui esta terminando la ronda 2
-		if finisher{
-			winnerCount=0
+		if finisher {
+			winnerCount = 0
 			for i := 0; i < len(groupaux); i++ {
 				groupaux[i].score = 0
 				if groupaux[i].alive == true {
-					winnerCount+=1
+					winnerCount += 1
 					fmt.Println("El jugador: " + groupaux[i].id + " avanza a la siguiente etapa!")
-					Winner=groupaux[i].id
+					Winner = groupaux[i].id
 				}
 			}
-		
-		
-		if winnerCount==1{
-			fmt.Println("El ganador del SquidGame es: "+Winner)
-			finisher=false
+
+			if winnerCount == 1 {
+				fmt.Println("El ganador del SquidGame es: " + Winner)
+				finisher = false
+			}
 		}
-	}
-		if finisher{
+		if finisher {
 			//Se elimina si son impares
 			for winnerCount%2 == 1 && winnerCount != 1 {
 				rand.Seed(time.Now().UnixNano())
@@ -588,11 +581,11 @@ func main() {
 					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 					failOnError(err, "Failed to connect to RabbitMQ")
 					defer conn.Close()
-	
+
 					ch, err := conn.Channel()
 					failOnError(err, "Failed to open a channel")
 					defer ch.Close()
-	
+
 					q, err := ch.QueueDeclare(
 						"hello", // name
 						false,   // durable
@@ -604,9 +597,9 @@ func main() {
 					failOnError(err, "Failed to declare a queue")
 					//s := in.GetStage()
 					//i_str := strconv.Itoa(int(i))
-	
+
 					body := "Jugador_" + groupaux[liderPlay].id + " Ronda_" + actualStage
-	
+
 					err = ch.Publish(
 						"",     // exchange
 						q.Name, // routing key
@@ -621,21 +614,20 @@ func main() {
 					//log.Printf(" [x] Sent %d ", body)
 				}
 			}
-			winnerCount=0
+			winnerCount = 0
 			for i := 0; i < len(groupaux); i++ {
 				if groupaux[i].alive == true {
-					winnerCount+=1
-					Winner=groupaux[i].id
+					winnerCount += 1
+					Winner = groupaux[i].id
 				}
 			}
-			if winnerCount==1{
+			if winnerCount == 1 {
 				fmt.Println("El ganador del SquidGame es: " + Winner)
-				finisher=false
+				finisher = false
 			}
 
 		}
-		
-		
+
 		if finisher {
 			actualStage = "3tn"
 			started = false
@@ -645,60 +637,59 @@ func main() {
 					group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
 				}
 			}
-				flag1 = false
-				for !flag1 {
+			flag1 = false
+			for !flag1 {
 
-					fmt.Println("Escribe -start- para comenzar la etapa 3: ")
-					fmt.Scanln(&start)
-					if start == "start" {
-						started = true
-						flag1 = true
-						fmt.Println("Ha comenzado la etapa " + actualStage + ": Todo o Nada")
+				fmt.Println("Escribe -start- para comenzar la etapa 3: ")
+				fmt.Scanln(&start)
+				if start == "start" {
+					started = true
+					flag1 = true
+					fmt.Println("Ha comenzado la etapa " + actualStage + ": Todo o Nada")
+				} else {
+					fmt.Println("Ingresaste mal el comando")
+				}
+			}
+			liderPlay = int(rand.Int63n(9))
+			liderPlay = liderPlay + 1
+			fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
+			for flag1 {
+				fmt.Println("Escribe -finish- para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
+				fmt.Scanln(&start)
+				if start == "finish" {
+					flag1 = false
+				} else {
+					fmt.Println("Ingresaste mal el comando")
+				}
+
+			}
+
+			// Jugadas
+			//aqui esta el problema uwu
+			if len(group3)%2 == 1 {
+				fmt.Println("El ganador del SquidGame es: " + group3[0].id)
+			} else {
+				for i := 0; i < len(group3); i++ {
+					fmt.Println(len(group3))
+					if group3[i].score == group3[i+1].score {
+						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
+						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
+						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
 					} else {
-						fmt.Println("Ingresaste mal el comando")
-					}
-				}
-				liderPlay = int(rand.Int63n(9))
-				liderPlay = liderPlay + 1
-				fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
-				for flag1{
-					fmt.Println("Escribe -finish- para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
-					fmt.Scanln(&start)
-					if start == "finish" {
-						flag1 = false
-					} else {
-						fmt.Println("Ingresaste mal el comando")
+						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
 					}
 
+					i++
 				}
+			}
 
-				// Jugadas
-				//aqui esta el problema uwu
-				if len(group3)%2==1{
-					fmt.Println("El ganador del SquidGame es: " +group3[0].id)
-				}else{
-					for i := 0; i < len(group3); i++ {
-						fmt.Println(len(group3))
-						if group3[i].score == group3[i+1].score {
-							fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-							fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-						} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
-							fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-							fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-						} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
-							fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-						} else {
-							fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-						}
-
-						i++
-					}
-				}
-
-				actualStage = "4end"
-			
+			actualStage = "4end"
 
 		}
-		}
-		
+	}
+
 }
