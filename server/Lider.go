@@ -30,6 +30,7 @@ var liderPlay int
 var actualStage string
 var actualRound int32
 var started bool
+var flaggy bool
 var list_of_players []PlayerStruct
 
 //listas stage 2
@@ -90,6 +91,7 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
+	flaggy=true
 	if actualRound != 0 {
 		if in.GetRound() == actualRound {
 
@@ -262,6 +264,7 @@ func main() {
 	actualStage = "1rv"
 	totalPlayers = 0
 	SquidGame := "none"
+	flaggy=false
 
 	for totalPlayers != 16 {
 		fmt.Println("escribe start para iniciar el SquidGame: ")
@@ -290,11 +293,22 @@ func main() {
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = 8
 			//liderPlay + 6
-
-			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
-			fmt.Println("escribe cualquier letra para la siguiente ronda: ")
-			fmt.Scanln(&next)
+			for !flaggy {
+				fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+				fmt.Println("escribe next para la siguiente ronda: ")
+				fmt.Scanln(&next)
+				if next=="next" {
+					if flaggy == false {
+						fmt.Println("los jugadores todavía no realizan las jugadas ")
+					}else{
+						flaggy=true
+					}
+				}else{
+					fmt.Println("ingresaste mal el comando ")
+				}
+			}
 			actualRound += 1
+			flaggy=false
 			if i == 3 {
 				actualStage = "2tc"
 
@@ -616,9 +630,6 @@ func main() {
 				}
 			}
 
-			fmt.Println("se ha muerto ste men: 2")
-			fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
-			fmt.Println("los ganadores de la ronda son 1,2,3 ")
 			actualStage = "4end"
 		
 
