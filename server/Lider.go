@@ -194,7 +194,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 								Body:        []byte(body),
 							})
 						failOnError(err, "Failed to publish a message")
-						log.Printf(" ha muerdo: %d ", body)
+						log.Printf("Ha muerto: %s ", body)
 					}
 				} 
 			} else {
@@ -282,7 +282,7 @@ func main() {
 		//se da inicio al juego
 		fmt.Println("Escribe -start- para comenzar la etapa 1: ")
 		fmt.Scanln(&start)
-		
+
 		if start == "start" {
 			fmt.Println("Ha comenzado la etapa " + actualStage + ": Rojo y Verde")
 		}
@@ -444,7 +444,7 @@ func main() {
 			if start == "start" {
 				started = true
 				flag1 = true
-				fmt.Println("Ha comenzado la etapa: " + actualStage + ": Tirar la Cuerda")
+				fmt.Println("Ha comenzado la etapa " + actualStage + ": Tirar la Cuerda")
 			} else {
 				fmt.Println("Ingresaste mal el comando")
 			}
@@ -581,7 +581,7 @@ func main() {
 				if start == "start" {
 					started = true
 					flag1 = true
-					fmt.Println("Ha comenzado la etapa: " + actualStage + ": Todo o Nada")
+					fmt.Println("Ha comenzado la etapa " + actualStage + ": Todo o Nada")
 				} else {
 					fmt.Println("Ingresaste mal el comando")
 				}
