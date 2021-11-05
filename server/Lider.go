@@ -435,24 +435,29 @@ func main() {
 					log.Printf("Ha muerto: %s ", body)
 					//log.Printf(" [x] Sent %d ", body)
 				}
+///////////////////////////////////////////////////////////////////////////////
+				
 
+			}
+			if finisher{
 				winnerCount = 0
 				for i := 0; i < 16; i++ {
 					list_of_players[i].score = 0
 					if list_of_players[i].alive == true {
 						winnerCount += 1
-						fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
+						//fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
 						Winner = list_of_players[i].id
 					}
 					//acá eliminamos al azar, al jugador sobrante.
 				}
-
+				if winnerCount == 1 {
+					fmt.Println("El ganador del SquidGame es: " + Winner)
+					finisher = false
+				}
 			}
+			
 
-			if winnerCount == 1 {
-				fmt.Println("El ganador del SquidGame es: " + Winner)
-				finisher = false
-			}
+			
 
 		}
 
