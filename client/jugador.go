@@ -345,7 +345,7 @@ func main() {
 
 
 		//Aquí realizar jugada o checkAmount nivel 2 
-	contStage = 0
+	contStage = 1
 	actualStage = "2tc"
 	fmt.Println(actualStage)
 	flag1 = false
@@ -354,7 +354,7 @@ func main() {
 			flag1 = false
 			break
 		}
-		if contStage == 1 {
+		if contStage == 2 {
 			flag1 = true
 			break
 		}
@@ -515,7 +515,7 @@ func main() {
 
 
 	//Aquí realizar jugada o checkAmount nivel 3
-	contStage = 0
+	contStage = 1
 	actualStage = "3tn"
 	flag1 = false
 	fmt.Println(actualStage)
@@ -525,7 +525,7 @@ func main() {
 			break
 		}
 
-		if contStage == 1 {
+		if contStage == 2 {
 			flag1 = true
 			break
 		}
