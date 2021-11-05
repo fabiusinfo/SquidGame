@@ -271,45 +271,45 @@ func main() {
 	flaggy=false
 
 	for totalPlayers != 16 {
-		fmt.Println("escribe start para iniciar el SquidGame: ")
+		fmt.Println("Escribe -start- para iniciar el SquidGame: ")
 		fmt.Scanln(&SquidGame)
 		if totalPlayers != 16 {
-			fmt.Println("no hay suficientes jugadores para comenzar el SquidGame ")
+			fmt.Println("No hay suficientes jugadores para comenzar el SquidGame ")
 		}
 
 	}
 	if totalPlayers == 16 {
 		//se da inicio al juego
-		fmt.Println("escribe start para comenzar la etapa 1: ")
+		fmt.Println("Escribe -start- para comenzar la etapa 1: ")
 		fmt.Scanln(&start)
 		for id := 0; id < 16; id++ {
 			fmt.Println(list_of_players[id].id)
 		}
 		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + actualStage)
+			fmt.Println("Ha comenzado la etapa: " + actualStage + ": Rojo y Verde")
 		}
 		started = true
 		actualRound = 1
 		for i := 0; i < 4; i++ {
 
 			rand.Seed(time.Now().UnixNano())
-			fmt.Println("ronda " + strconv.Itoa(i+1))
+			fmt.Println("Ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = 8
 			guardian:=false
 			//liderPlay + 6
 			for !guardian {
-				fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
-				fmt.Println("escribe next para la siguiente ronda: ")
+				fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
+				fmt.Println("Escribe -next- para la siguiente ronda: ")
 				fmt.Scanln(&next)
 				if next=="next" {
 					if flaggy == false {
-						fmt.Println("los jugadores todavía no realizan las jugadas ")
+						fmt.Println("Los jugadores todavía no realizan las jugadas ")
 					}else{
 						guardian=true
 					}
 				}else{
-					fmt.Println("ingresaste mal el comando ")
+					fmt.Println("Ingresaste mal el comando ")
 				}
 			}
 			actualRound += 1
@@ -327,7 +327,7 @@ func main() {
 			if (list_of_players[j].score < 21) && (list_of_players[j].alive == true) {
 				list_of_players[j].alive = false
 				puntaje := strconv.Itoa(int(list_of_players[j].score))
-				fmt.Println("el jugador: " + list_of_players[j].id + " fue eliminado por no alcanzar puntaje requerido: " + puntaje)
+				fmt.Println("El jugador: " + list_of_players[j].id + " fue eliminado por no alcanzar puntaje requerido: " + puntaje)
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 				failOnError(err, "Failed to connect to RabbitMQ")
 				defer conn.Close()
@@ -360,7 +360,7 @@ func main() {
 						Body:        []byte(body),
 					})
 				failOnError(err, "Failed to publish a message")
-				log.Printf(" ha muerdo: %d ", body)
+				log.Printf("Ha muerto: %s ", body)
 				//log.Printf(" [x] Sent %d ", body)
 
 			}
@@ -373,7 +373,7 @@ func main() {
 			list_of_players[i].score = 0
 			if list_of_players[i].alive == true {
 				winnerCount += 1
-				fmt.Println("el jugador: " + list_of_players[i].id + " pasa al siguiente nivel")
+				fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
 			}
 			//acá eliminamos al azar, al jugador sobrante.
 		}
@@ -383,7 +383,7 @@ func main() {
 			if list_of_players[liderPlay].alive == true {
 				list_of_players[liderPlay].alive = false
 				winnerCount -= 1
-				fmt.Println("el jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente")
+				fmt.Println("El jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente :c")
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 				failOnError(err, "Failed to connect to RabbitMQ")
 				defer conn.Close()
@@ -416,7 +416,7 @@ func main() {
 						Body:        []byte(body),
 					})
 				failOnError(err, "Failed to publish a message")
-				log.Printf(" ha muerdo: %d ", body)
+				log.Printf("Ha muerto: %s ", body)
 				//log.Printf(" [x] Sent %d ", body)
 			}
 		}
@@ -428,11 +428,11 @@ func main() {
 			if list_of_players[i].alive == true {
 				if changer == 0 {
 					group1 = append(group1, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("se agrega al grupo 1: " + list_of_players[i].id)
+					fmt.Println("Se agrega al grupo 1: " + list_of_players[i].id)
 					changer = 1
 				} else {
 					group2 = append(group2, PlayerStruct{list_of_players[i].id, true, 0})
-					fmt.Println("se agrega al grupo 2: " + list_of_players[i].id)
+					fmt.Println("Se agrega al grupo 2: " + list_of_players[i].id)
 					changer = 0
 				}
 
@@ -441,22 +441,22 @@ func main() {
 		started = false
 		flag1 := false
 		for !flag1 {
-			fmt.Println("escribe start para comenzar la etapa 2: ")
+			fmt.Println("Escribe -start- para comenzar la etapa 2: ")
 			fmt.Scanln(&start)
 			if start == "start" {
 				started = true
 				flag1 = true
-				fmt.Println("Ha comenzado la etapa: " + actualStage)
+				fmt.Println("Ha comenzado la etapa: " + actualStage + ": Tirar la Cuerda")
 			} else {
-				fmt.Println("ingresaste mal el comando")
+				fmt.Println("Ingresaste mal el comando")
 			}
 		}
 
 		rand.Seed(time.Now().UnixNano())
 		liderPlay = int(rand.Int63n(3))
 		liderPlay = liderPlay + 1
-		fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
-		fmt.Println("ingresa start cuando los jugadores ya hayan realizado sus jugadas: ")
+		fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
+		fmt.Println("Ingresa -start- cuando los jugadores ya hayan realizado sus jugadas: ")
 		fmt.Scanln(&start)
 		scoreGroup1 := 0
 		scoreGroup2 := 0
@@ -471,46 +471,41 @@ func main() {
 		fmt.Println("Grupo1: " + strconv.Itoa(scoreGroup1))
 		fmt.Println("Grupo2: " + strconv.Itoa(scoreGroup2))
 		if scoreGroup1%2 == liderPlay%2 {
-			fmt.Println("pasa grupo 1")
 			passGroup1 = true
-
 		}
 		if scoreGroup2%2 == liderPlay%2 {
-			fmt.Println("pasa grupo 2")
 			passGroup2 = true
 		}
 		if passGroup1 == true && passGroup2 == true {
-			fmt.Println("ambos equipos pasan")
+			fmt.Println("Ambos grupos avanzan! yey")
 			winnerCount = len(group2) + len(group1)
 			groupaux = append(group1, group2...)
 		} else if passGroup1 == true && passGroup2 == false {
-			fmt.Println("pasa el equipo 1")
+			fmt.Println("Avanza el Grupo 1")
 			for i := 0; i < len(group2); i++ {
 				group2[i].alive = false
-
 			}
 			winnerCount = len(group1)
 			groupaux = group1
 		} else if passGroup1 == false && passGroup2 == true {
-			fmt.Println("pasa el equipo 2")
+			fmt.Println("Avanza el Grupo 2")
 			for i := 0; i < len(group1); i++ {
 				group1[i].alive = false
 			}
 			winnerCount = len(group2)
 			groupaux = group2
 		} else {
-			fmt.Println("aqui hay que escoger al azar uno de los 2 equipos")
 			rand.Seed(time.Now().UnixNano())
 			liderPlay = int(rand.Int63n(1))
 			if liderPlay == 0 {
-				fmt.Println("pasa el equipo 1")
+				fmt.Println("Avanza el Grupo 1 por aletoriedad")
 				for i := 0; i < len(group2); i++ {
 					group2[i].alive = false
 				}
 				winnerCount = len(group1)
 				groupaux = group1
 			} else {
-				fmt.Println("pasa el equipo 2")
+				fmt.Println("Avanza el Grupo 2 por aletoriedad")
 				for i := 0; i < len(group1); i++ {
 					group1[i].alive = false
 				}
@@ -520,22 +515,20 @@ func main() {
 
 		}
 		//aqui esta terminando la ronda 2
-
-		fmt.Println("los jugadores vivos que pasan a la siguiente ronda son: " + strconv.Itoa(winnerCount))
 		for i := 0; i < len(groupaux); i++ {
 			groupaux[i].score = 0
 			if groupaux[i].alive == true {
-				fmt.Println("el jugador: " + groupaux[i].id + " pasa al siguiente nivel")
+				fmt.Println("El jugador: " + groupaux[i].id + " avanza a la siguiente etapa!")
 			}
 		}
 		//Se elimina si son impares
-		for winnerCount%2 == 1 {
+		for winnerCount%2 == 1 && winnerCount != 1 {
 			rand.Seed(time.Now().UnixNano())
 			liderPlay = int(rand.Int63n(int64(len(groupaux))))
 			if groupaux[liderPlay].alive == true {
 				groupaux[liderPlay].alive = false
 				winnerCount -= 1
-				fmt.Println("el jugador: " + groupaux[liderPlay].id + " es eliminado automáticamente")
+				fmt.Println("El jugador: " + groupaux[liderPlay].id + " es eliminado automáticamente")
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 				failOnError(err, "Failed to connect to RabbitMQ")
 				defer conn.Close()
@@ -568,46 +561,43 @@ func main() {
 						Body:        []byte(body),
 					})
 				failOnError(err, "Failed to publish a message")
-				log.Printf(" ha muerdo: %d ", body)
+				log.Printf("Ha muerto: %s ", body)
 				//log.Printf(" [x] Sent %d ", body)
 			}
 		}
 
 		actualStage = "3tn"
 		started = false
-		//for que recorra los vivos, haga parejas y entre ellos se saquen la madre
+		//for que recorra los vivos, haga parejas y entre ellos jueguen
 		for i := 0; i < len(groupaux); i++ {
 			if groupaux[i].alive == true {
 				group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
-				fmt.Println("se agrega la ronda final: " + groupaux[i].id)
+				fmt.Println("Se agrega la ronda final: " + groupaux[i].id)
 			}
 		}
-
-			
-
 			flag1 = false
 			for !flag1 {
 
-				fmt.Println("escribe start para comenzar la etapa 3: ")
+				fmt.Println("Escribe -start- para comenzar la etapa 3: ")
 				fmt.Scanln(&start)
 				if start == "start" {
 					started = true
 					flag1 = true
-					fmt.Println("Ha comenzado la etapa: " + actualStage)
+					fmt.Println("Ha comenzado la etapa: " + actualStage + ": Todo o Nada")
 				} else {
-					fmt.Println("ingresaste mal el comando")
+					fmt.Println("Ingresaste mal el comando")
 				}
 			}
 			liderPlay = int(rand.Int63n(9))
 			liderPlay = liderPlay + 1
-			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+			fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
 			for flag1{
-				fmt.Println("escribe finish para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
+				fmt.Println("Escribe -finish- para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
 				fmt.Scanln(&start)
 				if start == "finish" {
 					flag1 = false
 				} else {
-					fmt.Println("ingresaste mal el comando")
+					fmt.Println("Ingresaste mal el comando")
 				}
 
 			}
@@ -615,7 +605,7 @@ func main() {
 			// Jugadas
 			//aqui esta el problema uwu
 			if len(group3)%2==1{
-				fmt.Println("gano el jugador: " +group3[0].id)
+				fmt.Println("Gana el jugador: " +group3[0].id)
 			}else{
 				for i := 0; i < len(group3); i++ {
 					fmt.Println(len(group3))
