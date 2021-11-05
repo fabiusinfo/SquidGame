@@ -141,6 +141,13 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 							group2[i].score += pPlay
 						}
 					}
+				} else {
+					for i := 0; i < len(group3); i++ {
+						if group3[i].id == in.GetPlayer() {
+
+							group3[i].score += pPlay
+						}
+					}
 				}
 
 				if actualStage == "1rv" {
