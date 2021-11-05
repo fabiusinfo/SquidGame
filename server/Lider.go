@@ -574,7 +574,6 @@ func main() {
 		for i := 0; i < len(groupaux); i++ {
 			if groupaux[i].alive == true {
 				group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
-				fmt.Println("Se agrega la ronda final: " + groupaux[i].id)
 			}
 		}
 			flag1 = false
