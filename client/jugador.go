@@ -420,7 +420,7 @@ func main() {
 	flag1 = false
 	for !flag1 {
 		if 1 >= len(list_of_players) {
-			flag1 = false
+			flag1 = true
 			break
 		}
 		if contStage >= 1 {
