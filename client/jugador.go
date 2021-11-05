@@ -150,7 +150,7 @@ func main() {
 		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 		fmt.Scanln(&action)
 		if action == "send" {
-			contStage += 1
+			//contStage += 1
 			if list_of_players[0].alive == true {
 				if list_of_players[0].score < 21 {
 					fmt.Println("escribe un número del 1 al 10: ")
@@ -172,6 +172,7 @@ func main() {
 						log.Fatalf("fallo 1: %v", err)
 					}
 					actualStage = r.GetStage()
+					contStage=r.GetStage()
 					list_of_players[0].round = r.GetRound()
 					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
 					play_int, err32 := strconv.Atoi(play)
