@@ -233,6 +233,8 @@ func main() {
 				}
 				if contStage==contStageAux{
 					contStageAux+=1
+				} else {
+					fmt.Println("Ya realizaron la jugada.")
 				}
 				
 				fmt.Println(list_of_players[i])
