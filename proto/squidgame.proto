@@ -18,6 +18,8 @@ service SquidGameService {
 
     rpc Started(StartRequest) returns (StartReply) {}
 
+    rpc AskRound(AskRequest) returns (AskReply) {}
+
 }
 
 message HelloRequest {
@@ -55,7 +57,6 @@ message SendReply {
     bool alive = 2;
     int32 round = 3;
     bool started =5;
-    int32 lround =6;
 }
 
 message AmountRequest {
@@ -81,4 +82,12 @@ message StartRequest {
 
 message StartReply {
     bool started = 1;
+}
+
+message AskRequest {
+    string message = 1;
+}
+
+message AskReply {
+    int32 round = 1;
 }

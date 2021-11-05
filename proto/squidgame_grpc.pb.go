@@ -25,6 +25,7 @@ type SquidGameServiceClient interface {
 	AmountCheck(ctx context.Context, in *AmountRequest, opts ...grpc.CallOption) (*AmountReply, error)
 	DeadOrAlive(ctx context.Context, in *DeadRequest, opts ...grpc.CallOption) (*DeadReply, error)
 	Started(ctx context.Context, in *StartRequest, opts ...grpc.CallOption) (*StartReply, error)
+	AskRound(ctx context.Context, in *AskRequest, opts ...grpc.CallOption) (*AskReply, error)
 }
 
 type squidGameServiceClient struct {
@@ -89,6 +90,15 @@ func (c *squidGameServiceClient) Started(ctx context.Context, in *StartRequest, 
 	return out, nil
 }
 
+func (c *squidGameServiceClient) AskRound(ctx context.Context, in *AskRequest, opts ...grpc.CallOption) (*AskReply, error) {
+	out := new(AskReply)
+	err := c.cc.Invoke(ctx, "/grpc.SquidGameService/AskRound", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SquidGameServiceServer is the server API for SquidGameService service.
 // All implementations must embed UnimplementedSquidGameServiceServer
 // for forward compatibility
@@ -100,6 +110,7 @@ type SquidGameServiceServer interface {
 	AmountCheck(context.Context, *AmountRequest) (*AmountReply, error)
 	DeadOrAlive(context.Context, *DeadRequest) (*DeadReply, error)
 	Started(context.Context, *StartRequest) (*StartReply, error)
+	AskRound(context.Context, *AskRequest) (*AskReply, error)
 	mustEmbedUnimplementedSquidGameServiceServer()
 }
 
@@ -124,6 +135,9 @@ func (UnimplementedSquidGameServiceServer) DeadOrAlive(context.Context, *DeadReq
 }
 func (UnimplementedSquidGameServiceServer) Started(context.Context, *StartRequest) (*StartReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Started not implemented")
+}
+func (UnimplementedSquidGameServiceServer) AskRound(context.Context, *AskRequest) (*AskReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AskRound not implemented")
 }
 func (UnimplementedSquidGameServiceServer) mustEmbedUnimplementedSquidGameServiceServer() {}
 
@@ -246,6 +260,24 @@ func _SquidGameService_Started_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SquidGameService_AskRound_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SquidGameServiceServer).AskRound(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.SquidGameService/AskRound",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SquidGameServiceServer).AskRound(ctx, req.(*AskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SquidGameService_ServiceDesc is the grpc.ServiceDesc for SquidGameService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -276,6 +308,10 @@ var SquidGameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Started",
 			Handler:    _SquidGameService_Started_Handler,
+		},
+		{
+			MethodName: "AskRound",
+			Handler:    _SquidGameService_AskRound_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

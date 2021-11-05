@@ -62,6 +62,10 @@ func (s *server) Started(ctx context.Context, in *pb.StartRequest) (*pb.StartRep
 	return &pb.StartReply{Started: started}, nil
 }
 
+func (s *server) AskRound(ctx context.Context, in *pb.AskRequest) (*pb.AskReply, error) {
+	return &pb.AskReply{Round: int32(actualRound)}, nil
+}
+
 func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadReply, error) {
 	alive := true
 	if in.GetStage() == "1rv" {
@@ -200,17 +204,17 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			} else {
 				log.Printf("aún no comienza el nivel")
 
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound(), Lround:int32(actualRound)}, nil
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 			}
-			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1,Lround:int32(actualRound)}, nil
+			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
 		}else{
 			log.Printf("ya realizaste la jugada en esta ronda ")
-			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound(),Lround:int32(actualRound)}, nil
+			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 		}
 		
 	} else {
 		log.Printf("el lider todavía no comienza la ronda")
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound(),Lround:int32(actualRound)}, nil
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 	}
 
 }

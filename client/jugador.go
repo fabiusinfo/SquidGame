@@ -138,9 +138,9 @@ func main() {
 	
 
 	//Aquí realizar jugada o checkAmount nivel 1
-	contStage := 0
+	contStage := 1
 	actualStage = "1rv"
-	actualLiderRound:=0
+	LiderRound:=0
 	fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
@@ -148,6 +148,24 @@ func main() {
 			flag1 = true
 			break
 		}
+		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+
+					if err != nil {
+						panic("cannot connect with server " + err.Error())
+					}
+
+					servicePlayer := pb.NewSquidGameServiceClient(conn)
+
+					ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+					defer cancel()
+
+					r, err := servicePlayer.AskRound(ctx, &pb.AskRequest{Message:"porfa dime la ronda del Lider"})
+					if err != nil {
+						log.Fatalf("fallo 1: %v", err)
+					}
+					LiderRound=int(r.GetRound())
+
+
 		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 		fmt.Scanln(&action)
 
@@ -155,7 +173,7 @@ func main() {
 			fmt.Println("Ya realizaron la jugada.")
 			alreadyplay = 0*/
 		
-		if action == "send" && contStage == actualLiderRound{
+		if action == "send" && contStage== LiderRound {
 			//contStage += 1
 			//alreadyplay = 1
 			if list_of_players[0].alive == true {
@@ -180,7 +198,6 @@ func main() {
 					}
 					actualStage = r.GetStage()
 					contStage=int(list_of_players[0].round)
-					actualLiderRound=int(r.GetLround())
 					list_of_players[0].round = r.GetRound()
 					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
 					play_int, err32 := strconv.Atoi(play)
@@ -224,12 +241,9 @@ func main() {
 							log.Fatalf("fallo 1: %v", err)
 						}
 						actualStage = r.GetStage()
-						if contStage < int(list_of_players[i].round){
-							contStage=int(list_of_players[i].round)
-						}
 						list_of_players[i].round = r.GetRound()
 						list_of_players[i].alive = r.GetAlive()
-							list_of_players[i].score = list_of_players[i].score + int32(playsend)
+						list_of_players[i].score = list_of_players[i].score + int32(playsend)
 						
 						
 					} else {
@@ -260,7 +274,7 @@ func main() {
 			log.Printf("Greeting: %s", r.GetMonto())
 
 		} else {
-			fmt.Println("ingresaste mal el comando o el Lider aún no comienza la siguiente ronda")
+			fmt.Println("ingresaste mal el comando o el lider todavía no comienza la ronda")
 		}
 
 	}
