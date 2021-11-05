@@ -14,26 +14,6 @@ import (
 )
 
 /*
-func Readln(r *bufio.Reader) (string, error) {
-	var (
-		isPrefix bool  = true
-		err      error = nil
-		line, ln []byte
-	)
-	for isPrefix && err == nil {
-		line, isPrefix, err = r.ReadLine()
-		ln = append(ln, line...)
-	}
-	return string(ln), err
-}
-
-func existeError(err error) bool {
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	return (err != nil)
-}
-
 func crearArchivo(path string) {
 	//Verifica que el archivo existe
 	var _, err = os.Stat(path)
@@ -48,7 +28,6 @@ func crearArchivo(path string) {
 }
 
 var delet int = 1
-
 
 */
 
