@@ -144,7 +144,7 @@ func main() {
 	fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
-		if contStage == 4 {
+		if contStage == 5 {
 			flag1 = true
 			break
 		}
