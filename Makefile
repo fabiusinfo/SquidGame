@@ -1,10 +1,10 @@
 lider:
 	echo "Ejecutando lider"
-	go run server/lider.go
+	go run server/Lider.go
 
 namenode:
 	echo "Ejecutando namenode"
-	go run client/pozo.go
+	go run client/nameNode.go
 
 pozo:
 	echo "Ejecutando pozo"
