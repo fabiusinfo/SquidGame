@@ -138,7 +138,7 @@ func main() {
 	
 
 	//Aquí realizar jugada o checkAmount nivel 1
-	contStage := 1
+	contStage := 0
 	actualStage = "1rv"
 	actualLiderRound:=0
 	fmt.Println(actualStage)
