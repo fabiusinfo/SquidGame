@@ -172,7 +172,7 @@ func main() {
 						log.Fatalf("fallo 1: %v", err)
 					}
 					actualStage = r.GetStage()
-					contStage=r.GetStage()
+					contStage=int(list_of_players[0].round)
 					list_of_players[0].round = r.GetRound()
 					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
 					play_int, err32 := strconv.Atoi(play)
@@ -214,6 +214,7 @@ func main() {
 							log.Fatalf("fallo 1: %v", err)
 						}
 						actualStage = r.GetStage()
+						contStage=int(list_of_players[i].round)
 						list_of_players[i].round = r.GetRound()
 						list_of_players[i].alive = r.GetAlive()
 						list_of_players[i].score = list_of_players[i].score + int32(playsend)
