@@ -150,7 +150,11 @@ func main() {
 		}
 		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 		fmt.Scanln(&action)
-		if action == "send" {
+
+		if action == "send" && contStage == contStageAux {
+			fmt.Println("Ya realizaron la jugada.")
+		
+		} else if action == "send" {
 			//contStage += 1
 			if list_of_players[0].alive == true {
 				if list_of_players[0].score < 21 {
@@ -233,8 +237,6 @@ func main() {
 				}
 				if contStage==contStageAux{
 					contStageAux+=1
-				} else {
-					fmt.Println("Ya realizaron la jugada.")
 				}
 				
 				fmt.Println(list_of_players[i])
