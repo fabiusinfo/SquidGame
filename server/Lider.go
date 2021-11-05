@@ -292,8 +292,9 @@ func main() {
 			fmt.Println("ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
 			liderPlay = 8
+			guardian:=false
 			//liderPlay + 6
-			for !flaggy {
+			for !guardian {
 				fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
 				fmt.Println("escribe next para la siguiente ronda: ")
 				fmt.Scanln(&next)
@@ -301,7 +302,7 @@ func main() {
 					if flaggy == false {
 						fmt.Println("los jugadores todavía no realizan las jugadas ")
 					}else{
-						flaggy=true
+						guardian=true
 					}
 				}else{
 					fmt.Println("ingresaste mal el comando ")
