@@ -13,6 +13,45 @@ import (
 	"google.golang.org/grpc"
 )
 
+/*
+func Readln(r *bufio.Reader) (string, error) {
+	var (
+		isPrefix bool  = true
+		err      error = nil
+		line, ln []byte
+	)
+	for isPrefix && err == nil {
+		line, isPrefix, err = r.ReadLine()
+		ln = append(ln, line...)
+	}
+	return string(ln), err
+}
+
+func existeError(err error) bool {
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return (err != nil)
+}
+
+func crearArchivo(path string) {
+	//Verifica que el archivo existe
+	var _, err = os.Stat(path)
+	//Crea el archivo si no existe
+	if os.IsNotExist(err) {
+		var file, err = os.Create(path)
+		if existeError(err) {
+			return
+		}
+		defer file.Close()
+	}
+}
+
+var delet int = 1
+
+
+*/
+
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
@@ -20,6 +59,20 @@ type server struct {
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	//enviar la jugada a cualquiera de los 3.
 	var direction string
+
+	/*
+		if delet == 1 {
+			delet = 0
+			nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+			err := os.Remove(nombreArchivo)
+			if err != nil {
+				fmt.Printf("Error eliminando archivo: %v\n", err)
+			} else {
+				fmt.Println("Eliminado correctamente")
+			}
+		}
+	*/
+
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Int63n(3)
 	if id == 0 {
@@ -40,6 +93,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 	log.Printf("Greeting: %s", r.GetStage())
 	// añadir al texto
+	/*
+		nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+		crearArchivo(nombreArchivo)
+	*/
+
 	b, errtxt := ioutil.ReadFile("registro.txt")
 
 	if errtxt != nil {
