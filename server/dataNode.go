@@ -36,9 +36,22 @@ func crearArchivo(path string) {
 	}
 }
 
+var delet int = 1
+
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	//aqui implementar la escritura del archivo de texto
 	var path = "DN_plays/jugador_" + in.GetPlayer() + "__ronda_" + in.GetStage() + ".txt"
+
+	if delet == 1 {
+		delet = 0
+		nombreArchivo := path // El nombre o ruta absoluta del archivo
+		err := os.Remove(nombreArchivo)
+		if err != nil {
+			fmt.Printf("Error eliminando archivo: %v\n", err)
+		} else {
+			fmt.Println("Eliminado correctamente")
+		}
+	}
 
 	crearArchivo(path)
 
