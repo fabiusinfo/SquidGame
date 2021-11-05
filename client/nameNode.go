@@ -7,13 +7,13 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"time"
 
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
 
-/*
 func crearArchivo(path string) {
 	//Verifica que el archivo existe
 	var _, err = os.Stat(path)
@@ -29,8 +29,6 @@ func crearArchivo(path string) {
 
 var delet int = 1
 
-*/
-
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
 }
@@ -39,18 +37,16 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	//enviar la jugada a cualquiera de los 3.
 	var direction string
 
-	/*
-		if delet == 1 {
-			delet = 0
-			nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
-			err := os.Remove(nombreArchivo)
-			if err != nil {
-				fmt.Printf("Error eliminando archivo: %v\n", err)
-			} else {
-				fmt.Println("Eliminado correctamente")
-			}
+	if delet == 1 {
+		delet = 0
+		nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+		err := os.Remove(nombreArchivo)
+		if err != nil {
+			fmt.Printf("Error eliminando archivo: %v\n", err)
+		} else {
+			fmt.Println("Eliminado correctamente")
 		}
-	*/
+	}
 
 	rand.Seed(time.Now().UnixNano())
 	id := rand.Int63n(3)
