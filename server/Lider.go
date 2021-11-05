@@ -574,6 +574,16 @@ func main() {
 			liderPlay = int(rand.Int63n(9))
 			liderPlay = liderPlay + 1
 			fmt.Println("jugada de lider: " + strconv.Itoa(liderPlay))
+			for flag1{
+				fmt.Println("escribe finish para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
+				fmt.Scanln(&start)
+				if start == "finish" {
+					flag1 = true
+				} else {
+					fmt.Println("ingresaste mal el comando")
+				}
+
+			}
 
 			// Jugadas
 			//aqui esta el problema uwu
