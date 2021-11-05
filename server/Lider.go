@@ -196,16 +196,20 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 						failOnError(err, "Failed to publish a message")
 						log.Printf(" ha muerdo: %d ", body)
 					}
-				} else if actualStage == "2tc" {
-					log.Printf("la jugada fue realizada en 2tc")
-				}
+				} 
 			} else {
 				log.Printf("aún no comienza el nivel")
+
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 			}
+			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
+		}else{
+			log.Printf("ya realizaste la jugada en esta ronda ")
+			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 		}
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
+		
 	} else {
-		log.Printf("ya realizaste la jugada en esta ronda")
+		log.Printf("el lider todavía no comienza la ronda")
 		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
 	}
 
