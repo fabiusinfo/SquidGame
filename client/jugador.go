@@ -225,7 +225,7 @@ func main() {
 
 				if list_of_players[i].alive == true {
 					if list_of_players[i].score < 21 {
-						fmt.Println(strconv.Itoa(i))
+						//fmt.Println(strconv.Itoa(i))
 						botPlayer := list_of_players[i].id
 						conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -256,7 +256,7 @@ func main() {
 					}
 				}
 				
-				fmt.Println(list_of_players[i])
+				//fmt.Println(list_of_players[i])
 			}
 		} else {
 			fmt.Println(" El lider todavía no inicia la siguiente ronda")
