@@ -55,7 +55,7 @@ func (s *server) JoinGame(ctx context.Context, in *pb.JoinRequest) (*pb.JoinRepl
 	//players[in.GetPlayer()] = "alive"
 	totalPlayers += 1
 	list_of_players = append(list_of_players, PlayerStruct{in.GetPlayer(), true, 0})
-	return &pb.JoinReply{Codes1: "1rv", Codes2: "2tc", Codes3: "3tn"}, nil
+	return &pb.JoinReply{Codes1: "inscrito con exito"}, nil
 }
 
 func (s *server) Started(ctx context.Context, in *pb.StartRequest) (*pb.StartReply, error) {

@@ -53,7 +53,7 @@ func main() {
 			log.Fatalf("could not greet: %v", err)
 		}
 		list_of_players = append(list_of_players, PlayerStruct{playerNumber, true, 1, 0})
-		log.Printf("inscrito")
+		log.Printf(r.GetMessage())
 		actualStage = "1rv"
 		started = true
 
@@ -84,7 +84,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		log.Printf("inscrito")
+		log.Printf(r.GetMessage())
 
 		list_of_players[i].id = strconv.Itoa(i + 1)
 		list_of_players[i].alive = true
