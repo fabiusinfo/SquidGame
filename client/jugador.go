@@ -139,6 +139,7 @@ func main() {
 
 	//Aquí realizar jugada o checkAmount nivel 1
 	contStage := 0
+	contStageAux :=1
 	actualStage = "1rv"
 	fmt.Println(actualStage)
 	flag1 = false
@@ -179,7 +180,10 @@ func main() {
 					if err32 != nil {
 						log.Fatalf("fallo 32: %v", err32)
 					}
-					list_of_players[0].score = list_of_players[0].score + int32(play_int)
+					if contStage == contStageAux{
+						list_of_players[0].score = list_of_players[0].score + int32(play_int)
+					}
+					
 				} else {
 					fmt.Println(" lograste sumar 21, estas salvado")
 				}
@@ -217,11 +221,15 @@ func main() {
 						contStage=int(list_of_players[i].round)
 						list_of_players[i].round = r.GetRound()
 						list_of_players[i].alive = r.GetAlive()
-						list_of_players[i].score = list_of_players[i].score + int32(playsend)
+						if contStage == contStageAux{
+							list_of_players[i].score = list_of_players[i].score + int32(playsend)
+						}
+						
 					} else {
 						fmt.Println(" lograste sumar 21, estas salvado")
 					}
 				}
+				contStageAux+=1
 				fmt.Println(list_of_players[i])
 			}
 
