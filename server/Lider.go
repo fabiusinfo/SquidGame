@@ -298,7 +298,11 @@ func main() {
 			//liderPlay + 6
 			for !guardian {
 				fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
-				fmt.Println("Escribe -next- para la siguiente ronda: ")
+				if i == 3 {
+					fmt.Println("Escribe -next- pasar al siguiente juego: ")
+				} else {
+					fmt.Println("Escribe -next- para la siguiente ronda: ")
+				}
 				fmt.Scanln(&next)
 				if next=="next" {
 					if flaggy == false {
@@ -325,7 +329,7 @@ func main() {
 			if (list_of_players[j].score < 21) && (list_of_players[j].alive == true) {
 				list_of_players[j].alive = false
 				puntaje := strconv.Itoa(int(list_of_players[j].score))
-				fmt.Println("El jugador: " + list_of_players[j].id + " fue eliminado por no alcanzar puntaje requerido: " + puntaje)
+				fmt.Println("El jugador " + list_of_players[j].id + " fue eliminado: " + puntaje +"/21 :c") // 14/21
 				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 				failOnError(err, "Failed to connect to RabbitMQ")
 				defer conn.Close()
@@ -358,7 +362,7 @@ func main() {
 						Body:        []byte(body),
 					})
 				failOnError(err, "Failed to publish a message")
-				log.Printf("Ha muerto: %s ", body)
+				//log.Printf("Ha muerto: %s ", body)
 				//log.Printf(" [x] Sent %d ", body)
 
 			}
