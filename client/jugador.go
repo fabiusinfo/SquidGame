@@ -148,7 +148,21 @@ func main() {
 			flag1 = true
 			break
 		}
-		conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
+		
+
+
+		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
+		fmt.Scanln(&action)
+
+		/*if action == "send" && alreadyplay == 1{
+			fmt.Println("Ya realizaron la jugada.")
+			alreadyplay = 0*/
+		
+		if action == "send" {
+			//contStage += 1
+			//alreadyplay = 1
+
+			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
 					if err != nil {
 						panic("cannot connect with server " + err.Error())
@@ -165,17 +179,8 @@ func main() {
 					}
 					LiderRound=int(r.GetRound())
 
+					if LiderRound == contStage{
 
-		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
-		fmt.Scanln(&action)
-
-		/*if action == "send" && alreadyplay == 1{
-			fmt.Println("Ya realizaron la jugada.")
-			alreadyplay = 0*/
-		
-		if action == "send" && contStage== LiderRound {
-			//contStage += 1
-			//alreadyplay = 1
 			if list_of_players[0].alive == true {
 				if list_of_players[0].score < 21 {
 					fmt.Println("escribe un número del 1 al 10: ")
@@ -198,7 +203,7 @@ func main() {
 					}
 					actualStage = r.GetStage()
 					list_of_players[0].round = r.GetRound()
-					contStage=int(list_of_players[0].round)
+					contStage+=1
 					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
 					play_int, err32 := strconv.Atoi(play)
 					if err32 != nil {
@@ -253,6 +258,9 @@ func main() {
 				
 				fmt.Println(list_of_players[i])
 			}
+		} else {
+			fmt.Println(" El lider todavía no inicia la siguiente ronda")
+		}
 
 		} else if action == "check" {
 			message := "solicito monto"
