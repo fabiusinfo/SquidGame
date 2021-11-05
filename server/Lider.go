@@ -273,6 +273,9 @@ func main() {
 	totalPlayers = 0
 	SquidGame := "none"
 	flaggy=false
+	finisher:=true
+	flag1 := false
+	Winner:="none"
 
 	for totalPlayers != 16 {
 		fmt.Println("Escribe -start- para iniciar el SquidGame: ")
@@ -380,53 +383,81 @@ func main() {
 			if list_of_players[i].alive == true {
 				winnerCount += 1
 				fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
+				Winner=list_of_players[i].id 
 			}
 			//acá eliminamos al azar, al jugador sobrante.
 		}
-		for winnerCount%2 == 1 {
-			rand.Seed(time.Now().UnixNano())
-			liderPlay = int(rand.Int63n(15))
-			if list_of_players[liderPlay].alive == true {
-				list_of_players[liderPlay].alive = false
-				winnerCount -= 1
-				fmt.Println("El jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente :c")
-				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
-				failOnError(err, "Failed to connect to RabbitMQ")
-				defer conn.Close()
-
-				ch, err := conn.Channel()
-				failOnError(err, "Failed to open a channel")
-				defer ch.Close()
-
-				q, err := ch.QueueDeclare(
-					"hello", // name
-					false,   // durable
-					false,   // delete when unused
-					false,   // exclusive
-					false,   // no-wait
-					nil,     // arguments
-				)
-				failOnError(err, "Failed to declare a queue")
-				//s := in.GetStage()
-				//i_str := strconv.Itoa(int(i))
-
-				body := "Jugador_" + list_of_players[liderPlay].id + " Ronda_" + actualStage
-
-				err = ch.Publish(
-					"",     // exchange
-					q.Name, // routing key
-					false,  // mandatory
-					false,  // immediate
-					amqp.Publishing{
-						ContentType: "text/plain",
-						Body:        []byte(body),
-					})
-				failOnError(err, "Failed to publish a message")
-				log.Printf("Ha muerto: %s ", body)
-				//log.Printf(" [x] Sent %d ", body)
-			}
+		if winnerCount==1{
+			fmt.Println("El ganador del SquidGame es: " + Winner)
+			finisher=false
 		}
 
+		if finisher{
+			for winnerCount%2 == 1 {
+				rand.Seed(time.Now().UnixNano())
+				liderPlay = int(rand.Int63n(15))
+				if list_of_players[liderPlay].alive == true {
+					list_of_players[liderPlay].alive = false
+					winnerCount -= 1
+					fmt.Println("El jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente :c")
+					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+					failOnError(err, "Failed to connect to RabbitMQ")
+					defer conn.Close()
+
+					ch, err := conn.Channel()
+					failOnError(err, "Failed to open a channel")
+					defer ch.Close()
+
+					q, err := ch.QueueDeclare(
+						"hello", // name
+						false,   // durable
+						false,   // delete when unused
+						false,   // exclusive
+						false,   // no-wait
+						nil,     // arguments
+					)
+					failOnError(err, "Failed to declare a queue")
+					//s := in.GetStage()
+					//i_str := strconv.Itoa(int(i))
+
+					body := "Jugador_" + list_of_players[liderPlay].id + " Ronda_" + actualStage
+
+					err = ch.Publish(
+						"",     // exchange
+						q.Name, // routing key
+						false,  // mandatory
+						false,  // immediate
+						amqp.Publishing{
+							ContentType: "text/plain",
+							Body:        []byte(body),
+						})
+					failOnError(err, "Failed to publish a message")
+					log.Printf("Ha muerto: %s ", body)
+					//log.Printf(" [x] Sent %d ", body)
+				}
+
+				winnerCount = 0
+				for i := 0; i < 16; i++ {
+					list_of_players[i].score = 0
+					if list_of_players[i].alive == true {
+						winnerCount += 1
+						fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
+						Winner=list_of_players[i].id 
+					}
+			//acá eliminamos al azar, al jugador sobrante.
+		}
+
+			}
+
+			if winnerCount==1{
+				fmt.Println("El ganador del SquidGame es: " + Winner)
+				finisher=false
+			}
+
+	}
+
+
+	if finisher{
 		actualStage = "2tc"
 		//Separar a los ganadores de la ronda pasada en 2 grupos
 		changer := 0
@@ -445,7 +476,7 @@ func main() {
 			}
 		}
 		started = false
-		flag1 := false
+	
 		for !flag1 {
 			fmt.Println("Escribe -start- para comenzar la etapa 2: ")
 			fmt.Scanln(&start)
@@ -520,118 +551,154 @@ func main() {
 			}
 
 		}
-		//aqui esta terminando la ronda 2
-		for i := 0; i < len(groupaux); i++ {
-			groupaux[i].score = 0
-			if groupaux[i].alive == true {
-				fmt.Println("El jugador: " + groupaux[i].id + " avanza a la siguiente etapa!")
-			}
-		}
-		//Se elimina si son impares
-		for winnerCount%2 == 1 && winnerCount != 1 {
-			rand.Seed(time.Now().UnixNano())
-			liderPlay = int(rand.Int63n(int64(len(groupaux))))
-			if groupaux[liderPlay].alive == true {
-				groupaux[liderPlay].alive = false
-				winnerCount -= 1
-				fmt.Println("El jugador: " + groupaux[liderPlay].id + " es eliminado automáticamente")
-				conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
-				failOnError(err, "Failed to connect to RabbitMQ")
-				defer conn.Close()
-
-				ch, err := conn.Channel()
-				failOnError(err, "Failed to open a channel")
-				defer ch.Close()
-
-				q, err := ch.QueueDeclare(
-					"hello", // name
-					false,   // durable
-					false,   // delete when unused
-					false,   // exclusive
-					false,   // no-wait
-					nil,     // arguments
-				)
-				failOnError(err, "Failed to declare a queue")
-				//s := in.GetStage()
-				//i_str := strconv.Itoa(int(i))
-
-				body := "Jugador_" + groupaux[liderPlay].id + " Ronda_" + actualStage
-
-				err = ch.Publish(
-					"",     // exchange
-					q.Name, // routing key
-					false,  // mandatory
-					false,  // immediate
-					amqp.Publishing{
-						ContentType: "text/plain",
-						Body:        []byte(body),
-					})
-				failOnError(err, "Failed to publish a message")
-				log.Printf("Ha muerto: %s ", body)
-				//log.Printf(" [x] Sent %d ", body)
-			}
-		}
-
-		actualStage = "3tn"
-		started = false
-		//for que recorra los vivos, haga parejas y entre ellos jueguen
-		for i := 0; i < len(groupaux); i++ {
-			if groupaux[i].alive == true {
-				group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
-			}
-		}
-			flag1 = false
-			for !flag1 {
-
-				fmt.Println("Escribe -start- para comenzar la etapa 3: ")
-				fmt.Scanln(&start)
-				if start == "start" {
-					started = true
-					flag1 = true
-					fmt.Println("Ha comenzado la etapa " + actualStage + ": Todo o Nada")
-				} else {
-					fmt.Println("Ingresaste mal el comando")
-				}
-			}
-			liderPlay = int(rand.Int63n(9))
-			liderPlay = liderPlay + 1
-			fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
-			for flag1{
-				fmt.Println("Escribe -finish- para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
-				fmt.Scanln(&start)
-				if start == "finish" {
-					flag1 = false
-				} else {
-					fmt.Println("Ingresaste mal el comando")
-				}
-
-			}
-
-			// Jugadas
-			//aqui esta el problema uwu
-			if len(group3)%2==1{
-				fmt.Println("Gana el jugador: " +group3[0].id)
-			}else{
-				for i := 0; i < len(group3); i++ {
-					fmt.Println(len(group3))
-					if group3[i].score == group3[i+1].score {
-						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
-						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
-						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-					} else {
-						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-					}
-
-					i++
-				}
-			}
-
-			actualStage = "4end"
+	}
 		
 
+
+
+
+
+		//aqui esta terminando la ronda 2
+		if finisher{
+			winnerCount=0
+			for i := 0; i < len(groupaux); i++ {
+				groupaux[i].score = 0
+				if groupaux[i].alive == true {
+					winnerCount+=1
+					fmt.Println("El jugador: " + groupaux[i].id + " avanza a la siguiente etapa!")
+					Winner=groupaux[i].id
+				}
+			}
+		
+		
+		if winnerCount==1{
+			fmt.Println("El ganador del SquidGame es: "+Winner)
+			finisher=false
+		}
 	}
+		if finisher{
+			//Se elimina si son impares
+			for winnerCount%2 == 1 && winnerCount != 1 {
+				rand.Seed(time.Now().UnixNano())
+				liderPlay = int(rand.Int63n(int64(len(groupaux))))
+				if groupaux[liderPlay].alive == true {
+					groupaux[liderPlay].alive = false
+					winnerCount -= 1
+					fmt.Println("El jugador: " + groupaux[liderPlay].id + " es eliminado automáticamente")
+					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+					failOnError(err, "Failed to connect to RabbitMQ")
+					defer conn.Close()
+	
+					ch, err := conn.Channel()
+					failOnError(err, "Failed to open a channel")
+					defer ch.Close()
+	
+					q, err := ch.QueueDeclare(
+						"hello", // name
+						false,   // durable
+						false,   // delete when unused
+						false,   // exclusive
+						false,   // no-wait
+						nil,     // arguments
+					)
+					failOnError(err, "Failed to declare a queue")
+					//s := in.GetStage()
+					//i_str := strconv.Itoa(int(i))
+	
+					body := "Jugador_" + groupaux[liderPlay].id + " Ronda_" + actualStage
+	
+					err = ch.Publish(
+						"",     // exchange
+						q.Name, // routing key
+						false,  // mandatory
+						false,  // immediate
+						amqp.Publishing{
+							ContentType: "text/plain",
+							Body:        []byte(body),
+						})
+					failOnError(err, "Failed to publish a message")
+					log.Printf("Ha muerto: %s ", body)
+					//log.Printf(" [x] Sent %d ", body)
+				}
+			}
+			winnerCount=0
+			for i := 0; i < len(groupaux); i++ {
+				if groupaux[i].alive == true {
+					winnerCount+=1
+					Winner=groupaux[i].id
+				}
+			}
+			if winnerCount==1{
+				fmt.Println("El ganador del SquidGame es: " + Winner)
+				finisher=false
+			}
+
+		}
+		
+		
+		if finisher {
+			actualStage = "3tn"
+			started = false
+			//for que recorra los vivos, haga parejas y entre ellos jueguen
+			for i := 0; i < len(groupaux); i++ {
+				if groupaux[i].alive == true {
+					group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
+				}
+			}
+				flag1 = false
+				for !flag1 {
+
+					fmt.Println("Escribe -start- para comenzar la etapa 3: ")
+					fmt.Scanln(&start)
+					if start == "start" {
+						started = true
+						flag1 = true
+						fmt.Println("Ha comenzado la etapa " + actualStage + ": Todo o Nada")
+					} else {
+						fmt.Println("Ingresaste mal el comando")
+					}
+				}
+				liderPlay = int(rand.Int63n(9))
+				liderPlay = liderPlay + 1
+				fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
+				for flag1{
+					fmt.Println("Escribe -finish- para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
+					fmt.Scanln(&start)
+					if start == "finish" {
+						flag1 = false
+					} else {
+						fmt.Println("Ingresaste mal el comando")
+					}
+
+				}
+
+				// Jugadas
+				//aqui esta el problema uwu
+				if len(group3)%2==1{
+					fmt.Println("El ganador del SquidGame es: " +group3[0].id)
+				}else{
+					for i := 0; i < len(group3); i++ {
+						fmt.Println(len(group3))
+						if group3[i].score == group3[i+1].score {
+							fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+							fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+						} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
+							fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+							fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+						} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
+							fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+						} else {
+							fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+						}
+
+						i++
+					}
+				}
+
+				actualStage = "4end"
+			
+
+		}
+		}
+		
 }
