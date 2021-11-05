@@ -282,11 +282,9 @@ func main() {
 		//se da inicio al juego
 		fmt.Println("Escribe -start- para comenzar la etapa 1: ")
 		fmt.Scanln(&start)
-		for id := 0; id < 16; id++ {
-			fmt.Println(list_of_players[id].id)
-		}
+		
 		if start == "start" {
-			fmt.Println("Ha comenzado la etapa: " + actualStage + ": Rojo y Verde")
+			fmt.Println("Ha comenzado la etapa " + actualStage + ": Rojo y Verde")
 		}
 		started = true
 		actualRound = 1
