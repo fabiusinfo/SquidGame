@@ -203,7 +203,7 @@ func main() {
 					}
 					actualStage = r.GetStage()
 					list_of_players[0].round = r.GetRound()
-					contStage+=1
+					
 					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
 					play_int, err32 := strconv.Atoi(play)
 					if err32 != nil {
@@ -258,6 +258,7 @@ func main() {
 				
 				//fmt.Println(list_of_players[i])
 			}
+			contStage+=1
 		} else {
 			fmt.Println(" El lider todavía no inicia la siguiente ronda")
 		}
