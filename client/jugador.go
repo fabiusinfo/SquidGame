@@ -141,6 +141,7 @@ func main() {
 	contStage := 0
 	contStageAux :=1
 	actualStage = "1rv"
+	alreadyplay := 0
 	fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
@@ -151,11 +152,13 @@ func main() {
 		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 		fmt.Scanln(&action)
 
-		if action == "send" && contStage == contStageAux {
+		if action == "send" && alreadyplay == 1{
 			fmt.Println("Ya realizaron la jugada.")
+			alreadyplay = 0
 		
 		} else if action == "send" {
 			//contStage += 1
+			alreadyplay = 1
 			if list_of_players[0].alive == true {
 				if list_of_players[0].score < 21 {
 					fmt.Println("escribe un número del 1 al 10: ")
