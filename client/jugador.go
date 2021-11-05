@@ -323,6 +323,7 @@ func main() {
 		fmt.Println(actualStage)
 		for i := 0; i < 16; i++ {
 			list_of_players[i].score = 0
+			list_of_players[i].round = 1
 			if list_of_players[i].alive == true {
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -493,6 +494,7 @@ func main() {
 	fmt.Println(actualStage)
 		for i := 0; i < 16; i++ {
 			list_of_players[i].score = 0
+			list_of_players[i].round = 1
 			if list_of_players[i].alive == true {
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
