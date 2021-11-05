@@ -576,21 +576,25 @@ func main() {
 
 			// Jugadas
 			//aqui esta el problema uwu
-			for i := 0; i < len(group3)-1; i++ {
-				fmt.Println(len(group3))
-				if group3[i].score == group3[i+1].score {
-					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-				} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
-					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-				} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
-					fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
-				} else {
-					fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
-				}
+			if len(group3)%2==1{
+				fmt.Println("gano el jugador: " +group3[0].id)
+			}else{
+				for i := 0; i < len(group3); i++ {
+					fmt.Println(len(group3))
+					if group3[i].score == group3[i+1].score {
+						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) == int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) { // si el calculo da el mismo resultado pues ambos ganan
+						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
+						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+					} else {
+						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+					}
 
-				i++
+					i++
+				}
 			}
 
 			fmt.Println("se ha muerto ste men: 2")
