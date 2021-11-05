@@ -8,7 +8,7 @@ namenode:
 
 pozo:
 	echo "Ejecutando pozo"
-	go run SquidGame/client/pozo.go
+	go run client/pozo.go
 
 datanode:
 	echo "Ejecutando datanode"
