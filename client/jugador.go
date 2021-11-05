@@ -239,7 +239,6 @@ func main() {
 						}
 					}
 
-					//fmt.Println(list_of_players[i])
 				}
 				contStage += 1
 			} else {
@@ -407,7 +406,6 @@ func main() {
 					list_of_players[i].score = list_of_players[i].score + int32(playsend)
 
 				}
-				fmt.Println(list_of_players[i])
 			}
 
 		} else if action == "check" {
@@ -571,7 +569,6 @@ func main() {
 					list_of_players[i].score = list_of_players[i].score + int32(playsend)
 
 				}
-				fmt.Println(list_of_players[i])
 			}
 
 		} else if action == "check" {
