@@ -579,7 +579,7 @@ func main() {
 				fmt.Println("escribe finish para mostrar a los ganadores del SquidGame y finalizar el proceso: ")
 				fmt.Scanln(&start)
 				if start == "finish" {
-					flag1 = true
+					flag1 = false
 				} else {
 					fmt.Println("ingresaste mal el comando")
 				}
