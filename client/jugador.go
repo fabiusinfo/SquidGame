@@ -582,4 +582,15 @@ func main() {
 			fmt.Println("ingresaste mal el comando")
 		}
 	}
+
+	for flag1{
+		fmt.Println("escribe finish para finalizar el proceso jugador ")
+		fmt.Scanln(&action)
+		if action == "finish" {
+			flag1 = true
+		} else {
+			fmt.Println("ingresaste mal el comando")
+		}
+
+	}
 }
