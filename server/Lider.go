@@ -411,7 +411,7 @@ func main() {
 
 			}
 		}
-
+		started = false
 		flag1 := false
 		for !flag1 {
 			fmt.Println("escribe start para comenzar la etapa 2: ")
@@ -547,15 +547,16 @@ func main() {
 		}
 
 		actualStage = "3tn"
-
+		started = false
 		//for que recorra los vivos, haga parejas y entre ellos se saquen la madre
 		for i := 0; i < len(groupaux); i++ {
 			if groupaux[i].alive == true {
 				group3 = append(group3, PlayerStruct{groupaux[i].id, true, 0})
 				fmt.Println("se agrega la ronda final: " + groupaux[i].id)
 			}
+		}
 
-			started = false
+			
 
 			flag1 = false
 			for !flag1 {
@@ -601,7 +602,7 @@ func main() {
 			fmt.Println("los jugadores vivos que pasan a la siguiente ronda son 16")
 			fmt.Println("los ganadores de la ronda son 1,2,3 ")
 			actualStage = "4end"
-		}
+		
 
 	}
 }
