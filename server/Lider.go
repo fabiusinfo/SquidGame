@@ -295,9 +295,8 @@ func main() {
 			rand.Seed(time.Now().UnixNano())
 			fmt.Println("Ronda " + strconv.Itoa(i+1))
 			liderPlay = int(rand.Int63n(5))
-			liderPlay = 8
+			liderPlay = liderPlay + 6
 			guardian := false
-			//liderPlay + 6
 			for !guardian {
 				fmt.Println("Jugada de lider: " + strconv.Itoa(liderPlay))
 				if i == 3 {
