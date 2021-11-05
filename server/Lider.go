@@ -200,17 +200,17 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			} else {
 				log.Printf("aún no comienza el nivel")
 
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound(), Lround:int32(actualRound)}, nil
 			}
-			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1}, nil
+			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound() + 1,Lround:int32(actualRound)}, nil
 		}else{
 			log.Printf("ya realizaste la jugada en esta ronda ")
-			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
+			return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound(),Lround:int32(actualRound)}, nil
 		}
 		
 	} else {
 		log.Printf("el lider todavía no comienza la ronda")
-		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound()}, nil
+		return &pb.SendReply{Stage: actualStage, Alive: alive, Round: in.GetRound(),Lround:int32(actualRound)}, nil
 	}
 
 }

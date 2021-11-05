@@ -55,6 +55,7 @@ message SendReply {
     bool alive = 2;
     int32 round = 3;
     bool started =5;
+    int32 lround =6;
 }
 
 message AmountRequest {

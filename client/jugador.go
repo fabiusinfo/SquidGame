@@ -138,10 +138,9 @@ func main() {
 	
 
 	//Aquí realizar jugada o checkAmount nivel 1
-	contStage := 0
-	contStageAux :=1
+	contStage := 1
 	actualStage = "1rv"
-	alreadyplay := 0
+	actualLiderRound:=0
 	fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
@@ -152,13 +151,13 @@ func main() {
 		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
 		fmt.Scanln(&action)
 
-		if action == "send" && alreadyplay == 1{
+		/*if action == "send" && alreadyplay == 1{
 			fmt.Println("Ya realizaron la jugada.")
-			alreadyplay = 0
+			alreadyplay = 0*/
 		
-		} else if action == "send" {
+		if action == "send" && contStage == actualLiderRound{
 			//contStage += 1
-			alreadyplay = 1
+			//alreadyplay = 1
 			if list_of_players[0].alive == true {
 				if list_of_players[0].score < 21 {
 					fmt.Println("escribe un número del 1 al 10: ")
@@ -181,15 +180,15 @@ func main() {
 					}
 					actualStage = r.GetStage()
 					contStage=int(list_of_players[0].round)
+					actualLiderRound=int(r.GetLround())
 					list_of_players[0].round = r.GetRound()
 					list_of_players[0].alive = r.GetAlive() // el jugador debe estar en la posicion 0 de la lista
 					play_int, err32 := strconv.Atoi(play)
 					if err32 != nil {
 						log.Fatalf("fallo 32: %v", err32)
 					}
-					if contStage == contStageAux{
 						list_of_players[0].score = list_of_players[0].score + int32(play_int)
-					}
+					
 					
 				} else {
 					fmt.Println(" lograste sumar 21, estas salvado")
@@ -230,16 +229,12 @@ func main() {
 						}
 						list_of_players[i].round = r.GetRound()
 						list_of_players[i].alive = r.GetAlive()
-						if contStage == contStageAux{
 							list_of_players[i].score = list_of_players[i].score + int32(playsend)
-						}
+						
 						
 					} else {
 						fmt.Println(" lograste sumar 21, estas salvado")
 					}
-				}
-				if contStage==contStageAux{
-					contStageAux+=1
 				}
 				
 				fmt.Println(list_of_players[i])
@@ -265,8 +260,9 @@ func main() {
 			log.Printf("Greeting: %s", r.GetMonto())
 
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("ingresaste mal el comando o el Lider aún no comienza la siguiente ronda")
 		}
+
 	}
 		
 		started=false
