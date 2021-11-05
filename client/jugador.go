@@ -218,7 +218,9 @@ func main() {
 							log.Fatalf("fallo 1: %v", err)
 						}
 						actualStage = r.GetStage()
-						contStage=int(list_of_players[i].round)
+						if contStage < int(list_of_players[i].round){
+							contStage=int(list_of_players[i].round)
+						}
 						list_of_players[i].round = r.GetRound()
 						list_of_players[i].alive = r.GetAlive()
 						if contStage == contStageAux{
@@ -229,7 +231,10 @@ func main() {
 						fmt.Println(" lograste sumar 21, estas salvado")
 					}
 				}
-				contStageAux+=1
+				if contStage==contStageAux{
+					contStageAux+=1
+				}
+				
 				fmt.Println(list_of_players[i])
 			}
 
