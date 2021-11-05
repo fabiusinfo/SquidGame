@@ -154,9 +154,9 @@ func main() {
 
 		if action == "send" && alreadyplay == 1{
 			fmt.Println("Ya realizaron la jugada.")
-			alreadyplay = 0
+			//alreadyplay = 0
 		
-		} else if action == "send" {
+		} else if action == "send" && alreadyplay == 0{
 			//contStage += 1
 			alreadyplay = 1
 			if list_of_players[0].alive == true {
@@ -240,6 +240,7 @@ func main() {
 				}
 				if contStage==contStageAux{
 					contStageAux+=1
+					alreadyplay = 0
 				}
 				
 				fmt.Println(list_of_players[i])
