@@ -477,6 +477,7 @@ func main() {
 	//Aquí realizar jugada o checkAmount nivel 3
 	contStage = 0
 	actualStage = "3tn"
+	flag1 = false
 	fmt.Println(actualStage)
 	for !flag1 {
 		if 1 >= len(list_of_players) {

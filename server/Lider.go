@@ -81,7 +81,8 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 			}
 		}
 	} else {
-		log.Printf("estoy en la tercera ronda y no se que hacer, ayuuuda")
+		log.Printf("para el nivel 3 no es necesario")
+
 	}
 
 	return &pb.DeadReply{Dead: alive}, nil
