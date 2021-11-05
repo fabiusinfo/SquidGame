@@ -56,10 +56,6 @@ func main() {
 		log.Printf(r.GetMessage())
 		actualStage = "1rv"
 		started = true
-
-		if started == true {
-			fmt.Println("inscripción al SquidGame realizada con éxito.")
-		}
 	} else {
 		fmt.Println("ya estas inscrito.")
 	}
@@ -88,8 +84,6 @@ func main() {
 
 		list_of_players[i].id = strconv.Itoa(i + 1)
 		list_of_players[i].alive = true
-
-		fmt.Println("inscripción al SquidGame realizada con éxito.")
 	}
 	//Aquí finaliza la inscripción
 
@@ -128,7 +122,6 @@ func main() {
 	contStage := 1
 	actualStage = "1rv"
 	LiderRound := 0
-	fmt.Println(actualStage)
 	flag1 = false
 	for !flag1 {
 		if contStage == 5 {
@@ -301,7 +294,6 @@ func main() {
 		}
 	}
 
-	fmt.Println(actualStage)
 	for i := 0; i < 16; i++ {
 		list_of_players[i].score = 0
 		list_of_players[i].round = 1
@@ -490,7 +482,6 @@ func main() {
 	contStage = 1
 	actualStage = "3tn"
 	flag1 = false
-	fmt.Println(actualStage)
 	for !flag1 {
 		if 1 >= len(list_of_players) {
 			flag1 = false

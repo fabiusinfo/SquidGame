@@ -86,7 +86,6 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
-	// Resgistrar registro de muertes, registarr registro aweonao tonto culiao te veo te mato no weon noOOOOO
 	var path = "./client/registro_de_muertes.txt"
 	b, errtxt := ioutil.ReadFile(path)
 
