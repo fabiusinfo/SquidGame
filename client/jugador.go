@@ -423,7 +423,7 @@ func main() {
 			flag1 = false
 			break
 		}
-		if contStage == 1 {
+		if contStage >= 1 {
 			flag1 = true
 			break
 		}
