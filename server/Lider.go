@@ -417,8 +417,6 @@ func main() {
 						nil,     // arguments
 					)
 					failOnError(err, "Failed to declare a queue")
-					//s := in.GetStage()
-					//i_str := strconv.Itoa(int(i))
 
 					body := "Jugador_" + list_of_players[liderPlay].id + " Ronda_" + actualStage
 
@@ -433,13 +431,12 @@ func main() {
 						})
 					failOnError(err, "Failed to publish a message")
 					log.Printf("Ha muerto: %s ", body)
-					//log.Printf(" [x] Sent %d ", body)
+
 				}
-///////////////////////////////////////////////////////////////////////////////
-				
+				///////////////////////////////////////////////////////////////////////////////
 
 			}
-			if finisher{
+			if finisher {
 				winnerCount = 0
 				for i := 0; i < 16; i++ {
 					list_of_players[i].score = 0
@@ -455,9 +452,6 @@ func main() {
 					finisher = false
 				}
 			}
-			
-
-			
 
 		}
 
@@ -526,6 +520,37 @@ func main() {
 				fmt.Println("Avanza el Grupo 1")
 				for i := 0; i < len(group2); i++ {
 					group2[i].alive = false
+					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+					failOnError(err, "Failed to connect to RabbitMQ")
+					defer conn.Close()
+
+					ch, err := conn.Channel()
+					failOnError(err, "Failed to open a channel")
+					defer ch.Close()
+
+					q, err := ch.QueueDeclare(
+						"hello", // name
+						false,   // durable
+						false,   // delete when unused
+						false,   // exclusive
+						false,   // no-wait
+						nil,     // arguments
+					)
+					failOnError(err, "Failed to declare a queue")
+
+					body := "Jugador_" + group2[i].id + " Ronda_2tc"
+
+					err = ch.Publish(
+						"",     // exchange
+						q.Name, // routing key
+						false,  // mandatory
+						false,  // immediate
+						amqp.Publishing{
+							ContentType: "text/plain",
+							Body:        []byte(body),
+						})
+					failOnError(err, "Failed to publish a message")
+					log.Printf("Ha muerto: %s ", body)
 				}
 				winnerCount = len(group1)
 				groupaux = group1
@@ -533,6 +558,37 @@ func main() {
 				fmt.Println("Avanza el Grupo 2")
 				for i := 0; i < len(group1); i++ {
 					group1[i].alive = false
+					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+					failOnError(err, "Failed to connect to RabbitMQ")
+					defer conn.Close()
+
+					ch, err := conn.Channel()
+					failOnError(err, "Failed to open a channel")
+					defer ch.Close()
+
+					q, err := ch.QueueDeclare(
+						"hello", // name
+						false,   // durable
+						false,   // delete when unused
+						false,   // exclusive
+						false,   // no-wait
+						nil,     // arguments
+					)
+					failOnError(err, "Failed to declare a queue")
+
+					body := "Jugador_" + group1[i].id + " Ronda_2tc"
+
+					err = ch.Publish(
+						"",     // exchange
+						q.Name, // routing key
+						false,  // mandatory
+						false,  // immediate
+						amqp.Publishing{
+							ContentType: "text/plain",
+							Body:        []byte(body),
+						})
+					failOnError(err, "Failed to publish a message")
+					log.Printf("Ha muerto: %s ", body)
 				}
 				winnerCount = len(group2)
 				groupaux = group2
@@ -543,6 +599,38 @@ func main() {
 					fmt.Println("Avanza el Grupo 1 por aletoriedad")
 					for i := 0; i < len(group2); i++ {
 						group2[i].alive = false
+						conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+						failOnError(err, "Failed to connect to RabbitMQ")
+						defer conn.Close()
+
+						ch, err := conn.Channel()
+						failOnError(err, "Failed to open a channel")
+						defer ch.Close()
+
+						q, err := ch.QueueDeclare(
+							"hello", // name
+							false,   // durable
+							false,   // delete when unused
+							false,   // exclusive
+							false,   // no-wait
+							nil,     // arguments
+						)
+						failOnError(err, "Failed to declare a queue")
+
+						body := "Jugador_" + group2[i].id + " Ronda_2tc"
+
+						err = ch.Publish(
+							"",     // exchange
+							q.Name, // routing key
+							false,  // mandatory
+							false,  // immediate
+							amqp.Publishing{
+								ContentType: "text/plain",
+								Body:        []byte(body),
+							})
+						failOnError(err, "Failed to publish a message")
+						log.Printf("Ha muerto: %s ", body)
+
 					}
 					winnerCount = len(group1)
 					groupaux = group1
@@ -550,6 +638,37 @@ func main() {
 					fmt.Println("Avanza el Grupo 2 por aletoriedad")
 					for i := 0; i < len(group1); i++ {
 						group1[i].alive = false
+						conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+						failOnError(err, "Failed to connect to RabbitMQ")
+						defer conn.Close()
+
+						ch, err := conn.Channel()
+						failOnError(err, "Failed to open a channel")
+						defer ch.Close()
+
+						q, err := ch.QueueDeclare(
+							"hello", // name
+							false,   // durable
+							false,   // delete when unused
+							false,   // exclusive
+							false,   // no-wait
+							nil,     // arguments
+						)
+						failOnError(err, "Failed to declare a queue")
+
+						body := "Jugador_" + group1[i].id + " Ronda_2tc"
+
+						err = ch.Publish(
+							"",     // exchange
+							q.Name, // routing key
+							false,  // mandatory
+							false,  // immediate
+							amqp.Publishing{
+								ContentType: "text/plain",
+								Body:        []byte(body),
+							})
+						failOnError(err, "Failed to publish a message")
+						log.Printf("Ha muerto: %s ", body)
 					}
 					winnerCount = len(group2)
 					groupaux = group2
@@ -686,8 +805,70 @@ func main() {
 						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
 					} else if int(math.Abs(float64(liderPlay)-float64(group3[i].score))) < int(math.Abs(float64(liderPlay)-float64(group3[i+1].score))) {
 						fmt.Println(group3[i].id + " es un ganador del Squid Game \n")
+						conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+						failOnError(err, "Failed to connect to RabbitMQ")
+						defer conn.Close()
+
+						ch, err := conn.Channel()
+						failOnError(err, "Failed to open a channel")
+						defer ch.Close()
+
+						q, err := ch.QueueDeclare(
+							"hello", // name
+							false,   // durable
+							false,   // delete when unused
+							false,   // exclusive
+							false,   // no-wait
+							nil,     // arguments
+						)
+						failOnError(err, "Failed to declare a queue")
+
+						body := "Jugador_" + group3[i+1].id + " Ronda_3tn"
+
+						err = ch.Publish(
+							"",     // exchange
+							q.Name, // routing key
+							false,  // mandatory
+							false,  // immediate
+							amqp.Publishing{
+								ContentType: "text/plain",
+								Body:        []byte(body),
+							})
+						failOnError(err, "Failed to publish a message")
+						log.Printf("Ha muerto: %s ", body)
 					} else {
 						fmt.Println(group3[i+1].id + " es un ganador del Squid Game \n")
+						conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
+						failOnError(err, "Failed to connect to RabbitMQ")
+						defer conn.Close()
+
+						ch, err := conn.Channel()
+						failOnError(err, "Failed to open a channel")
+						defer ch.Close()
+
+						q, err := ch.QueueDeclare(
+							"hello", // name
+							false,   // durable
+							false,   // delete when unused
+							false,   // exclusive
+							false,   // no-wait
+							nil,     // arguments
+						)
+						failOnError(err, "Failed to declare a queue")
+
+						body := "Jugador_" + group3[i].id + " Ronda_3tn"
+
+						err = ch.Publish(
+							"",     // exchange
+							q.Name, // routing key
+							false,  // mandatory
+							false,  // immediate
+							amqp.Publishing{
+								ContentType: "text/plain",
+								Body:        []byte(body),
+							})
+						failOnError(err, "Failed to publish a message")
+						log.Printf("Ha muerto: %s ", body)
 					}
 
 					i++
