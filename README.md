@@ -68,9 +68,13 @@ dist164:
 > Jugador -next-
 
 > { # 4 veces
+
 	Jugador -send- or -check-
+	
 	Jugador if -send- 1,10
+	
 	Lider -next-
+	
 }
 
 > Lider -start-
