@@ -14,6 +14,13 @@ import (
 	"google.golang.org/grpc"
 )
 
+func existeError(err error) bool {
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return (err != nil)
+}
+
 func crearArchivo(path string) {
 	//Verifica que el archivo existe
 	var _, err = os.Stat(path)
