@@ -49,9 +49,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
 		err := os.Remove(nombreArchivo)
 		if err != nil {
-			fmt.Printf("\n")
+			fmt.Printf(" ")
 		} else {
-			fmt.Println("Se ah creado registro.txt")
+			fmt.Println("Se ha creado registro.txt")
 		}
 	}
 
@@ -64,16 +64,16 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	} else {
 		direction = "10.6.43.44" // maquina 4
 	}
-	fmt.Println("Se reciben los siguientes parametros: Player: " + in.GetPlayer() + " ; Play:  " + in.GetPlay())
+	fmt.Println("Se recibe... Player: " + in.GetPlayer() + " / Play:  " + in.GetPlay())
 	conn, err := grpc.Dial(direction+":9000", grpc.WithInsecure())
 	serviceNN := pb.NewSquidGameServiceClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := serviceNN.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
+	_, err = serviceNN.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage()})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetStage())
+	//log.Printf("Greeting: %s", r.GetStage())
 	// añadir al texto
 	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
 	crearArchivo(nombreArchivo)
@@ -108,12 +108,12 @@ func main() {
 
 	//esto es lo que estaba al final, no sé donde ponerlo
 	if err = serv.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
+		log.Printf("Paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
 
 	var first string
 
-	fmt.Println("aqui recibimos las jugadas del lider")
+	fmt.Println("Aqui recibimos las jugadas del lider")
 	fmt.Scanln(&first)
 }

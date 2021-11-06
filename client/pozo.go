@@ -6,16 +6,11 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
-
-	//"math/rand"
-	//"strconv"
-	//"time"
 	"log"
 	"net"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
-	//"fmt"
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
@@ -69,7 +64,7 @@ func main() {
 		nombreArchivo := "registro_de_muertes.txt" // El nombre o ruta absoluta del archivo
 		err := os.Remove(nombreArchivo)
 		if err != nil {
-			fmt.Printf("\n")
+			fmt.Printf(" ")
 		} else {
 			fmt.Println("Se ha creado registro_de_muertes.txt")
 		}
@@ -131,7 +126,7 @@ func main() {
 
 	go func() {
 		for d := range msgs {
-			log.Printf("Received a message: %s", d.Body)
+			log.Printf("Se recibe: %s", d.Body)
 			cadena := string(d.Body)
 			monto_actual = monto_actual + 100000000
 			monto_str := strconv.Itoa(monto_actual)

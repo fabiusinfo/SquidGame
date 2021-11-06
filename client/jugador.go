@@ -33,7 +33,7 @@ func main() {
 
 	//inscripción
 	for !flag1 {
-		fmt.Println("escribe join para inscribirse en el SquidGame: ")
+		fmt.Println("Escribe -join- para inscribirse en el SquidGame ")
 		fmt.Scanln(&action)
 		if action == "join" {
 			flag1 = true
@@ -57,7 +57,7 @@ func main() {
 		actualStage = "1rv"
 		started = true
 	} else {
-		fmt.Println("ya estas inscrito.")
+		fmt.Println("Ya estas inscrito")
 	}
 
 	//inscribimos los bots
@@ -90,7 +90,7 @@ func main() {
 	started = false
 	flag1 = false
 	for !flag1 {
-		fmt.Println("ingresa next para comenzar el nivel 1")
+		fmt.Println("Ingresa -next- para comenzar el nivel 1: Rojo y Verde")
 		fmt.Scanln(&next)
 		if next == "next" {
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -114,7 +114,7 @@ func main() {
 			}
 
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("Ingresaste mal el comando")
 		}
 	}
 
@@ -129,16 +129,10 @@ func main() {
 			break
 		}
 
-		fmt.Println("STAGE 1: escribe send -> enviar jugada, check -> solicitar monto: ")
+		fmt.Println("Rojo y Verde: -send- Enviar jugada / -check- Solicitar monto")
 		fmt.Scanln(&action)
 
-		/*if action == "send" && alreadyplay == 1{
-		fmt.Println("Ya realizaron la jugada.")
-		alreadyplay = 0*/
-
 		if action == "send" {
-			//contStage += 1
-			//alreadyplay = 1
 
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
 
@@ -161,7 +155,7 @@ func main() {
 
 				if list_of_players[0].alive == true {
 					if list_of_players[0].score < 21 {
-						fmt.Println("escribe un número del 1 al 10: ")
+						fmt.Println("Escribe un número del 1 al 10: ")
 						fmt.Scanln(&play)
 
 						conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -190,10 +184,10 @@ func main() {
 						list_of_players[0].score = list_of_players[0].score + int32(play_int)
 
 					} else {
-						fmt.Println(" lograste sumar 21, estas salvado")
+						fmt.Println("Lograste sumar 21, estas salvado!")
 					}
 				} else {
-					fmt.Println("el jugador está muerto")
+					fmt.Println("El jugador muere")
 				}
 				// sección bots
 
@@ -228,14 +222,14 @@ func main() {
 							list_of_players[i].score = list_of_players[i].score + int32(playsend)
 
 						} else {
-							fmt.Println(" lograste sumar 21, estas salvado")
+							fmt.Println("Lograste sumar 21, estas salvado!")
 						}
 					}
 
 				}
 				contStage += 1
 			} else {
-				fmt.Println(" El lider todavía no inicia la siguiente ronda")
+				fmt.Println("El lider todavía no inicia la siguiente ronda")
 			}
 
 		} else if action == "check" {
@@ -253,12 +247,12 @@ func main() {
 			defer cancel()
 			r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
 			if err != nil {
-				log.Fatalf("no se pudo solicitar el monto: %v", err)
+				log.Fatalf("No se pudo solicitar el monto: %v", err)
 			}
-			log.Printf("Greeting: %s", r.GetMonto())
+			log.Printf("Monto actual: %s", r.GetMonto())
 
 		} else {
-			fmt.Println("ingresaste mal el comando o el lider todavía no comienza la ronda")
+			fmt.Println("Ingresaste mal el comando o el lider todavía no comienza la ronda")
 		}
 
 	}
@@ -266,7 +260,7 @@ func main() {
 	started = false
 	flag1 = false
 	for !flag1 {
-		fmt.Println("ingresa next para comenzar el nivel 2")
+		fmt.Println("Ingresa -next- para comenzar el juego 2: Tirar la Cuerda")
 		fmt.Scanln(&next)
 		if next == "next" {
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -290,7 +284,7 @@ func main() {
 			}
 
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("Ingresaste mal el comando")
 		}
 	}
 
@@ -330,13 +324,13 @@ func main() {
 			flag1 = true
 			break
 		}
-		fmt.Println("STAGE 2: escribe send -> enviar jugada, check -> solicitar monto: ")
+		fmt.Println("Tirar la Cuerda: -send- Enviar jugada / -check- Solicitar monto")
 		fmt.Scanln(&action)
 		if action == "send" {
 			contStage += 1
 			if list_of_players[0].alive == true {
 
-				fmt.Println("escribe un número del 1 al 4: ")
+				fmt.Println("Escribe un número del 1 al 4: ")
 				fmt.Scanln(&play)
 
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -364,7 +358,7 @@ func main() {
 				list_of_players[0].score = list_of_players[0].score + int32(play_int)
 
 			} else {
-				fmt.Println("el jugador está muerto")
+				fmt.Println("El jugador muere")
 			}
 			// sección bots
 
@@ -417,17 +411,17 @@ func main() {
 			if err != nil {
 				log.Fatalf("no se pudo solicitar el monto: %v", err)
 			}
-			log.Printf("Greeting: %s", r.GetMonto())
+			log.Printf("Monto actual: %s", r.GetMonto())
 
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("Ingresaste mal el comando")
 		}
 	}
 
 	started = false
 	flag1 = false
 	for !flag1 {
-		fmt.Println("ingresa next para comenzar el nivel 3")
+		fmt.Println("Ingresa -next- para comenzar el juego 3: Todo o Nada")
 		fmt.Scanln(&next)
 		if next == "next" {
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -451,7 +445,7 @@ func main() {
 			}
 
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("Ingresaste mal el comando")
 		}
 	}
 
@@ -492,13 +486,13 @@ func main() {
 			flag1 = true
 			break
 		}
-		fmt.Println("STAGE 3: escribe send -> enviar jugada, check -> solicitar monto: ")
+		fmt.Println("Todo o Nada: -send- Enviar jugada / -check- Solicitar monto")
 		fmt.Scanln(&action)
 		if action == "send" {
 			contStage += 1
 			if list_of_players[0].alive == true {
 
-				fmt.Println("escribe un número del 1 al 10: ")
+				fmt.Println("Escribe un número del 1 al 10: ")
 				fmt.Scanln(&play)
 
 				conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -526,7 +520,7 @@ func main() {
 				list_of_players[0].score = list_of_players[0].score + int32(play_int)
 
 			} else {
-				fmt.Println("el jugador está muerto")
+				fmt.Println("El jugador muere")
 			}
 			// sección bots
 
@@ -577,22 +571,22 @@ func main() {
 			defer cancel()
 			r, err := servicePlayer.AmountCheck(ctx, &pb.AmountRequest{Message: message})
 			if err != nil {
-				log.Fatalf("no se pudo solicitar el monto: %v", err)
+				log.Fatalf("No se pudo solicitar el monto: %v", err)
 			}
-			log.Printf("Greeting: %s", r.GetMonto())
+			log.Printf("Monto actual: %s", r.GetMonto())
 
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("Ingresaste mal el comando")
 		}
 	}
 
 	for flag1 {
-		fmt.Println("escribe finish para finalizar el proceso jugador ")
+		fmt.Println("Escribe -finish- para finalizar el proceso jugador ")
 		fmt.Scanln(&action)
 		if action == "finish" {
 			flag1 = true
 		} else {
-			fmt.Println("ingresaste mal el comando")
+			fmt.Println("Ingresaste mal el comando")
 		}
 
 	}

@@ -69,7 +69,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		log.Fatal(errtxt)
 	}
 
-	fmt.Println("yo lo recibí")
+	fmt.Println("Se recibe... Player: "+ in.GetPlayer() + " / Play:  " + in.GetPlay()+ " / Stage: "+ in.GetStage())
 	return &pb.SendReply{Stage: "Amongus", Alive: true}, nil
 }
 
@@ -86,7 +86,7 @@ func main() {
 
 	//esto es lo que estaba al final, no sé donde ponerlo
 	if err = servDN.Serve(listner); err != nil {
-		log.Printf("paso por el fallo")
+		log.Printf("Paso por el fallo")
 		panic("cannot initialize the server" + err.Error())
 	}
 }

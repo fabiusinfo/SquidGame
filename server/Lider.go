@@ -378,7 +378,7 @@ func main() {
 			list_of_players[i].score = 0
 			if list_of_players[i].alive == true {
 				winnerCount += 1
-				fmt.Println("El jugador: " + list_of_players[i].id + " pasa al siguiente nivel!")
+				fmt.Println("El jugador " + list_of_players[i].id + " pasa al siguiente nivel!")
 				Winner = list_of_players[i].id
 			}
 			//acá eliminamos al azar, al jugador sobrante.
@@ -395,7 +395,7 @@ func main() {
 				if list_of_players[liderPlay].alive == true {
 					list_of_players[liderPlay].alive = false
 					winnerCount -= 1
-					fmt.Println("El jugador: " + list_of_players[liderPlay].id + " es eliminado automáticamente :c")
+					fmt.Println("El jugador " + list_of_players[liderPlay].id + " es eliminado automáticamente :c")
 					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 					failOnError(err, "Failed to connect to RabbitMQ")
 					defer conn.Close()
@@ -680,7 +680,7 @@ func main() {
 				groupaux[i].score = 0
 				if groupaux[i].alive == true {
 					winnerCount += 1
-					fmt.Println("El jugador: " + groupaux[i].id + " avanza a la siguiente etapa!")
+					fmt.Println("El jugador " + groupaux[i].id + " avanza a la siguiente etapa!")
 					Winner = groupaux[i].id
 				}
 			}
@@ -698,7 +698,7 @@ func main() {
 				if groupaux[liderPlay].alive == true {
 					groupaux[liderPlay].alive = false
 					winnerCount -= 1
-					fmt.Println("El jugador: " + groupaux[liderPlay].id + " es eliminado automáticamente")
+					fmt.Println("El jugador " + groupaux[liderPlay].id + " es eliminado automáticamente")
 					conn, err := amqp.Dial("amqp://admin:test@10.6.43.41:5672/")
 					failOnError(err, "Failed to connect to RabbitMQ")
 					defer conn.Close()
