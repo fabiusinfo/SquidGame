@@ -96,6 +96,7 @@ func (s *server) DeadOrAlive(ctx context.Context, in *pb.DeadRequest) (*pb.DeadR
 func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	alive := true
 	flaggy = true
+
 	if actualRound != 0 {
 		if in.GetRound() == actualRound {
 
@@ -111,10 +112,11 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
 
-			r, err := serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round: in.GetRound()})
+			_, err = serviceLider.SendPlays(ctx, &pb.SendRequest{Player: in.GetPlayer(), Play: in.GetPlay(), Stage: in.GetStage(), Round: in.GetRound()})
 			if err != nil {
 				log.Fatalf("could not greet: %v", err)
 			}
+		
 			//Envío al Pozo
 
 			if started == true {
