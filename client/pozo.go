@@ -141,13 +141,11 @@ func main() {
 				log.Fatal(errtxt)
 			}
 
-			fmt.Println("\n")
-
 		}
 
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf(" [*] Pozo esperando mensajes. Para salir -CTRL+C-")
 	<-forever
 
 }
