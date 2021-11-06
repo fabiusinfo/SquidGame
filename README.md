@@ -22,12 +22,17 @@ Katherine Salgado 201610515-8
 ### Instrucciones de ejecución:
 
 dist161:
+
 	> cd SquidGame
+	
 	> make lider
 dist161:
+
 	> cd SquidGame
+	
 	> make datanode
 dist162:
+
 	> cd SquidGame
 	> make namenode
 dist163:
