@@ -72,6 +72,7 @@ dist164:
 	Jugador if -send- 1,10
 	Lider -next-
 }
+
 > Lider -start-
 
 > Jugador -next-
