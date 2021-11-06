@@ -75,10 +75,8 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 	}
 	log.Printf("Greeting: %s", r.GetStage())
 	// añadir al texto
-	/*
-		nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
-		crearArchivo(nombreArchivo)
-	*/
+	nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
+	crearArchivo(nombreArchivo)
 
 	b, errtxt := ioutil.ReadFile("registro.txt")
 
