@@ -59,25 +59,34 @@ dist164:
 
 ### Instrucciones para jugar:
 
-Jugador -join-
+> Jugador -join-
 
-Lider -start-
+> Lider -start-
 
-Lider -start-
+> Lider -start-
 
-Jugador -next-
-x4 {
+> Jugador -next-
+
+> { # 4 veces
 	Jugador -send- or -check-
 	Jugador if -send- 1,10
 	Lider -next-
 }
-Lider -start-
-Jugador -next-
-Jugador -send- or -check-
-Jugador if -send- 1,4
-Lider -start-
-Jugador -next-
-Jugador -send- or -check-
-Jugador if -send- 1,10
-Lider -finish-
+> Lider -start-
+
+> Jugador -next-
+
+> Jugador -send- or -check-
+
+> Jugador if -send- 1,4
+
+> Lider -start-
+
+> Jugador -next-
+
+> Jugador -send- or -check-
+
+> Jugador if -send- 1,10
+
+> Lider -finish-
 
