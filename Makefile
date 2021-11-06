@@ -19,4 +19,4 @@ jugador:
 	go run client/jugador.go
 
 abrir:
-	cd SquidGame
+	cd SquidGame/
