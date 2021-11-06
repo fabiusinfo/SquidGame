@@ -34,21 +34,30 @@ dist161:
 dist162:
 
 	> cd SquidGame
+	
 	> make namenode
 dist163:
+
 	> cd SquidGame
+	
 	> make pozo
 dist163:
+
 	> cd SquidGame
+	
 	> make datanode
 dist164:
+
 	> cd SquidGame
+	
 	> make jugador
 dist164:
+
 	> cd SquidGame
+	
 	> make datanode
 
-Instrucciones para jugar:
+### Instrucciones para jugar:
 
 Jugador -join-
 Lider -start-
