@@ -126,7 +126,7 @@ func main() {
 
 	go func() {
 		for d := range msgs {
-			log.Printf("Se recibe: %s", d.Body)
+			log.Printf("Se recibe... %s", d.Body)
 			cadena := string(d.Body)
 			monto_actual = monto_actual + 100000000
 			monto_str := strconv.Itoa(monto_actual)

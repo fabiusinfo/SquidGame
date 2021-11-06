@@ -49,7 +49,7 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		if err != nil {
 			fmt.Printf("Error eliminando archivo: %v\n", err)
 		} else {
-			fmt.Println("Eliminado correctamente")
+			fmt.Println(" ")
 		}
 	}
 

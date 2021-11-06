@@ -90,7 +90,7 @@ func main() {
 	started = false
 	flag1 = false
 	for !flag1 {
-		fmt.Println("Ingresa -next- para comenzar el nivel 1: Rojo y Verde")
+		fmt.Println("Escribe -next- para ingresar al juego 1: Rojo y Verde")
 		fmt.Scanln(&next)
 		if next == "next" {
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -260,7 +260,7 @@ func main() {
 	started = false
 	flag1 = false
 	for !flag1 {
-		fmt.Println("Ingresa -next- para comenzar el juego 2: Tirar la Cuerda")
+		fmt.Println("Escribe -next- para ingresar al juego 2: Tirar la Cuerda")
 		fmt.Scanln(&next)
 		if next == "next" {
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
@@ -421,7 +421,7 @@ func main() {
 	started = false
 	flag1 = false
 	for !flag1 {
-		fmt.Println("Ingresa -next- para comenzar el juego 3: Todo o Nada")
+		fmt.Println("Escribe -next- para ingresar al juego 3: Todo o Nada")
 		fmt.Scanln(&next)
 		if next == "next" {
 			conn, err := grpc.Dial("10.6.43.41:8080", grpc.WithInsecure())
