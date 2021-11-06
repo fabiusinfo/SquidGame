@@ -60,8 +60,11 @@ dist164:
 ### Instrucciones para jugar:
 
 Jugador -join-
+
 Lider -start-
+
 Lider -start-
+
 Jugador -next-
 x4 {
 	Jugador -send- or -check-
