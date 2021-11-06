@@ -18,3 +18,5 @@ jugador:
 	echo "Ejecutando jugadores"
 	go run client/jugador.go
 
+abrir:
+	cd SquidGame
