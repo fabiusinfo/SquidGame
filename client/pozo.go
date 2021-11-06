@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 
 	//"math/rand"
@@ -18,6 +19,28 @@ import (
 	pb "github.com/fabiusinfo/SquidGame/proto"
 	"google.golang.org/grpc"
 )
+
+func existeError(err error) bool {
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return (err != nil)
+}
+
+func crearArchivo(path string) {
+	//Verifica que el archivo existe
+	var _, err = os.Stat(path)
+	//Crea el archivo si no existe
+	if os.IsNotExist(err) {
+		var file, err = os.Create(path)
+		if existeError(err) {
+			return
+		}
+		defer file.Close()
+	}
+}
+
+var delet int = 1
 
 type server struct {
 	pb.UnimplementedSquidGameServiceServer
@@ -39,6 +62,19 @@ func failOnError(err error, msg string) {
 var monto_actual int = 0
 
 func main() {
+
+	//Se elimina y se vuelve a crear registro_de_muertes al iniciar el pozo
+	if delet == 1 {
+		delet = 0
+		nombreArchivo := "registro_de_muertes.txt" // El nombre o ruta absoluta del archivo
+		err := os.Remove(nombreArchivo)
+		if err != nil {
+			fmt.Printf("\n")
+		} else {
+			fmt.Println("Se ah creado registro_de_muertes.txt")
+		}
+		crearArchivo(nombreArchivo)
+	}
 
 	go func() {
 		listner, err := net.Listen("tcp", ":8080")
@@ -86,7 +122,7 @@ func main() {
 	failOnError(err, "Failed to register a consumer")
 
 	forever := make(chan bool)
-	var path = "./client/registro_de_muertes.txt"
+	var path = "./Pozo/registro_de_muertes.txt"
 	b, errtxt := ioutil.ReadFile(path)
 
 	if errtxt != nil {

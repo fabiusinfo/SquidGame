@@ -49,9 +49,9 @@ func (s *server) SendPlays(ctx context.Context, in *pb.SendRequest) (*pb.SendRep
 		nombreArchivo := "registro.txt" // El nombre o ruta absoluta del archivo
 		err := os.Remove(nombreArchivo)
 		if err != nil {
-			fmt.Printf("Error eliminando archivo: %v\n", err)
+			fmt.Printf("\n")
 		} else {
-			fmt.Println("Eliminado correctamente")
+			fmt.Println("Se ah creado registro.txt")
 		}
 	}
 
