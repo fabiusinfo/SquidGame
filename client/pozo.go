@@ -71,7 +71,7 @@ func main() {
 		if err != nil {
 			fmt.Printf("\n")
 		} else {
-			fmt.Println("Se ah creado registro_de_muertes.txt")
+			fmt.Println("Se ha creado registro_de_muertes.txt")
 		}
 		crearArchivo(nombreArchivo)
 	}
