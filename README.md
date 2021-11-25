@@ -67,7 +67,7 @@ dist164:
 
 > Jugador -next-
 
-> { # 4 veces
+{ # 4 veces
 
 	Jugador -send- or -check-
 	
